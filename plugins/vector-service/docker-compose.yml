@@ -1,0 +1,116 @@
+# =============================================================================
+# Vector Service - Docker Compose Production Configuration
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # ---------------------------------------------------------------------------
+  # Vector Service
+  # ---------------------------------------------------------------------------
+  vector-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: vector-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_API_KEY=${QDRANT_API_KEY:-}
+      - DEFAULT_VECTOR_SIZE=384
+      - DEFAULT_DISTANCE=Cosine
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - USE_LOCAL_EMBEDDINGS=true
+      - LLM_SERVICE_URL=http://llm-service:8000
+      - ENABLE_CACHING=true
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    networks:
+      - vector-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+  # ---------------------------------------------------------------------------
+  # Qdrant Vector Database
+  # ---------------------------------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC API
+    environment:
+      - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY:-}
+      - QDRANT__LOG_LEVEL=INFO
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - vector-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:6333/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 256M
+
+  # ---------------------------------------------------------------------------
+  # Redis Cache (Optional)
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: vector-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    networks:
+      - vector-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 64M
+
+networks:
+  vector-network:
+    driver: bridge
+
+volumes:
+  qdrant-data:
+    driver: local
+  redis-data:
+    driver: local

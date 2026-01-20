@@ -1,2 +1,50 @@
-﻿packages/
+﻿# Built packages
+packages/
 *.fhk
+
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+venv/
+.venv/
+.env
+.env.local
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Testing
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.tox/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Lock files (optional - uncomment to track)
+package-lock.json
+# poetry.lock

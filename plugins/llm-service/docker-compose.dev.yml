@@ -1,0 +1,158 @@
+# =============================================================================
+# LLM Service Development Docker Compose
+# Local development with hot-reload and debugging
+# =============================================================================
+
+version: "3.8"
+
+services:
+  # ---------------------------------------------------------------------------
+  # LLM Service - Development mode with hot-reload
+  # ---------------------------------------------------------------------------
+  llm-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: flowforge-llm-service-dev
+    restart: unless-stopped
+    ports:
+      - "${LLM_SERVICE_PORT:-8000}:8000"
+      - "5678:5678"  # debugpy
+    environment:
+      - ENVIRONMENT=development
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=DEBUG
+      # vLLM Configuration
+      - VLLM_BASE_URL=http://vllm-server:8001/v1
+      - DEFAULT_MODEL=TinyLlama/TinyLlama-1.1B-Chat-v1.0
+      # Redis Configuration
+      - REDIS_URL=redis://redis:6379/0
+      - ENABLE_QUEUE=true
+      # Embedding Configuration
+      - ENABLE_EMBEDDINGS=true
+      - DEFAULT_EMBEDDING_MODEL=all-MiniLM-L6-v2
+      # Development settings
+      - DEFAULT_MAX_TOKENS=256
+      - MAX_INPUT_TOKENS=2048
+      - MAX_OUTPUT_TOKENS=1024
+      - REQUEST_TIMEOUT=60
+      - CORS_ORIGINS=*
+    volumes:
+      - ./src:/app/src:rw
+      - embedding-models:/root/.cache
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - llm-network-dev
+
+  # ---------------------------------------------------------------------------
+  # vLLM Server - Minimal CPU mode for development
+  # ---------------------------------------------------------------------------
+  vllm-server:
+    image: vllm/vllm-openai:latest
+    container_name: flowforge-vllm-server-dev
+    restart: unless-stopped
+    ports:
+      - "${VLLM_PORT:-8001}:8001"
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    volumes:
+      - model-cache:/root/.cache/huggingface
+    command:
+      - --model
+      - TinyLlama/TinyLlama-1.1B-Chat-v1.0
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8001"
+      - --dtype
+      - auto
+      - --max-model-len
+      - "2048"
+      - --device
+      - cpu
+      - --enforce-eager  # Disable CUDA graphs for CPU
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 600s  # CPU inference takes longer to start
+    networks:
+      - llm-network-dev
+    deploy:
+      resources:
+        limits:
+          cpus: "4"
+          memory: 8G
+
+  # ---------------------------------------------------------------------------
+  # Mock vLLM Server - For testing without actual model
+  # ---------------------------------------------------------------------------
+  mock-vllm:
+    build:
+      context: .
+      dockerfile: Dockerfile.mock-vllm
+    container_name: flowforge-mock-vllm
+    restart: unless-stopped
+    ports:
+      - "${MOCK_VLLM_PORT:-8002}:8001"
+    environment:
+      - RESPONSE_DELAY=0.5
+    networks:
+      - llm-network-dev
+    profiles:
+      - mock
+
+  # ---------------------------------------------------------------------------
+  # Redis - Request queue
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: flowforge-llm-redis-dev
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data-dev:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    networks:
+      - llm-network-dev
+
+  # ---------------------------------------------------------------------------
+  # Redis Commander - Redis UI
+  # ---------------------------------------------------------------------------
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: flowforge-redis-commander
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    depends_on:
+      - redis
+    networks:
+      - llm-network-dev
+    profiles:
+      - debug
+
+networks:
+  llm-network-dev:
+    driver: bridge
+
+volumes:
+  model-cache:
+    name: flowforge-llm-model-cache-dev
+  embedding-models:
+    name: flowforge-llm-embedding-models-dev
+  redis-data-dev:
+    name: flowforge-llm-redis-data-dev

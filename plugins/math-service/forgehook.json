@@ -1,24 +1,34 @@
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "../../forgehook-schema.json",
   "id": "math-service",
   "name": "Math Service",
   "version": "1.0.0",
-  "description": "Advanced mathematical operations including arithmetic, statistics, matrix operations, equation solving, and numerical analysis.",
+  "description": "Advanced mathematical operations including arithmetic, statistics, matrix operations, equation solving, and numerical analysis",
   "author": {
-    "name": "FlowForge Team",
+    "name": "FlowForge",
     "url": "https://flowforge.dev"
   },
   "license": "MIT",
-  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "repository": "https://github.com/flowforge/math-service",
   "icon": "calculator",
   "category": "data",
   "tags": ["math", "statistics", "matrix", "algebra", "numerical", "calculations"],
+  
   "image": {
     "repository": "flowforge/math-service",
     "tag": "latest"
   },
+  
   "port": 3002,
   "basePath": "/api/v1/math",
+  
+  "healthCheck": {
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  
   "endpoints": [
     {
       "method": "POST",
@@ -82,31 +92,28 @@
       "authentication": false
     }
   ],
+  
   "environment": [
     {
       "name": "LOG_LEVEL",
       "description": "Logging verbosity level",
-      "required": false,
-      "default": "info"
+      "default": "info",
+      "required": false
     },
     {
       "name": "MAX_COMPUTATION_TIME",
       "description": "Maximum computation time in seconds",
-      "required": false,
-      "default": "30"
+      "default": "30",
+      "required": false
     }
   ],
+  
+  "dependencies": {
+    "services": ["redis"]
+  },
+  
   "resources": {
     "memory": "512m",
     "cpu": "1.0"
-  },
-  "healthCheck": {
-    "path": "/health",
-    "interval": 30,
-    "timeout": 10,
-    "retries": 3
-  },
-  "dependencies": {
-    "services": ["redis"]
   }
 }

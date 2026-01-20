@@ -1,0 +1,22 @@
+# =============================================================================
+# Mock vLLM Server Dockerfile
+# Lightweight mock for testing without GPU
+# =============================================================================
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+RUN pip install --no-cache-dir fastapi uvicorn
+
+# Copy mock server code
+COPY tests/mock_vllm_server.py .
+
+# Environment
+ENV PORT=8001
+ENV RESPONSE_DELAY=0.5
+
+EXPOSE 8001
+
+CMD ["python", "mock_vllm_server.py"]

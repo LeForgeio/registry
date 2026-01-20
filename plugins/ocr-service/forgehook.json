@@ -1,39 +1,85 @@
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "../../forgehook-schema.json",
   "id": "ocr-service",
   "name": "OCR Service",
   "version": "1.0.0",
-  "description": "Optical character recognition for extracting text from images. Supports multiple languages and document layouts.",
+  "description": "Optical Character Recognition for extracting text from images, supporting multiple languages and OCR engines",
   "author": {
-    "name": "FlowForge Team",
+    "name": "FlowForge",
     "url": "https://flowforge.dev"
   },
   "license": "MIT",
-  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "repository": "https://github.com/flowforge/ocr-service",
   "icon": "scan",
-  "category": "ai",
-  "tags": ["ocr", "text-extraction", "image-processing", "ai", "tesseract"],
+  "category": "media",
+  "tags": ["ocr", "text-extraction", "image", "recognition", "paddleocr", "tesseract"],
+  
   "image": {
     "repository": "flowforge/ocr-service",
-    "tag": "latest"
+    "tag": "1.0.0"
   },
-  "port": 3004,
+  
+  "port": 4004,
   "basePath": "/api/v1/ocr",
+  
+  "healthCheck": {
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  
   "endpoints": [
     {
       "method": "POST",
       "path": "/extract",
-      "description": "Extract text from image"
+      "description": "Extract text from an image",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "language": "en",
+        "engine": "paddleocr"
+      }
     },
     {
       "method": "POST",
-      "path": "/extract-structured",
-      "description": "Extract text with bounding boxes and confidence scores"
+      "path": "/extract-regions",
+      "description": "Extract text with bounding box coordinates",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "language": "en"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/batch",
+      "description": "Process multiple images in batch",
+      "requestBody": {
+        "images": ["base64-image-1", "base64-image-2"],
+        "language": "en"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/detect-language",
+      "description": "Detect the language of text in an image",
+      "requestBody": {
+        "image": "base64-encoded-image"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/table",
+      "description": "Extract tables from images",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "format": "json"
+      }
     },
     {
       "method": "GET",
       "path": "/languages",
-      "description": "List supported languages"
+      "description": "Get list of supported languages",
+      "authentication": false
     },
     {
       "method": "GET",
@@ -42,31 +88,34 @@
       "authentication": false
     }
   ],
+  
   "environment": [
     {
       "name": "LOG_LEVEL",
       "description": "Logging verbosity level",
-      "required": false,
-      "default": "info"
+      "default": "info",
+      "required": false
+    },
+    {
+      "name": "OCR_ENGINE",
+      "description": "OCR engine to use (paddleocr, tesseract)",
+      "default": "paddleocr",
+      "required": false
     },
     {
       "name": "DEFAULT_LANGUAGE",
-      "description": "Default OCR language",
-      "required": false,
-      "default": "eng"
+      "description": "Default language for OCR",
+      "default": "en",
+      "required": false
     }
   ],
-  "resources": {
-    "memory": "2g",
-    "cpu": "2.0"
-  },
-  "healthCheck": {
-    "path": "/health",
-    "interval": 30,
-    "timeout": 10,
-    "retries": 3
-  },
+  
   "dependencies": {
     "services": ["redis"]
+  },
+  
+  "resources": {
+    "memory": "1g",
+    "cpu": "1.0"
   }
 }

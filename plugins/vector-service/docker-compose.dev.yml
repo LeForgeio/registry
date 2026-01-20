@@ -1,0 +1,113 @@
+# =============================================================================
+# Vector Service - Docker Compose Development Configuration
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # ---------------------------------------------------------------------------
+  # Vector Service (Development)
+  # ---------------------------------------------------------------------------
+  vector-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: vector-service-dev
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+      - "5678:5678"  # Debugger port
+    environment:
+      - ENVIRONMENT=development
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=DEBUG
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_API_KEY=
+      - DEFAULT_VECTOR_SIZE=384
+      - DEFAULT_DISTANCE=Cosine
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - USE_LOCAL_EMBEDDINGS=true
+      - LLM_SERVICE_URL=http://llm-service:8000
+      - ENABLE_CACHING=false
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./src:/app/src:ro
+      - embedding-cache:/root/.cache  # Cache downloaded models
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    networks:
+      - vector-network-dev
+
+  # ---------------------------------------------------------------------------
+  # Qdrant Vector Database (Development)
+  # ---------------------------------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: qdrant-dev
+    restart: unless-stopped
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC API
+    environment:
+      - QDRANT__LOG_LEVEL=DEBUG
+    volumes:
+      - qdrant-data-dev:/qdrant/storage
+    networks:
+      - vector-network-dev
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  # ---------------------------------------------------------------------------
+  # Redis Cache (Development)
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: vector-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data-dev:/data
+    networks:
+      - vector-network-dev
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ---------------------------------------------------------------------------
+  # Qdrant Web UI (Development Only)
+  # ---------------------------------------------------------------------------
+  qdrant-ui:
+    image: semitechnologies/qdrant-ui:latest
+    container_name: qdrant-ui-dev
+    ports:
+      - "6335:80"
+    environment:
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    depends_on:
+      - qdrant
+    networks:
+      - vector-network-dev
+
+networks:
+  vector-network-dev:
+    driver: bridge
+
+volumes:
+  qdrant-data-dev:
+    driver: local
+  redis-data-dev:
+    driver: local
+  embedding-cache:
+    driver: local

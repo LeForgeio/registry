@@ -1,49 +1,100 @@
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "../../forgehook-schema.json",
   "id": "vector-service",
   "name": "Vector Service",
   "version": "1.0.0",
-  "description": "Vector database operations for semantic search, RAG, and embeddings storage using Qdrant.",
+  "description": "Vector database operations for semantic search, similarity matching, and RAG applications using Qdrant",
   "author": {
-    "name": "FlowForge Team",
+    "name": "FlowForge",
     "url": "https://flowforge.dev"
   },
   "license": "MIT",
-  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "repository": "https://github.com/flowforge/vector-service",
   "icon": "database",
-  "category": "data",
-  "tags": ["vectors", "embeddings", "semantic-search", "qdrant", "rag"],
+  "category": "ai",
+  "tags": ["vector", "embeddings", "search", "similarity", "qdrant", "rag", "semantic"],
+  
   "image": {
     "repository": "flowforge/vector-service",
-    "tag": "latest"
+    "tag": "1.0.0"
   },
-  "port": 3007,
+  
+  "port": 4007,
   "basePath": "/api/v1/vector",
+  
+  "healthCheck": {
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  
   "endpoints": [
     {
       "method": "POST",
       "path": "/collections",
-      "description": "Create collection"
+      "description": "Create a new vector collection",
+      "requestBody": {
+        "name": "my-collection",
+        "dimension": 1536,
+        "distance": "cosine"
+      }
     },
     {
       "method": "GET",
       "path": "/collections",
-      "description": "List collections"
+      "description": "List all collections"
     },
     {
       "method": "DELETE",
       "path": "/collections/{name}",
-      "description": "Delete collection"
+      "description": "Delete a collection"
     },
     {
       "method": "POST",
-      "path": "/upsert",
-      "description": "Upsert vectors"
+      "path": "/collections/{name}/upsert",
+      "description": "Insert or update vectors",
+      "requestBody": {
+        "points": [
+          {
+            "id": "1",
+            "vector": [0.1, 0.2],
+            "payload": { "text": "example" }
+          }
+        ]
+      }
     },
     {
       "method": "POST",
-      "path": "/search",
-      "description": "Search vectors"
+      "path": "/collections/{name}/search",
+      "description": "Search for similar vectors",
+      "requestBody": {
+        "vector": [0.1, 0.2],
+        "limit": 10,
+        "filter": {}
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{name}/search/text",
+      "description": "Semantic text search (auto-embeds query)",
+      "requestBody": {
+        "text": "search query",
+        "limit": 10
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{name}/points/{id}",
+      "description": "Get a point by ID"
+    },
+    {
+      "method": "DELETE",
+      "path": "/collections/{name}/points",
+      "description": "Delete points by IDs or filter",
+      "requestBody": {
+        "ids": ["1", "2", "3"]
+      }
     },
     {
       "method": "GET",
@@ -52,31 +103,41 @@
       "authentication": false
     }
   ],
+  
   "environment": [
-    {
-      "name": "QDRANT_URL",
-      "description": "Qdrant server URL",
-      "required": false,
-      "default": "http://qdrant:6333"
-    },
     {
       "name": "LOG_LEVEL",
       "description": "Logging verbosity level",
-      "required": false,
-      "default": "info"
+      "default": "info",
+      "required": false
+    },
+    {
+      "name": "QDRANT_HOST",
+      "description": "Qdrant server host",
+      "default": "qdrant",
+      "required": true
+    },
+    {
+      "name": "QDRANT_PORT",
+      "description": "Qdrant server port",
+      "default": "6333",
+      "required": false
+    },
+    {
+      "name": "DEFAULT_EMBEDDING_MODEL",
+      "description": "Default model for text embeddings",
+      "default": "text-embedding-ada-002",
+      "required": false
     }
   ],
+  
+  "dependencies": {
+    "services": ["redis", "qdrant"],
+    "forgehooks": ["llm-service"]
+  },
+  
   "resources": {
     "memory": "512m",
     "cpu": "1.0"
-  },
-  "healthCheck": {
-    "path": "/health",
-    "interval": 30,
-    "timeout": 10,
-    "retries": 3
-  },
-  "dependencies": {
-    "services": ["redis", "qdrant"]
   }
 }

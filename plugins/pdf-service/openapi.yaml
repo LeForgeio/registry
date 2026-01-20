@@ -1,0 +1,785 @@
+openapi: 3.0.3
+info:
+  title: PDF Service API
+  description: |
+    API for PDF generation, manipulation, and text extraction.
+    
+    ## Features
+    - **Generate PDF from HTML**: Convert HTML content to PDF using Puppeteer
+    - **Generate PDF from Templates**: Use Handlebars templates with dynamic data
+    - **Merge PDFs**: Combine multiple PDF files into one
+    - **Extract Text**: Extract text content from PDF files
+    - **Fill Forms**: Fill PDF form fields programmatically
+    
+    ## File Handling
+    - Supports both JSON (base64) and multipart/form-data for file uploads
+    - Maximum file size: 50MB (configurable)
+    - Maximum merge files: 20 (configurable)
+    
+  version: 1.0.0
+  contact:
+    name: FlowForge
+    url: https://flowforge.dev
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3003
+    description: Development server
+
+tags:
+  - name: Generate
+    description: PDF generation from HTML and templates
+  - name: Merge
+    description: PDF merging operations
+  - name: Extract
+    description: Text extraction from PDFs
+  - name: Form
+    description: PDF form operations
+  - name: Health
+    description: Health check endpoints
+
+paths:
+  /api/v1/generate/html:
+    post:
+      tags:
+        - Generate
+      summary: Generate PDF from HTML
+      description: Convert HTML content to a PDF document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateHtmlRequest'
+            example:
+              html: "<html><body><h1>Hello World</h1><p>This is a PDF.</p></body></html>"
+              format: A4
+              orientation: portrait
+              printBackground: true
+      responses:
+        '200':
+          description: PDF generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratePdfResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/generate/template:
+    post:
+      tags:
+        - Generate
+      summary: Generate PDF from template
+      description: Generate a PDF from a Handlebars template with data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateTemplateRequest'
+            example:
+              template: "<html><body><h1>Invoice #{{invoiceNumber}}</h1><p>Customer: {{customer.name}}</p></body></html>"
+              data:
+                invoiceNumber: "INV-001"
+                customer:
+                  name: "John Doe"
+              format: A4
+      responses:
+        '200':
+          description: PDF generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratePdfResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/merge:
+    post:
+      tags:
+        - Merge
+      summary: Merge multiple PDFs
+      description: Combine multiple PDF files into a single document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MergePdfRequest'
+      responses:
+        '200':
+          description: PDFs merged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MergePdfResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/merge/upload:
+    post:
+      tags:
+        - Merge
+      summary: Merge uploaded PDFs
+      description: Merge PDF files uploaded via multipart/form-data
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: PDF files to merge
+                metadata:
+                  type: string
+                  description: JSON string with PDF metadata
+      responses:
+        '200':
+          description: PDFs merged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MergePdfResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/extract/text:
+    post:
+      tags:
+        - Extract
+      summary: Extract text from PDF
+      description: Extract text content from a PDF document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtractTextRequest'
+      responses:
+        '200':
+          description: Text extracted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtractTextResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/extract/text/upload:
+    post:
+      tags:
+        - Extract
+      summary: Extract text from uploaded PDF
+      description: Extract text from a PDF file uploaded via multipart/form-data
+      parameters:
+        - name: pageNumbers
+          in: query
+          schema:
+            type: string
+          description: Comma-separated page numbers (e.g., "1,2,5")
+        - name: preserveLayout
+          in: query
+          schema:
+            type: boolean
+          description: Preserve text layout
+        - name: includePageBreaks
+          in: query
+          schema:
+            type: boolean
+          description: Include page break markers
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: PDF file to extract text from
+      responses:
+        '200':
+          description: Text extracted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtractTextResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/form/fill:
+    post:
+      tags:
+        - Form
+      summary: Fill PDF form fields
+      description: Fill form fields in a PDF document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FillFormRequest'
+      responses:
+        '200':
+          description: Form filled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FillFormResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/form/info:
+    post:
+      tags:
+        - Form
+      summary: Get PDF information
+      description: Get information about a PDF including form fields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdfInfoRequest'
+      responses:
+        '200':
+          description: PDF info retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PdfInfoResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /api/v1/health:
+    get:
+      tags:
+        - Health
+      summary: Simple health check
+      description: Returns basic health status
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/v1/health/detailed:
+    get:
+      tags:
+        - Health
+      summary: Detailed health check
+      description: Returns detailed health status including component checks
+      responses:
+        '200':
+          description: Health status retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/v1/ready:
+    get:
+      tags:
+        - Health
+      summary: Readiness probe
+      description: Kubernetes readiness probe endpoint
+      responses:
+        '200':
+          description: Service is ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ready:
+                    type: boolean
+                    example: true
+        '503':
+          description: Service is not ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ready:
+                    type: boolean
+                    example: false
+                  reason:
+                    type: string
+
+  /api/v1/live:
+    get:
+      tags:
+        - Health
+      summary: Liveness probe
+      description: Kubernetes liveness probe endpoint
+      responses:
+        '200':
+          description: Service is alive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  alive:
+                    type: boolean
+                    example: true
+
+components:
+  schemas:
+    PageFormat:
+      type: string
+      enum: [A4, A3, A5, Letter, Legal, Tabloid]
+      default: A4
+
+    PageOrientation:
+      type: string
+      enum: [portrait, landscape]
+      default: portrait
+
+    PageMargin:
+      type: object
+      properties:
+        top:
+          type: string
+          example: "20mm"
+        right:
+          type: string
+          example: "20mm"
+        bottom:
+          type: string
+          example: "20mm"
+        left:
+          type: string
+          example: "20mm"
+
+    PdfMetadata:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        subject:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        creator:
+          type: string
+        producer:
+          type: string
+
+    GenerateHtmlRequest:
+      type: object
+      required:
+        - html
+      properties:
+        html:
+          type: string
+          description: HTML content to convert to PDF
+        format:
+          $ref: '#/components/schemas/PageFormat'
+        orientation:
+          $ref: '#/components/schemas/PageOrientation'
+        margin:
+          $ref: '#/components/schemas/PageMargin'
+        printBackground:
+          type: boolean
+          default: true
+        displayHeaderFooter:
+          type: boolean
+          default: false
+        headerTemplate:
+          type: string
+        footerTemplate:
+          type: string
+        scale:
+          type: number
+          minimum: 0.1
+          maximum: 2
+          default: 1
+        pageRanges:
+          type: string
+          description: "Page ranges (e.g., '1-3,5,7-9')"
+        preferCSSPageSize:
+          type: boolean
+          default: false
+
+    GenerateTemplateRequest:
+      type: object
+      required:
+        - template
+        - data
+      properties:
+        template:
+          type: string
+          description: Handlebars template
+        data:
+          type: object
+          description: Template data
+        format:
+          $ref: '#/components/schemas/PageFormat'
+        orientation:
+          $ref: '#/components/schemas/PageOrientation'
+        margin:
+          $ref: '#/components/schemas/PageMargin'
+        printBackground:
+          type: boolean
+          default: true
+        helpers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom Handlebars helpers (as strings)
+        partials:
+          type: object
+          additionalProperties:
+            type: string
+          description: Handlebars partials
+
+    GeneratePdfResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            pdf:
+              type: string
+              description: Base64 encoded PDF
+            filename:
+              type: string
+            size:
+              type: integer
+              description: File size in bytes
+            pages:
+              type: integer
+
+    MergePdfFile:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: string
+          description: Base64 encoded PDF
+        filename:
+          type: string
+        pageRanges:
+          type: string
+          description: "Page ranges to include (e.g., '1-3,5')"
+
+    MergePdfRequest:
+      type: object
+      required:
+        - files
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/MergePdfFile'
+          minItems: 2
+        metadata:
+          $ref: '#/components/schemas/PdfMetadata'
+
+    MergePdfResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            pdf:
+              type: string
+              description: Base64 encoded PDF
+            filename:
+              type: string
+            size:
+              type: integer
+            pages:
+              type: integer
+            mergedCount:
+              type: integer
+
+    ExtractTextRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          description: Base64 encoded PDF
+        pageNumbers:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          description: Specific pages to extract (1-indexed)
+        preserveLayout:
+          type: boolean
+          default: false
+        includePageBreaks:
+          type: boolean
+          default: false
+
+    PageText:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+        text:
+          type: string
+        lines:
+          type: array
+          items:
+            type: string
+
+    ExtractTextResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            text:
+              type: string
+            pages:
+              type: array
+              items:
+                $ref: '#/components/schemas/PageText'
+            totalPages:
+              type: integer
+            metadata:
+              $ref: '#/components/schemas/PdfMetadata'
+
+    FormFieldType:
+      type: string
+      enum: [text, checkbox, radio, dropdown, signature]
+
+    FormField:
+      type: object
+      required:
+        - name
+        - type
+        - value
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/FormFieldType'
+        value:
+          oneOf:
+            - type: string
+            - type: boolean
+        page:
+          type: integer
+
+    FillFormRequest:
+      type: object
+      required:
+        - file
+        - fields
+      properties:
+        file:
+          type: string
+          description: Base64 encoded PDF
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormField'
+          minItems: 1
+        flatten:
+          type: boolean
+          default: false
+          description: Flatten form after filling
+
+    FillFormResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            pdf:
+              type: string
+              description: Base64 encoded PDF
+            filename:
+              type: string
+            size:
+              type: integer
+            filledFields:
+              type: integer
+
+    PdfInfoRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          description: Base64 encoded PDF
+
+    FormFieldInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/FormFieldType'
+        required:
+          type: boolean
+        readOnly:
+          type: boolean
+        options:
+          type: array
+          items:
+            type: string
+        defaultValue:
+          oneOf:
+            - type: string
+            - type: boolean
+
+    PdfInfoResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            pageCount:
+              type: integer
+            metadata:
+              $ref: '#/components/schemas/PdfMetadata'
+            isEncrypted:
+              type: boolean
+            hasForm:
+              type: boolean
+            formFields:
+              type: array
+              items:
+                $ref: '#/components/schemas/FormFieldInfo'
+            fileSize:
+              type: integer
+
+    ComponentHealth:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy]
+        message:
+          type: string
+        latency:
+          type: number
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy, degraded]
+        timestamp:
+          type: string
+          format: date-time
+        uptime:
+          type: number
+          description: Uptime in milliseconds
+        version:
+          type: string
+        checks:
+          type: object
+          properties:
+            puppeteer:
+              $ref: '#/components/schemas/ComponentHealth'
+            tempDirectory:
+              $ref: '#/components/schemas/ComponentHealth'
+            memory:
+              $ref: '#/components/schemas/ComponentHealth'
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+        code:
+          type: string
+        details:
+          type: object
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error: "Validation error"
+            code: "VALIDATION_ERROR"
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error: "Internal server error"
+            code: "INTERNAL_ERROR"
+
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-API-Key
+      in: header

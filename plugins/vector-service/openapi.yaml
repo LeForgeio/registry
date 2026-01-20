@@ -1,0 +1,952 @@
+openapi: 3.0.3
+info:
+  title: FlowForge Vector Service
+  description: |
+    Vector storage and semantic search service for FlowForge platform.
+    
+    Provides:
+    - Vector collection management
+    - Vector storage and retrieval
+    - Semantic search with embeddings
+    - Hybrid search (dense + sparse)
+    - Vector-based recommendations
+    
+    ## Features
+    
+    - **Collection Management**: Create, list, and delete vector collections
+    - **Vector Operations**: Upsert, search, and delete vectors
+    - **Text Search**: Automatic embedding generation for text queries
+    - **Hybrid Search**: Combine semantic and keyword search
+    - **Recommendations**: Find similar items based on positive/negative examples
+    - **Filtering**: Rich filter support for all search operations
+    
+    ## Authentication
+    
+    Use API key authentication via the `X-API-Key` header or Bearer token.
+    
+  version: 1.0.0
+  contact:
+    name: FlowForge Team
+    url: https://github.com/flowforge
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://api.flowforge.io/vector
+    description: Production server
+
+tags:
+  - name: Collections
+    description: Vector collection management
+  - name: Vectors
+    description: Vector storage and search operations
+  - name: Health
+    description: Service health checks
+
+paths:
+  # ==========================================================================
+  # Collection Endpoints
+  # ==========================================================================
+  
+  /api/v1/collections/create:
+    post:
+      summary: Create a new collection
+      description: Create a new vector collection with specified configuration
+      operationId: createCollection
+      tags:
+        - Collections
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCollectionRequest'
+            examples:
+              basic:
+                summary: Basic collection
+                value:
+                  name: my_collection
+                  vector_size: 384
+                  distance: Cosine
+              advanced:
+                summary: Advanced configuration
+                value:
+                  name: advanced_collection
+                  vector_size: 768
+                  distance: Euclidean
+                  on_disk: true
+                  hnsw_config:
+                    m: 32
+                    ef_construct: 200
+      responses:
+        '200':
+          description: Collection created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCollectionResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Collection already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/collections/list:
+    get:
+      summary: List all collections
+      description: Retrieve list of all vector collections
+      operationId: listCollections
+      tags:
+        - Collections
+      responses:
+        '200':
+          description: List of collections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCollectionsResponse'
+
+  /api/v1/collections/{name}:
+    get:
+      summary: Get collection info
+      description: Retrieve detailed information about a collection
+      operationId: getCollectionInfo
+      tags:
+        - Collections
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      responses:
+        '200':
+          description: Collection information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionInfo'
+        '404':
+          description: Collection not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Delete a collection
+      description: Delete a vector collection and all its data
+      operationId: deleteCollection
+      tags:
+        - Collections
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      responses:
+        '200':
+          description: Collection deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '404':
+          description: Collection not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ==========================================================================
+  # Vector Endpoints
+  # ==========================================================================
+
+  /api/v1/collections/{name}/upsert:
+    post:
+      summary: Upsert vectors
+      description: Insert or update vectors in a collection
+      operationId: upsertVectors
+      tags:
+        - Vectors
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertRequest'
+            examples:
+              single:
+                summary: Single vector
+                value:
+                  points:
+                    - id: "doc_1"
+                      vector: [0.1, 0.2, 0.3]
+                      payload:
+                        text: "Sample document"
+                        category: "example"
+              batch:
+                summary: Batch upsert
+                value:
+                  points:
+                    - id: "doc_1"
+                      vector: [0.1, 0.2, 0.3]
+                      payload: { text: "Document 1" }
+                    - id: "doc_2"
+                      vector: [0.4, 0.5, 0.6]
+                      payload: { text: "Document 2" }
+      responses:
+        '200':
+          description: Vectors upserted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpsertResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/collections/{name}/search:
+    post:
+      summary: Search by vector
+      description: Search for similar vectors using a query vector
+      operationId: searchByVector
+      tags:
+        - Vectors
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+            examples:
+              basic:
+                summary: Basic search
+                value:
+                  vector: [0.1, 0.2, 0.3]
+                  limit: 10
+              filtered:
+                summary: Filtered search
+                value:
+                  vector: [0.1, 0.2, 0.3]
+                  limit: 10
+                  score_threshold: 0.7
+                  filter:
+                    must:
+                      - key: category
+                        match:
+                          value: "example"
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+  /api/v1/collections/{name}/search-text:
+    post:
+      summary: Search by text
+      description: Search using text query with automatic embedding generation
+      operationId: searchByText
+      tags:
+        - Vectors
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextSearchRequest'
+            examples:
+              basic:
+                summary: Basic text search
+                value:
+                  text: "machine learning algorithms"
+                  limit: 10
+              filtered:
+                summary: Filtered text search
+                value:
+                  text: "neural networks"
+                  limit: 5
+                  score_threshold: 0.6
+                  filter:
+                    must:
+                      - key: topic
+                        match:
+                          value: "AI"
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+  /api/v1/collections/{name}/hybrid-search:
+    post:
+      summary: Hybrid search
+      description: Combine dense vector search with sparse keyword search
+      operationId: hybridSearch
+      tags:
+        - Vectors
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HybridSearchRequest'
+            examples:
+              default:
+                summary: Balanced hybrid search
+                value:
+                  text: "vector database performance"
+                  sparse_field: "text"
+                  limit: 10
+                  alpha: 0.5
+              semantic_heavy:
+                summary: Semantic-heavy search
+                value:
+                  text: "semantic similarity"
+                  sparse_field: "content"
+                  limit: 10
+                  alpha: 0.8
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+  /api/v1/collections/{name}/recommend:
+    post:
+      summary: Get recommendations
+      description: Get vector recommendations based on positive and negative examples
+      operationId: recommend
+      tags:
+        - Vectors
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendRequest'
+            examples:
+              positive_only:
+                summary: Positive examples only
+                value:
+                  positive: ["doc_1", "doc_2"]
+                  limit: 5
+              with_negative:
+                summary: With negative examples
+                value:
+                  positive: ["doc_1", "doc_2"]
+                  negative: ["doc_5"]
+                  limit: 5
+      responses:
+        '200':
+          description: Recommendations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+  /api/v1/collections/{name}/points:
+    delete:
+      summary: Delete vectors
+      description: Delete vectors by IDs or filter
+      operationId: deleteVectors
+      tags:
+        - Vectors
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Collection name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletePointsRequest'
+            examples:
+              by_ids:
+                summary: Delete by IDs
+                value:
+                  point_ids: ["doc_1", "doc_2"]
+              by_filter:
+                summary: Delete by filter
+                value:
+                  filter:
+                    must:
+                      - key: category
+                        match:
+                          value: "deprecated"
+      responses:
+        '200':
+          description: Vectors deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+
+  # ==========================================================================
+  # Health Endpoints
+  # ==========================================================================
+
+  /health:
+    get:
+      summary: Health check
+      description: Get service health status
+      operationId: healthCheck
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /health/ready:
+    get:
+      summary: Readiness check
+      description: Check if service is ready to accept requests
+      operationId: readinessCheck
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadyResponse'
+        '503':
+          description: Service not ready
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadyResponse'
+
+  /health/live:
+    get:
+      summary: Liveness check
+      description: Check if service is alive
+      operationId: livenessCheck
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is alive
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveResponse'
+
+  /health/qdrant:
+    get:
+      summary: Qdrant health check
+      description: Check Qdrant database connection
+      operationId: qdrantHealthCheck
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Qdrant health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QdrantHealthResponse'
+
+components:
+  schemas:
+    # ========================================================================
+    # Request Schemas
+    # ========================================================================
+
+    CreateCollectionRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Collection name
+          minLength: 1
+          maxLength: 255
+          example: my_collection
+        vector_size:
+          type: integer
+          description: Dimension of vectors
+          default: 384
+          minimum: 1
+          example: 384
+        distance:
+          type: string
+          description: Distance metric
+          enum: [Cosine, Euclidean, Dot]
+          default: Cosine
+        on_disk:
+          type: boolean
+          description: Store vectors on disk
+          default: false
+        hnsw_config:
+          $ref: '#/components/schemas/HNSWConfig'
+
+    HNSWConfig:
+      type: object
+      properties:
+        m:
+          type: integer
+          description: Number of bi-directional links
+          default: 16
+          minimum: 4
+          maximum: 128
+        ef_construct:
+          type: integer
+          description: Size of dynamic candidate list during construction
+          default: 100
+          minimum: 4
+        full_scan_threshold:
+          type: integer
+          description: Threshold for full scan
+          default: 10000
+        max_indexing_threads:
+          type: integer
+          description: Max threads for indexing
+          default: 0
+        on_disk:
+          type: boolean
+          description: Store HNSW graph on disk
+          default: false
+
+    UpsertRequest:
+      type: object
+      required:
+        - points
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
+          minItems: 1
+
+    Point:
+      type: object
+      required:
+        - id
+        - vector
+      properties:
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+          description: Point ID
+        vector:
+          type: array
+          items:
+            type: number
+          description: Vector embedding
+        payload:
+          type: object
+          description: Associated metadata
+          additionalProperties: true
+
+    SearchRequest:
+      type: object
+      required:
+        - vector
+      properties:
+        vector:
+          type: array
+          items:
+            type: number
+          description: Query vector
+        limit:
+          type: integer
+          description: Maximum results
+          default: 10
+          minimum: 1
+          maximum: 100
+        offset:
+          type: integer
+          description: Skip results
+          default: 0
+          minimum: 0
+        score_threshold:
+          type: number
+          description: Minimum score threshold
+          minimum: 0
+          maximum: 1
+        filter:
+          $ref: '#/components/schemas/Filter'
+        with_payload:
+          type: boolean
+          description: Include payload in results
+          default: true
+        with_vectors:
+          type: boolean
+          description: Include vectors in results
+          default: false
+
+    TextSearchRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: Search query text
+          minLength: 1
+        limit:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        offset:
+          type: integer
+          default: 0
+          minimum: 0
+        score_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+        filter:
+          $ref: '#/components/schemas/Filter'
+        with_payload:
+          type: boolean
+          default: true
+
+    HybridSearchRequest:
+      type: object
+      required:
+        - text
+        - sparse_field
+      properties:
+        text:
+          type: string
+          description: Search query text
+          minLength: 1
+        sparse_field:
+          type: string
+          description: Field for sparse/keyword matching
+        alpha:
+          type: number
+          description: Weight for dense vs sparse (0=sparse, 1=dense)
+          default: 0.5
+          minimum: 0
+          maximum: 1
+        limit:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        score_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+        filter:
+          $ref: '#/components/schemas/Filter'
+
+    RecommendRequest:
+      type: object
+      required:
+        - positive
+      properties:
+        positive:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+          description: IDs of positive examples
+          minItems: 1
+        negative:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+          description: IDs of negative examples
+          default: []
+        limit:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        score_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+        filter:
+          $ref: '#/components/schemas/Filter'
+        with_payload:
+          type: boolean
+          default: true
+
+    DeletePointsRequest:
+      type: object
+      properties:
+        point_ids:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+          description: IDs to delete
+        filter:
+          $ref: '#/components/schemas/Filter'
+
+    Filter:
+      type: object
+      properties:
+        must:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+        should:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+        must_not:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+
+    Condition:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Field name
+        match:
+          type: object
+          properties:
+            value:
+              description: Value to match
+        range:
+          type: object
+          properties:
+            gte:
+              type: number
+            gt:
+              type: number
+            lte:
+              type: number
+            lt:
+              type: number
+        geo_radius:
+          type: object
+          properties:
+            center:
+              type: object
+              properties:
+                lat:
+                  type: number
+                lon:
+                  type: number
+            radius:
+              type: number
+
+    # ========================================================================
+    # Response Schemas
+    # ========================================================================
+
+    CreateCollectionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        collection_name:
+          type: string
+        message:
+          type: string
+
+    ListCollectionsResponse:
+      type: object
+      properties:
+        collections:
+          type: array
+          items:
+            type: string
+
+    CollectionInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        vectors_count:
+          type: integer
+        points_count:
+          type: integer
+        status:
+          type: string
+          enum: [green, yellow, red]
+        config:
+          type: object
+
+    UpsertResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [completed, acknowledged]
+        upserted_count:
+          type: integer
+
+    SearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+        total:
+          type: integer
+        took_ms:
+          type: number
+
+    SearchResult:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+        score:
+          type: number
+        payload:
+          type: object
+          additionalProperties: true
+        vector:
+          type: array
+          items:
+            type: number
+
+    DeleteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        service:
+          type: string
+        version:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        environment:
+          type: string
+        dependencies:
+          type: object
+
+    ReadyResponse:
+      type: object
+      properties:
+        ready:
+          type: boolean
+        message:
+          type: string
+
+    LiveResponse:
+      type: object
+      properties:
+        alive:
+          type: boolean
+
+    QdrantHealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        version:
+          type: string
+        collections_count:
+          type: integer
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []

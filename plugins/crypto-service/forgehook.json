@@ -1,49 +1,100 @@
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "../forgehook-schema.json",
   "id": "crypto-service",
   "name": "Crypto Service",
   "version": "1.0.0",
-  "description": "Cryptographic operations including hashing, encryption, and JWT token management. Supports SHA, bcrypt, argon2, AES-256-GCM encryption.",
+  "description": "Cryptographic operations including hashing, encryption, and JWT token management. Supports SHA, bcrypt, argon2, AES-256-GCM encryption, and full JWT lifecycle.",
   "author": {
-    "name": "FlowForge Team",
+    "name": "FlowForge",
     "url": "https://flowforge.dev"
   },
   "license": "MIT",
-  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "repository": "https://github.com/flowforge/crypto-service",
   "icon": "lock",
   "category": "security",
-  "tags": ["encryption", "hashing", "jwt", "bcrypt", "security", "cryptography", "aes"],
+  "tags": ["encryption", "hashing", "jwt", "bcrypt", "argon2", "aes", "security"],
+  
   "image": {
     "repository": "flowforge/crypto-service",
-    "tag": "latest"
+    "tag": "1.0.0"
   },
-  "port": 3001,
+  
+  "port": 4001,
   "basePath": "/api/v1/crypto",
+  
+  "healthCheck": {
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  
   "endpoints": [
     {
       "method": "POST",
       "path": "/hash",
-      "description": "Hash data using SHA, bcrypt, or argon2"
+      "description": "Hash data using SHA-256, SHA-512, bcrypt, or argon2",
+      "requestBody": {
+        "data": "hello world",
+        "algorithm": "sha256"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/hash/verify",
+      "description": "Verify bcrypt or argon2 hash",
+      "requestBody": {
+        "data": "password123",
+        "hash": "$2a$10$...",
+        "algorithm": "bcrypt"
+      }
     },
     {
       "method": "POST",
       "path": "/encrypt",
-      "description": "Encrypt data using AES-256-GCM"
+      "description": "Encrypt data using AES-256-GCM",
+      "requestBody": {
+        "data": "secret message",
+        "key": "optional-32-byte-key"
+      }
     },
     {
       "method": "POST",
       "path": "/decrypt",
-      "description": "Decrypt AES encrypted data"
+      "description": "Decrypt AES-256-GCM encrypted data",
+      "requestBody": {
+        "data": "encrypted-base64",
+        "key": "32-byte-key",
+        "iv": "initialization-vector",
+        "tag": "auth-tag"
+      }
     },
     {
       "method": "POST",
       "path": "/jwt/generate",
-      "description": "Generate JWT token"
+      "description": "Generate a JWT token",
+      "requestBody": {
+        "payload": { "userId": "123", "role": "admin" },
+        "secret": "your-secret-key",
+        "options": { "expiresIn": "1h" }
+      }
     },
     {
       "method": "POST",
       "path": "/jwt/verify",
-      "description": "Verify JWT token"
+      "description": "Verify and decode a JWT token",
+      "requestBody": {
+        "token": "eyJhbGciOiJIUzI1NiIs...",
+        "secret": "your-secret-key"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/jwt/decode",
+      "description": "Decode a JWT without verification",
+      "requestBody": {
+        "token": "eyJhbGciOiJIUzI1NiIs..."
+      }
     },
     {
       "method": "GET",
@@ -52,25 +103,28 @@
       "authentication": false
     }
   ],
+  
   "environment": [
     {
       "name": "LOG_LEVEL",
       "description": "Logging verbosity level",
-      "required": false,
-      "default": "info"
+      "default": "info",
+      "required": false
+    },
+    {
+      "name": "BCRYPT_ROUNDS",
+      "description": "Number of bcrypt hashing rounds",
+      "default": "10",
+      "required": false
     }
   ],
+  
+  "dependencies": {
+    "services": ["redis"]
+  },
+  
   "resources": {
     "memory": "256m",
     "cpu": "0.5"
-  },
-  "healthCheck": {
-    "path": "/health",
-    "interval": 30,
-    "timeout": 10,
-    "retries": 3
-  },
-  "dependencies": {
-    "services": ["redis"]
   }
 }

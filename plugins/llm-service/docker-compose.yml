@@ -1,0 +1,176 @@
+# =============================================================================
+# LLM Service Docker Compose
+# Production deployment with vLLM server
+# =============================================================================
+
+version: "3.8"
+
+services:
+  # ---------------------------------------------------------------------------
+  # LLM Service - FastAPI wrapper
+  # ---------------------------------------------------------------------------
+  llm-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: flowforge-llm-service
+    restart: unless-stopped
+    ports:
+      - "${LLM_SERVICE_PORT:-8000}:8000"
+    environment:
+      - ENVIRONMENT=production
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      # vLLM Configuration
+      - VLLM_BASE_URL=http://vllm-server:8001/v1
+      - DEFAULT_MODEL=${DEFAULT_MODEL:-TinyLlama/TinyLlama-1.1B-Chat-v1.0}
+      # Redis Configuration
+      - REDIS_URL=redis://redis:6379/0
+      - ENABLE_QUEUE=true
+      # Embedding Configuration
+      - ENABLE_EMBEDDINGS=true
+      - DEFAULT_EMBEDDING_MODEL=all-MiniLM-L6-v2
+      # Limits
+      - DEFAULT_MAX_TOKENS=512
+      - MAX_INPUT_TOKENS=4096
+      - MAX_OUTPUT_TOKENS=2048
+      - REQUEST_TIMEOUT=120
+      # CORS
+      - CORS_ORIGINS=*
+    volumes:
+      - embedding-models:/home/appuser/.cache
+    depends_on:
+      vllm-server:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - llm-network
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  # ---------------------------------------------------------------------------
+  # vLLM Server - Model inference engine
+  # CPU-only configuration (see GPU section below)
+  # ---------------------------------------------------------------------------
+  vllm-server:
+    image: vllm/vllm-openai:latest
+    container_name: flowforge-vllm-server
+    restart: unless-stopped
+    ports:
+      - "${VLLM_PORT:-8001}:8001"
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+      - VLLM_WORKER_MULTIPROC_METHOD=spawn
+    volumes:
+      - model-cache:/root/.cache/huggingface
+    command:
+      - --model
+      - ${DEFAULT_MODEL:-TinyLlama/TinyLlama-1.1B-Chat-v1.0}
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8001"
+      - --dtype
+      - auto
+      - --max-model-len
+      - "4096"
+      - --device
+      - cpu
+      # Uncomment for GPU:
+      # - --tensor-parallel-size
+      # - "1"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 300s  # vLLM needs time to load model
+    networks:
+      - llm-network
+    deploy:
+      resources:
+        limits:
+          cpus: "4"
+          memory: 8G
+
+  # ---------------------------------------------------------------------------
+  # Redis - Request queue
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: flowforge-llm-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - llm-network
+
+networks:
+  llm-network:
+    driver: bridge
+
+volumes:
+  model-cache:
+    name: flowforge-llm-model-cache
+  embedding-models:
+    name: flowforge-llm-embedding-models
+  redis-data:
+    name: flowforge-llm-redis-data
+
+# =============================================================================
+# GPU Configuration (uncomment to enable)
+# =============================================================================
+# To enable GPU support for vLLM, modify the vllm-server service:
+#
+#   vllm-server:
+#     ...
+#     deploy:
+#       resources:
+#         reservations:
+#           devices:
+#             - driver: nvidia
+#               count: 1
+#               capabilities: [gpu]
+#     command:
+#       - --model
+#       - ${DEFAULT_MODEL:-TinyLlama/TinyLlama-1.1B-Chat-v1.0}
+#       - --host
+#       - "0.0.0.0"
+#       - --port
+#       - "8001"
+#       - --dtype
+#       - half
+#       - --tensor-parallel-size
+#       - "1"
+#
+# Prerequisites:
+# 1. Install NVIDIA Container Toolkit:
+#    https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+#
+# 2. Verify GPU access:
+#    docker run --rm --gpus all nvidia/cuda:12.1-base-ubuntu22.04 nvidia-smi
+#
+# 3. For multi-GPU:
+#    - Set count: all or count: 2
+#    - Set --tensor-parallel-size accordingly
+# =============================================================================

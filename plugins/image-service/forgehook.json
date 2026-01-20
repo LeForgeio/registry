@@ -1,49 +1,113 @@
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "../../forgehook-schema.json",
   "id": "image-service",
   "name": "Image Service",
   "version": "1.0.0",
-  "description": "Image processing including resize, convert, optimize, crop, and format transformations using Sharp.",
+  "description": "Image processing operations including resize, crop, rotate, filters, format conversion, and metadata extraction",
   "author": {
-    "name": "FlowForge Team",
+    "name": "FlowForge",
     "url": "https://flowforge.dev"
   },
   "license": "MIT",
-  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "repository": "https://github.com/flowforge/image-service",
   "icon": "image",
   "category": "media",
-  "tags": ["image", "resize", "optimization", "conversion", "sharp", "webp"],
+  "tags": ["image", "processing", "resize", "crop", "filter", "convert", "thumbnail"],
+  
   "image": {
     "repository": "flowforge/image-service",
-    "tag": "latest"
+    "tag": "1.0.0"
   },
-  "port": 3005,
+  
+  "port": 4005,
   "basePath": "/api/v1/image",
+  
+  "healthCheck": {
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  
   "endpoints": [
     {
       "method": "POST",
       "path": "/resize",
-      "description": "Resize image"
-    },
-    {
-      "method": "POST",
-      "path": "/convert",
-      "description": "Convert image format"
-    },
-    {
-      "method": "POST",
-      "path": "/optimize",
-      "description": "Optimize image for web"
+      "description": "Resize an image to specified dimensions",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "width": 800,
+        "height": 600,
+        "fit": "cover"
+      }
     },
     {
       "method": "POST",
       "path": "/crop",
-      "description": "Crop image"
+      "description": "Crop an image to specified region",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "x": 0,
+        "y": 0,
+        "width": 400,
+        "height": 300
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/rotate",
+      "description": "Rotate an image by specified degrees",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "angle": 90
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/filter",
+      "description": "Apply filters (grayscale, blur, sharpen, etc.)",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "filter": "grayscale",
+        "options": {}
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/convert",
+      "description": "Convert image format (png, jpg, webp, avif)",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "format": "webp",
+        "quality": 85
+      }
     },
     {
       "method": "POST",
       "path": "/thumbnail",
-      "description": "Generate thumbnail"
+      "description": "Generate thumbnail with smart cropping",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "width": 200,
+        "height": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/metadata",
+      "description": "Extract image metadata (EXIF, dimensions, etc.)",
+      "requestBody": {
+        "image": "base64-encoded-image"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/optimize",
+      "description": "Optimize image for web (reduce file size)",
+      "requestBody": {
+        "image": "base64-encoded-image",
+        "quality": 80
+      }
     },
     {
       "method": "GET",
@@ -52,31 +116,34 @@
       "authentication": false
     }
   ],
+  
   "environment": [
     {
       "name": "LOG_LEVEL",
       "description": "Logging verbosity level",
-      "required": false,
-      "default": "info"
+      "default": "info",
+      "required": false
     },
     {
-      "name": "MAX_FILE_SIZE_MB",
-      "description": "Maximum file size in MB",
-      "required": false,
-      "default": "25"
+      "name": "IMAGE_MAX_SIZE_MB",
+      "description": "Maximum image file size in MB",
+      "default": "50",
+      "required": false
+    },
+    {
+      "name": "MAX_DIMENSION",
+      "description": "Maximum image dimension (width/height)",
+      "default": "10000",
+      "required": false
     }
   ],
+  
+  "dependencies": {
+    "services": ["redis"]
+  },
+  
   "resources": {
     "memory": "512m",
     "cpu": "1.0"
-  },
-  "healthCheck": {
-    "path": "/health",
-    "interval": 30,
-    "timeout": 10,
-    "retries": 3
-  },
-  "dependencies": {
-    "services": ["redis"]
   }
 }
