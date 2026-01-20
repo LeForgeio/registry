@@ -24,7 +24,26 @@ Update the host in the Swagger file to your FlowForge instance URL.
 
 ## Available Actions
 
-| No actions defined | |
+| hash | Hash data using SHA-1, SHA-256, SHA-512, or MD5 |
+| hashFile | Calculate hash/checksum of file data (base64 encoded) |
+| encrypt | Encrypt data using AES-256-GCM (authenticated encryption) |
+| decrypt | Decrypt AES encrypted data |
+| jwtSign | Generate a JWT token |
+| jwtVerify | Verify and decode a JWT token |
+| jwtDecode | Decode a JWT without verification (for inspection only) |
+| hmacSign | Create HMAC signature |
+| hmacVerify | Verify HMAC signature (timing-safe comparison) |
+| randomBytes | Generate cryptographically secure random bytes |
+| uuid | Generate a UUID v4 |
+| base64Encode | Encode string to Base64 |
+| base64Decode | Decode Base64 string |
+| hexEncode | Encode string to hexadecimal |
+| hexDecode | Decode hexadecimal string |
+| compareStrings | Timing-safe string comparison (prevents timing attacks) |
+| deriveKey | Derive encryption key from password using PBKDF2 |
+| generatePassword | Generate a secure random password |
+| generateKeyPair | Generate RSA, ECDSA, or Ed25519 key pair |
+| rsaEncrypt | Encrypt data using RSA public key |
 
 ## Usage in Workflows
 

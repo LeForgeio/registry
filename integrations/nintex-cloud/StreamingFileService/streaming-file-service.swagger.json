@@ -37,7 +37,7 @@
     "/upload/init": {
       "post": {
         "operationId": "PostUploadInit",
-        "summary": "",
+        "summary": "Upload Init",
         "description": "Initialize a chunked upload session. Returns uploadId for subsequent chunk uploads.",
         "tags": [
           "General"
@@ -70,14 +70,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Upload Init",
         "x-ntx-visibility": "important"
       }
     },
     "/upload/{uploadId}/chunk/{chunkIndex}": {
       "put": {
         "operationId": "PutUploadChunk",
-        "summary": "",
+        "summary": "Update Upload Chunk",
         "description": "Upload a single chunk. Supports resume - re-upload failed chunks.",
         "tags": [
           "General"
@@ -125,14 +125,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Update Upload Chunk",
         "x-ntx-visibility": "important"
       }
     },
     "/upload/{uploadId}/complete": {
       "post": {
         "operationId": "PostUploadComplete",
-        "summary": "",
+        "summary": "Upload Complete",
         "description": "Complete chunked upload - assembles chunks and verifies integrity.",
         "tags": [
           "General"
@@ -172,14 +172,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Upload Complete",
         "x-ntx-visibility": "important"
       }
     },
     "/upload/{uploadId}/status": {
       "get": {
         "operationId": "GetUploadStatus",
-        "summary": "",
+        "summary": "Get Upload Status",
         "description": "Get upload progress - which chunks received, resume point.",
         "tags": [
           "General"
@@ -210,14 +210,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Upload Status",
         "x-ntx-visibility": "important"
       }
     },
     "/upload/{uploadId}": {
       "delete": {
         "operationId": "DeleteUpload",
-        "summary": "",
+        "summary": "Delete Upload",
         "description": "Cancel and cleanup an incomplete upload.",
         "tags": [
           "General"
@@ -248,14 +248,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Delete Upload",
         "x-ntx-visibility": "important"
       }
     },
     "/download/{fileId}": {
       "get": {
         "operationId": "GetDownload",
-        "summary": "",
+        "summary": "Get Download",
         "description": "Stream download with Range header support for resume.",
         "tags": [
           "General"
@@ -286,14 +286,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Download",
         "x-ntx-visibility": "important"
       }
     },
     "/download/init": {
       "post": {
         "operationId": "PostDownloadInit",
-        "summary": "",
+        "summary": "Download Init",
         "description": "Initialize chunked download - get download manifest.",
         "tags": [
           "General"
@@ -326,14 +326,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Download Init",
         "x-ntx-visibility": "important"
       }
     },
     "/cloud/upload": {
       "post": {
         "operationId": "PostCloudUpload",
-        "summary": "",
+        "summary": "Cloud Upload",
         "description": "Stream upload directly to cloud storage (S3/Azure/GCS) without storing locally.",
         "tags": [
           "General"
@@ -366,14 +366,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Cloud Upload",
         "x-ntx-visibility": "important"
       }
     },
     "/cloud/download": {
       "post": {
         "operationId": "PostCloudDownload",
-        "summary": "",
+        "summary": "Cloud Download",
         "description": "Stream download from cloud storage to local or another destination.",
         "tags": [
           "General"
@@ -406,14 +406,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Cloud Download",
         "x-ntx-visibility": "important"
       }
     },
     "/cloud/copy": {
       "post": {
         "operationId": "PostCloudCopy",
-        "summary": "",
+        "summary": "Cloud Copy",
         "description": "Copy files between cloud providers (S3 to Azure, GCS to S3, etc.).",
         "tags": [
           "General"
@@ -446,14 +446,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Cloud Copy",
         "x-ntx-visibility": "important"
       }
     },
     "/cloud/presigned-url": {
       "post": {
         "operationId": "PostCloudPresignedUrl",
-        "summary": "",
+        "summary": "Cloud Presigned Url",
         "description": "Generate presigned URLs for direct browser uploads/downloads.",
         "tags": [
           "General"
@@ -486,14 +486,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Cloud Presigned Url",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/split-pdf": {
       "post": {
         "operationId": "PostTransformSplitPdf",
-        "summary": "",
+        "summary": "Transform Split Pdf",
         "description": "Split large PDF into smaller files by page ranges.",
         "tags": [
           "General"
@@ -526,14 +526,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Split Pdf",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/merge-pdf": {
       "post": {
         "operationId": "PostTransformMergePdf",
-        "summary": "",
+        "summary": "Transform Merge Pdf",
         "description": "Merge multiple PDFs into one.",
         "tags": [
           "General"
@@ -566,14 +566,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Merge Pdf",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/compress": {
       "post": {
         "operationId": "PostTransformCompress",
-        "summary": "",
+        "summary": "Transform Compress",
         "description": "Compress files (zip, gzip, tar.gz) with streaming.",
         "tags": [
           "General"
@@ -606,14 +606,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Compress",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/extract": {
       "post": {
         "operationId": "PostTransformExtract",
-        "summary": "",
+        "summary": "Transform Extract",
         "description": "Extract compressed archives with streaming.",
         "tags": [
           "General"
@@ -646,14 +646,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Extract",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/transcode": {
       "post": {
         "operationId": "PostTransformTranscode",
-        "summary": "",
+        "summary": "Transform Transcode",
         "description": "Transcode video/audio files. Runs asynchronously for large files.",
         "tags": [
           "General"
@@ -686,14 +686,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Transcode",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/extract-audio": {
       "post": {
         "operationId": "PostTransformExtractAudio",
-        "summary": "",
+        "summary": "Transform Extract Audio",
         "description": "Extract audio track from video file.",
         "tags": [
           "General"
@@ -726,14 +726,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Extract Audio",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/thumbnail": {
       "post": {
         "operationId": "PostTransformThumbnail",
-        "summary": "",
+        "summary": "Transform Thumbnail",
         "description": "Generate thumbnails from video at specified timestamps.",
         "tags": [
           "General"
@@ -766,14 +766,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Thumbnail",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/status/{jobId}": {
       "get": {
         "operationId": "GetTransformStatus",
-        "summary": "",
+        "summary": "Get Transform Status",
         "description": "Check status of async transformation job.",
         "tags": [
           "General"
@@ -804,14 +804,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Transform Status",
         "x-ntx-visibility": "important"
       }
     },
     "/checksum": {
       "post": {
         "operationId": "PostChecksum",
-        "summary": "",
+        "summary": "Checksum",
         "description": "Calculate checksum of file without loading into memory.",
         "tags": [
           "General"
@@ -844,14 +844,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Checksum",
         "x-ntx-visibility": "important"
       }
     },
     "/diff": {
       "post": {
         "operationId": "PostDiff",
-        "summary": "",
+        "summary": "Diff",
         "description": "Binary diff between two files for delta sync.",
         "tags": [
           "General"
@@ -884,14 +884,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Diff",
         "x-ntx-visibility": "important"
       }
     },
     "/pipe": {
       "post": {
         "operationId": "PostPipe",
-        "summary": "",
+        "summary": "Pipe",
         "description": "Pipe data between sources - URL to cloud, cloud to webhook, file to email, etc.",
         "tags": [
           "General"
@@ -924,14 +924,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Pipe",
         "x-ntx-visibility": "important"
       }
     },
     "/{fileId}": {
       "delete": {
         "operationId": "Delete",
-        "summary": "",
+        "summary": "Delete",
         "description": "Delete a file from temporary storage.",
         "tags": [
           "General"
@@ -962,14 +962,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Delete",
         "x-ntx-visibility": "important"
       }
     },
     "/{fileId}/metadata": {
       "get": {
         "operationId": "GetMetadata",
-        "summary": "",
+        "summary": "Get Metadata",
         "description": "Get file metadata without downloading.",
         "tags": [
           "General"
@@ -1000,14 +1000,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Metadata",
         "x-ntx-visibility": "important"
       }
     },
     "/health": {
       "get": {
         "operationId": "GetHealth",
-        "summary": "",
+        "summary": "Get Health",
         "description": "Health check endpoint",
         "tags": [
           "General"
@@ -1030,7 +1030,7 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Health",
         "x-ntx-visibility": "important"
       }
     }

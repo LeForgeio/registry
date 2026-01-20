@@ -37,7 +37,7 @@
     "/providers": {
       "get": {
         "operationId": "GetProviders",
-        "summary": "",
+        "summary": "Get Providers",
         "description": "List available LLM providers",
         "tags": [
           "General"
@@ -65,7 +65,7 @@
     "/providers/configure": {
       "post": {
         "operationId": "PostProvidersConfigure",
-        "summary": "",
+        "summary": "Providers Configure",
         "description": "Configure a provider with API credentials",
         "tags": [
           "General"
@@ -103,7 +103,7 @@
     "/providers/{provider}/models": {
       "get": {
         "operationId": "GetProvidersModels",
-        "summary": "",
+        "summary": "Get Providers Models",
         "description": "List available models for a provider",
         "tags": [
           "General"
@@ -139,7 +139,7 @@
     "/providers/{provider}/health": {
       "get": {
         "operationId": "GetProvidersHealth",
-        "summary": "",
+        "summary": "Get Providers Health",
         "description": "Check provider health status",
         "tags": [
           "General"
@@ -175,7 +175,7 @@
     "/providers/{provider}/chat": {
       "post": {
         "operationId": "PostProvidersChat",
-        "summary": "",
+        "summary": "Providers Chat",
         "description": "Chat with a specific provider",
         "tags": [
           "General"
@@ -220,7 +220,7 @@
     "/providers/{provider}/embed": {
       "post": {
         "operationId": "PostProvidersEmbed",
-        "summary": "",
+        "summary": "Providers Embed",
         "description": "Generate embeddings with a specific provider",
         "tags": [
           "General"
@@ -256,7 +256,7 @@
     "/providers/chat": {
       "post": {
         "operationId": "PostProvidersChat",
-        "summary": "",
+        "summary": "Providers Chat",
         "description": "Universal chat endpoint with provider selection",
         "tags": [
           "General"
@@ -294,7 +294,7 @@
     "/chat": {
       "post": {
         "operationId": "PostChat",
-        "summary": "",
+        "summary": "Chat",
         "description": "Chat completion (vLLM/default provider)",
         "tags": [
           "General"
@@ -332,7 +332,7 @@
     "/chat/simple": {
       "post": {
         "operationId": "PostChatSimple",
-        "summary": "",
+        "summary": "Chat Simple",
         "description": "Simple chat with just a message",
         "tags": [
           "General"
@@ -360,7 +360,7 @@
     "/generate": {
       "post": {
         "operationId": "PostGenerate",
-        "summary": "",
+        "summary": "Generate",
         "description": "Text generation/completion",
         "tags": [
           "General"
@@ -388,7 +388,7 @@
     "/embeddings": {
       "post": {
         "operationId": "PostEmbeddings",
-        "summary": "",
+        "summary": "Embeddings",
         "description": "Generate text embeddings",
         "tags": [
           "General"
@@ -416,7 +416,7 @@
     "/classify": {
       "post": {
         "operationId": "PostClassify",
-        "summary": "",
+        "summary": "Classify",
         "description": "Classify text into categories",
         "tags": [
           "General"
@@ -444,7 +444,7 @@
     "/extract": {
       "post": {
         "operationId": "PostExtract",
-        "summary": "",
+        "summary": "Extract",
         "description": "Extract named entities from text",
         "tags": [
           "General"
@@ -472,7 +472,7 @@
     "/summarize": {
       "post": {
         "operationId": "PostSummarize",
-        "summary": "",
+        "summary": "Summarize",
         "description": "Summarize text content",
         "tags": [
           "General"
@@ -500,7 +500,7 @@
     "/vision/ocr": {
       "post": {
         "operationId": "PostVisionOcr",
-        "summary": "",
+        "summary": "Vision Ocr",
         "description": "Vision-based OCR from images",
         "tags": [
           "General"
@@ -528,7 +528,7 @@
     "/vision/describe": {
       "post": {
         "operationId": "PostVisionDescribe",
-        "summary": "",
+        "summary": "Vision Describe",
         "description": "Describe image content",
         "tags": [
           "General"
@@ -556,7 +556,7 @@
     "/vision/extract": {
       "post": {
         "operationId": "PostVisionExtract",
-        "summary": "",
+        "summary": "Vision Extract",
         "description": "Extract structured data from images",
         "tags": [
           "General"
@@ -584,7 +584,7 @@
     "/transform": {
       "post": {
         "operationId": "PostTransform",
-        "summary": "",
+        "summary": "Transform",
         "description": "Transform data using natural language",
         "tags": [
           "General"
@@ -612,7 +612,7 @@
     "/transform/schema": {
       "post": {
         "operationId": "PostTransformSchema",
-        "summary": "",
+        "summary": "Transform Schema",
         "description": "Transform data to match a target schema",
         "tags": [
           "General"
@@ -640,7 +640,7 @@
     "/transform/convert": {
       "post": {
         "operationId": "PostTransformConvert",
-        "summary": "",
+        "summary": "Transform Convert",
         "description": "Convert between data formats",
         "tags": [
           "General"
@@ -668,7 +668,7 @@
     "/transform/clean": {
       "post": {
         "operationId": "PostTransformClean",
-        "summary": "",
+        "summary": "Transform Clean",
         "description": "Clean and normalize data",
         "tags": [
           "General"
@@ -696,7 +696,7 @@
     "/transform/merge": {
       "post": {
         "operationId": "PostTransformMerge",
-        "summary": "",
+        "summary": "Transform Merge",
         "description": "Merge multiple data sources",
         "tags": [
           "General"
@@ -724,7 +724,7 @@
     "/models/search": {
       "post": {
         "operationId": "PostModelsSearch",
-        "summary": "",
+        "summary": "Models Search",
         "description": "Search HuggingFace Hub for models",
         "tags": [
           "General"
@@ -762,7 +762,7 @@
     "/models/info/{model_id}": {
       "get": {
         "operationId": "GetModelsInfo",
-        "summary": "",
+        "summary": "Get Models Info",
         "description": "Get detailed info about a HuggingFace model",
         "tags": [
           "General"
@@ -798,7 +798,7 @@
     "/models/download": {
       "post": {
         "operationId": "PostModelsDownload",
-        "summary": "",
+        "summary": "Models Download",
         "description": "Download a model from HuggingFace Hub",
         "tags": [
           "General"
@@ -836,7 +836,7 @@
     "/models/download/cancel/{model_id}": {
       "post": {
         "operationId": "PostModelsDownloadCancel",
-        "summary": "",
+        "summary": "Models Download Cancel",
         "description": "Cancel an in-progress download",
         "tags": [
           "General"
@@ -872,7 +872,7 @@
     "/models/download/progress": {
       "get": {
         "operationId": "GetModelsDownloadProgress",
-        "summary": "",
+        "summary": "Get Models Download Progress",
         "description": "Get progress of active downloads",
         "tags": [
           "General"
@@ -900,7 +900,7 @@
     "/models/local": {
       "get": {
         "operationId": "GetModelsLocal",
-        "summary": "",
+        "summary": "Get Models Local",
         "description": "List locally downloaded models",
         "tags": [
           "General"
@@ -928,7 +928,7 @@
     "/models/local/{model_id}": {
       "get": {
         "operationId": "GetModelsLocal",
-        "summary": "",
+        "summary": "Get Models Local",
         "description": "Get info about a local model",
         "tags": [
           "General"
@@ -962,7 +962,7 @@
       },
       "delete": {
         "operationId": "DeleteModelsLocal",
-        "summary": "",
+        "summary": "Delete Models Local",
         "description": "Delete a local model",
         "tags": [
           "General"
@@ -998,7 +998,7 @@
     "/models/cache/stats": {
       "get": {
         "operationId": "GetModelsCacheStats",
-        "summary": "",
+        "summary": "Get Models Cache Stats",
         "description": "Get model cache statistics",
         "tags": [
           "General"
@@ -1026,7 +1026,7 @@
     "/models/load": {
       "post": {
         "operationId": "PostModelsLoad",
-        "summary": "",
+        "summary": "Models Load",
         "description": "Load a model for inference",
         "tags": [
           "General"
@@ -1064,7 +1064,7 @@
     "/models/unload/{model_id}": {
       "post": {
         "operationId": "PostModelsUnload",
-        "summary": "",
+        "summary": "Models Unload",
         "description": "Unload a model from memory",
         "tags": [
           "General"
@@ -1100,7 +1100,7 @@
     "/models/loaded": {
       "get": {
         "operationId": "GetModelsLoaded",
-        "summary": "",
+        "summary": "Get Models Loaded",
         "description": "List currently loaded models",
         "tags": [
           "General"
@@ -1128,7 +1128,7 @@
     "/models/hot-swap": {
       "post": {
         "operationId": "PostModelsHotSwap",
-        "summary": "",
+        "summary": "Models Hot Swap",
         "description": "Hot-swap models at runtime",
         "tags": [
           "General"
@@ -1166,7 +1166,7 @@
     "/models/generate": {
       "post": {
         "operationId": "PostModelsGenerate",
-        "summary": "",
+        "summary": "Models Generate",
         "description": "Generate text with a specific local model",
         "tags": [
           "General"
@@ -1194,7 +1194,7 @@
     "/models/memory": {
       "get": {
         "operationId": "GetModelsMemory",
-        "summary": "",
+        "summary": "Get Models Memory",
         "description": "Get GPU/CPU memory usage",
         "tags": [
           "General"
@@ -1222,7 +1222,7 @@
     "/models/recommended": {
       "get": {
         "operationId": "GetModelsRecommended",
-        "summary": "",
+        "summary": "Get Models Recommended",
         "description": "Get curated list of recommended models",
         "tags": [
           "General"
@@ -1250,7 +1250,7 @@
     "/functions/call": {
       "post": {
         "operationId": "PostFunctionsCall",
-        "summary": "",
+        "summary": "Functions Call",
         "description": "Function calling completion",
         "tags": [
           "General"
@@ -1288,7 +1288,7 @@
     "/functions/continue": {
       "post": {
         "operationId": "PostFunctionsContinue",
-        "summary": "",
+        "summary": "Functions Continue",
         "description": "Continue after function execution",
         "tags": [
           "General"
@@ -1316,7 +1316,7 @@
     "/functions/json": {
       "post": {
         "operationId": "PostFunctionsJson",
-        "summary": "",
+        "summary": "Functions Json",
         "description": "JSON mode completion with schema",
         "tags": [
           "General"
@@ -1354,7 +1354,7 @@
     "/functions/extract": {
       "post": {
         "operationId": "PostFunctionsExtract",
-        "summary": "",
+        "summary": "Functions Extract",
         "description": "Extract structured data from text",
         "tags": [
           "General"
@@ -1382,7 +1382,7 @@
     "/functions/schemas/examples": {
       "get": {
         "operationId": "GetFunctionsSchemasExamples",
-        "summary": "",
+        "summary": "Get Functions Schemas Examples",
         "description": "Get example JSON schemas",
         "tags": [
           "General"
@@ -1410,7 +1410,7 @@
     "/functions/functions/examples": {
       "get": {
         "operationId": "GetFunctionsFunctionsExamples",
-        "summary": "",
+        "summary": "Get Functions Functions Examples",
         "description": "Get example function definitions",
         "tags": [
           "General"
@@ -1438,7 +1438,7 @@
     "/templates": {
       "get": {
         "operationId": "GetTemplates",
-        "summary": "",
+        "summary": "Get Templates",
         "description": "List available prompt templates",
         "tags": [
           "General"
@@ -1464,7 +1464,7 @@
       },
       "post": {
         "operationId": "PostTemplates",
-        "summary": "",
+        "summary": "Templates",
         "description": "Create a new template",
         "tags": [
           "General"
@@ -1492,7 +1492,7 @@
     "/templates/categories": {
       "get": {
         "operationId": "GetTemplatesCategories",
-        "summary": "",
+        "summary": "Get Templates Categories",
         "description": "List template categories",
         "tags": [
           "General"
@@ -1520,7 +1520,7 @@
     "/templates/tags": {
       "get": {
         "operationId": "GetTemplatesTags",
-        "summary": "",
+        "summary": "Get Templates Tags",
         "description": "List template tags",
         "tags": [
           "General"
@@ -1548,7 +1548,7 @@
     "/templates/{template_id}": {
       "get": {
         "operationId": "GetTemplates",
-        "summary": "",
+        "summary": "Get Templates",
         "description": "Get a specific template",
         "tags": [
           "General"
@@ -1582,7 +1582,7 @@
       },
       "put": {
         "operationId": "PutTemplates",
-        "summary": "",
+        "summary": "Update Templates",
         "description": "Update a template",
         "tags": [
           "General"
@@ -1616,7 +1616,7 @@
       },
       "delete": {
         "operationId": "DeleteTemplates",
-        "summary": "",
+        "summary": "Delete Templates",
         "description": "Delete a template",
         "tags": [
           "General"
@@ -1652,7 +1652,7 @@
     "/templates/render": {
       "post": {
         "operationId": "PostTemplatesRender",
-        "summary": "",
+        "summary": "Templates Render",
         "description": "Render a template with variables",
         "tags": [
           "General"
@@ -1680,7 +1680,7 @@
     "/templates/execute": {
       "post": {
         "operationId": "PostTemplatesExecute",
-        "summary": "",
+        "summary": "Templates Execute",
         "description": "Execute a template (render + LLM call)",
         "tags": [
           "General"
@@ -1708,7 +1708,7 @@
     "/templates/analyze": {
       "post": {
         "operationId": "PostTemplatesAnalyze",
-        "summary": "",
+        "summary": "Templates Analyze",
         "description": "Analyze a template string",
         "tags": [
           "General"
@@ -1736,7 +1736,7 @@
     "/templates/import": {
       "post": {
         "operationId": "PostTemplatesImport",
-        "summary": "",
+        "summary": "Templates Import",
         "description": "Import multiple templates",
         "tags": [
           "General"
@@ -1764,7 +1764,7 @@
     "/templates/export/all": {
       "get": {
         "operationId": "GetTemplatesExportAll",
-        "summary": "",
+        "summary": "Get Templates Export All",
         "description": "Export all templates as JSON",
         "tags": [
           "General"
@@ -1792,7 +1792,7 @@
     "/health/live": {
       "get": {
         "operationId": "GetHealthLive",
-        "summary": "",
+        "summary": "Get Health Live",
         "description": "Liveness probe",
         "tags": [
           "General"
@@ -1820,7 +1820,7 @@
     "/health/ready": {
       "get": {
         "operationId": "GetHealthReady",
-        "summary": "",
+        "summary": "Get Health Ready",
         "description": "Readiness probe",
         "tags": [
           "General"

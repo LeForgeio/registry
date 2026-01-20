@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    FlowForge IntegrationHub Spoke
+    ServiceNow Update Set for FlowForge AI and Automation Services
+    
+    Version: 1.0.0
+    Compatible with: ServiceNow Rome and later
+-->
+<unload>
+    <sys_hub_spoke action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>FlowForge AI and Automation Services - Provides LLM chat, text generation, classification, formula evaluation, encryption, and file processing capabilities for ServiceNow workflows.</description>
+        <logo>images/flowforge-spoke-logo.png</logo>
+        <name>FlowForge</name>
+        <sys_id>flowforge_spoke_001</sys_id>
+        <vendor>FlowForge</vendor>
+        <version>1.0.0</version>
+    </sys_hub_spoke>
+</unload>

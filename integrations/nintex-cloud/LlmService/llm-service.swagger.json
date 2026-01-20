@@ -37,7 +37,7 @@
     "/providers": {
       "get": {
         "operationId": "GetProviders",
-        "summary": "",
+        "summary": "Get Providers",
         "description": "List available LLM providers",
         "tags": [
           "General"
@@ -60,14 +60,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Providers",
         "x-ntx-visibility": "important"
       }
     },
     "/providers/configure": {
       "post": {
         "operationId": "PostProvidersConfigure",
-        "summary": "",
+        "summary": "Providers Configure",
         "description": "Configure a provider with API credentials",
         "tags": [
           "General"
@@ -100,14 +100,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Providers Configure",
         "x-ntx-visibility": "important"
       }
     },
     "/providers/{provider}/models": {
       "get": {
         "operationId": "GetProvidersModels",
-        "summary": "",
+        "summary": "Get Providers Models",
         "description": "List available models for a provider",
         "tags": [
           "General"
@@ -138,14 +138,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Providers Models",
         "x-ntx-visibility": "important"
       }
     },
     "/providers/{provider}/health": {
       "get": {
         "operationId": "GetProvidersHealth",
-        "summary": "",
+        "summary": "Get Providers Health",
         "description": "Check provider health status",
         "tags": [
           "General"
@@ -176,14 +176,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Providers Health",
         "x-ntx-visibility": "important"
       }
     },
     "/providers/{provider}/chat": {
       "post": {
         "operationId": "PostProvidersChat",
-        "summary": "",
+        "summary": "Providers Chat",
         "description": "Chat with a specific provider",
         "tags": [
           "General"
@@ -223,14 +223,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Providers Chat",
         "x-ntx-visibility": "important"
       }
     },
     "/providers/{provider}/embed": {
       "post": {
         "operationId": "PostProvidersEmbed",
-        "summary": "",
+        "summary": "Providers Embed",
         "description": "Generate embeddings with a specific provider",
         "tags": [
           "General"
@@ -261,14 +261,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Providers Embed",
         "x-ntx-visibility": "important"
       }
     },
     "/providers/chat": {
       "post": {
         "operationId": "PostProvidersChat",
-        "summary": "",
+        "summary": "Providers Chat",
         "description": "Universal chat endpoint with provider selection",
         "tags": [
           "General"
@@ -301,14 +301,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Providers Chat",
         "x-ntx-visibility": "important"
       }
     },
     "/chat": {
       "post": {
         "operationId": "PostChat",
-        "summary": "",
+        "summary": "Chat",
         "description": "Chat completion (vLLM/default provider)",
         "tags": [
           "General"
@@ -341,14 +341,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Chat",
         "x-ntx-visibility": "important"
       }
     },
     "/chat/simple": {
       "post": {
         "operationId": "PostChatSimple",
-        "summary": "",
+        "summary": "Chat Simple",
         "description": "Simple chat with just a message",
         "tags": [
           "General"
@@ -371,14 +371,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Chat Simple",
         "x-ntx-visibility": "important"
       }
     },
     "/generate": {
       "post": {
         "operationId": "PostGenerate",
-        "summary": "",
+        "summary": "Generate",
         "description": "Text generation/completion",
         "tags": [
           "General"
@@ -401,14 +401,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Generate",
         "x-ntx-visibility": "important"
       }
     },
     "/embeddings": {
       "post": {
         "operationId": "PostEmbeddings",
-        "summary": "",
+        "summary": "Embeddings",
         "description": "Generate text embeddings",
         "tags": [
           "General"
@@ -431,14 +431,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Embeddings",
         "x-ntx-visibility": "important"
       }
     },
     "/classify": {
       "post": {
         "operationId": "PostClassify",
-        "summary": "",
+        "summary": "Classify",
         "description": "Classify text into categories",
         "tags": [
           "General"
@@ -461,14 +461,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Classify",
         "x-ntx-visibility": "important"
       }
     },
     "/extract": {
       "post": {
         "operationId": "PostExtract",
-        "summary": "",
+        "summary": "Extract",
         "description": "Extract named entities from text",
         "tags": [
           "General"
@@ -491,14 +491,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Extract",
         "x-ntx-visibility": "important"
       }
     },
     "/summarize": {
       "post": {
         "operationId": "PostSummarize",
-        "summary": "",
+        "summary": "Summarize",
         "description": "Summarize text content",
         "tags": [
           "General"
@@ -521,14 +521,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Summarize",
         "x-ntx-visibility": "important"
       }
     },
     "/vision/ocr": {
       "post": {
         "operationId": "PostVisionOcr",
-        "summary": "",
+        "summary": "Vision Ocr",
         "description": "Vision-based OCR from images",
         "tags": [
           "General"
@@ -551,14 +551,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Vision Ocr",
         "x-ntx-visibility": "important"
       }
     },
     "/vision/describe": {
       "post": {
         "operationId": "PostVisionDescribe",
-        "summary": "",
+        "summary": "Vision Describe",
         "description": "Describe image content",
         "tags": [
           "General"
@@ -581,14 +581,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Vision Describe",
         "x-ntx-visibility": "important"
       }
     },
     "/vision/extract": {
       "post": {
         "operationId": "PostVisionExtract",
-        "summary": "",
+        "summary": "Vision Extract",
         "description": "Extract structured data from images",
         "tags": [
           "General"
@@ -611,14 +611,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Vision Extract",
         "x-ntx-visibility": "important"
       }
     },
     "/transform": {
       "post": {
         "operationId": "PostTransform",
-        "summary": "",
+        "summary": "Transform",
         "description": "Transform data using natural language",
         "tags": [
           "General"
@@ -641,14 +641,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/schema": {
       "post": {
         "operationId": "PostTransformSchema",
-        "summary": "",
+        "summary": "Transform Schema",
         "description": "Transform data to match a target schema",
         "tags": [
           "General"
@@ -671,14 +671,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Schema",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/convert": {
       "post": {
         "operationId": "PostTransformConvert",
-        "summary": "",
+        "summary": "Transform Convert",
         "description": "Convert between data formats",
         "tags": [
           "General"
@@ -701,14 +701,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Convert",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/clean": {
       "post": {
         "operationId": "PostTransformClean",
-        "summary": "",
+        "summary": "Transform Clean",
         "description": "Clean and normalize data",
         "tags": [
           "General"
@@ -731,14 +731,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Clean",
         "x-ntx-visibility": "important"
       }
     },
     "/transform/merge": {
       "post": {
         "operationId": "PostTransformMerge",
-        "summary": "",
+        "summary": "Transform Merge",
         "description": "Merge multiple data sources",
         "tags": [
           "General"
@@ -761,14 +761,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Transform Merge",
         "x-ntx-visibility": "important"
       }
     },
     "/models/search": {
       "post": {
         "operationId": "PostModelsSearch",
-        "summary": "",
+        "summary": "Models Search",
         "description": "Search HuggingFace Hub for models",
         "tags": [
           "General"
@@ -801,14 +801,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Models Search",
         "x-ntx-visibility": "important"
       }
     },
     "/models/info/{model_id}": {
       "get": {
         "operationId": "GetModelsInfo",
-        "summary": "",
+        "summary": "Get Models Info",
         "description": "Get detailed info about a HuggingFace model",
         "tags": [
           "General"
@@ -839,14 +839,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Info",
         "x-ntx-visibility": "important"
       }
     },
     "/models/download": {
       "post": {
         "operationId": "PostModelsDownload",
-        "summary": "",
+        "summary": "Models Download",
         "description": "Download a model from HuggingFace Hub",
         "tags": [
           "General"
@@ -879,14 +879,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Models Download",
         "x-ntx-visibility": "important"
       }
     },
     "/models/download/cancel/{model_id}": {
       "post": {
         "operationId": "PostModelsDownloadCancel",
-        "summary": "",
+        "summary": "Models Download Cancel",
         "description": "Cancel an in-progress download",
         "tags": [
           "General"
@@ -917,14 +917,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Models Download Cancel",
         "x-ntx-visibility": "important"
       }
     },
     "/models/download/progress": {
       "get": {
         "operationId": "GetModelsDownloadProgress",
-        "summary": "",
+        "summary": "Get Models Download Progress",
         "description": "Get progress of active downloads",
         "tags": [
           "General"
@@ -947,14 +947,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Download Progress",
         "x-ntx-visibility": "important"
       }
     },
     "/models/local": {
       "get": {
         "operationId": "GetModelsLocal",
-        "summary": "",
+        "summary": "Get Models Local",
         "description": "List locally downloaded models",
         "tags": [
           "General"
@@ -977,14 +977,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Local",
         "x-ntx-visibility": "important"
       }
     },
     "/models/local/{model_id}": {
       "get": {
         "operationId": "GetModelsLocal",
-        "summary": "",
+        "summary": "Get Models Local",
         "description": "Get info about a local model",
         "tags": [
           "General"
@@ -1015,12 +1015,12 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Local",
         "x-ntx-visibility": "important"
       },
       "delete": {
         "operationId": "DeleteModelsLocal",
-        "summary": "",
+        "summary": "Delete Models Local",
         "description": "Delete a local model",
         "tags": [
           "General"
@@ -1051,14 +1051,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Delete Models Local",
         "x-ntx-visibility": "important"
       }
     },
     "/models/cache/stats": {
       "get": {
         "operationId": "GetModelsCacheStats",
-        "summary": "",
+        "summary": "Get Models Cache Stats",
         "description": "Get model cache statistics",
         "tags": [
           "General"
@@ -1081,14 +1081,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Cache Stats",
         "x-ntx-visibility": "important"
       }
     },
     "/models/load": {
       "post": {
         "operationId": "PostModelsLoad",
-        "summary": "",
+        "summary": "Models Load",
         "description": "Load a model for inference",
         "tags": [
           "General"
@@ -1121,14 +1121,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Models Load",
         "x-ntx-visibility": "important"
       }
     },
     "/models/unload/{model_id}": {
       "post": {
         "operationId": "PostModelsUnload",
-        "summary": "",
+        "summary": "Models Unload",
         "description": "Unload a model from memory",
         "tags": [
           "General"
@@ -1159,14 +1159,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Models Unload",
         "x-ntx-visibility": "important"
       }
     },
     "/models/loaded": {
       "get": {
         "operationId": "GetModelsLoaded",
-        "summary": "",
+        "summary": "Get Models Loaded",
         "description": "List currently loaded models",
         "tags": [
           "General"
@@ -1189,14 +1189,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Loaded",
         "x-ntx-visibility": "important"
       }
     },
     "/models/hot-swap": {
       "post": {
         "operationId": "PostModelsHotSwap",
-        "summary": "",
+        "summary": "Models Hot Swap",
         "description": "Hot-swap models at runtime",
         "tags": [
           "General"
@@ -1229,14 +1229,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Models Hot Swap",
         "x-ntx-visibility": "important"
       }
     },
     "/models/generate": {
       "post": {
         "operationId": "PostModelsGenerate",
-        "summary": "",
+        "summary": "Models Generate",
         "description": "Generate text with a specific local model",
         "tags": [
           "General"
@@ -1259,14 +1259,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Models Generate",
         "x-ntx-visibility": "important"
       }
     },
     "/models/memory": {
       "get": {
         "operationId": "GetModelsMemory",
-        "summary": "",
+        "summary": "Get Models Memory",
         "description": "Get GPU/CPU memory usage",
         "tags": [
           "General"
@@ -1289,14 +1289,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Memory",
         "x-ntx-visibility": "important"
       }
     },
     "/models/recommended": {
       "get": {
         "operationId": "GetModelsRecommended",
-        "summary": "",
+        "summary": "Get Models Recommended",
         "description": "Get curated list of recommended models",
         "tags": [
           "General"
@@ -1319,14 +1319,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Models Recommended",
         "x-ntx-visibility": "important"
       }
     },
     "/functions/call": {
       "post": {
         "operationId": "PostFunctionsCall",
-        "summary": "",
+        "summary": "Functions Call",
         "description": "Function calling completion",
         "tags": [
           "General"
@@ -1359,14 +1359,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Functions Call",
         "x-ntx-visibility": "important"
       }
     },
     "/functions/continue": {
       "post": {
         "operationId": "PostFunctionsContinue",
-        "summary": "",
+        "summary": "Functions Continue",
         "description": "Continue after function execution",
         "tags": [
           "General"
@@ -1389,14 +1389,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Functions Continue",
         "x-ntx-visibility": "important"
       }
     },
     "/functions/json": {
       "post": {
         "operationId": "PostFunctionsJson",
-        "summary": "",
+        "summary": "Functions Json",
         "description": "JSON mode completion with schema",
         "tags": [
           "General"
@@ -1429,14 +1429,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Functions Json",
         "x-ntx-visibility": "important"
       }
     },
     "/functions/extract": {
       "post": {
         "operationId": "PostFunctionsExtract",
-        "summary": "",
+        "summary": "Functions Extract",
         "description": "Extract structured data from text",
         "tags": [
           "General"
@@ -1459,14 +1459,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Functions Extract",
         "x-ntx-visibility": "important"
       }
     },
     "/functions/schemas/examples": {
       "get": {
         "operationId": "GetFunctionsSchemasExamples",
-        "summary": "",
+        "summary": "Get Functions Schemas Examples",
         "description": "Get example JSON schemas",
         "tags": [
           "General"
@@ -1489,14 +1489,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Functions Schemas Examples",
         "x-ntx-visibility": "important"
       }
     },
     "/functions/functions/examples": {
       "get": {
         "operationId": "GetFunctionsFunctionsExamples",
-        "summary": "",
+        "summary": "Get Functions Functions Examples",
         "description": "Get example function definitions",
         "tags": [
           "General"
@@ -1519,14 +1519,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Functions Functions Examples",
         "x-ntx-visibility": "important"
       }
     },
     "/templates": {
       "get": {
         "operationId": "GetTemplates",
-        "summary": "",
+        "summary": "Get Templates",
         "description": "List available prompt templates",
         "tags": [
           "General"
@@ -1549,12 +1549,12 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Templates",
         "x-ntx-visibility": "important"
       },
       "post": {
         "operationId": "PostTemplates",
-        "summary": "",
+        "summary": "Templates",
         "description": "Create a new template",
         "tags": [
           "General"
@@ -1577,14 +1577,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Templates",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/categories": {
       "get": {
         "operationId": "GetTemplatesCategories",
-        "summary": "",
+        "summary": "Get Templates Categories",
         "description": "List template categories",
         "tags": [
           "General"
@@ -1607,14 +1607,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Templates Categories",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/tags": {
       "get": {
         "operationId": "GetTemplatesTags",
-        "summary": "",
+        "summary": "Get Templates Tags",
         "description": "List template tags",
         "tags": [
           "General"
@@ -1637,14 +1637,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Templates Tags",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/{template_id}": {
       "get": {
         "operationId": "GetTemplates",
-        "summary": "",
+        "summary": "Get Templates",
         "description": "Get a specific template",
         "tags": [
           "General"
@@ -1675,12 +1675,12 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Templates",
         "x-ntx-visibility": "important"
       },
       "put": {
         "operationId": "PutTemplates",
-        "summary": "",
+        "summary": "Update Templates",
         "description": "Update a template",
         "tags": [
           "General"
@@ -1711,12 +1711,12 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Update Templates",
         "x-ntx-visibility": "important"
       },
       "delete": {
         "operationId": "DeleteTemplates",
-        "summary": "",
+        "summary": "Delete Templates",
         "description": "Delete a template",
         "tags": [
           "General"
@@ -1747,14 +1747,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Delete Templates",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/render": {
       "post": {
         "operationId": "PostTemplatesRender",
-        "summary": "",
+        "summary": "Templates Render",
         "description": "Render a template with variables",
         "tags": [
           "General"
@@ -1777,14 +1777,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Templates Render",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/execute": {
       "post": {
         "operationId": "PostTemplatesExecute",
-        "summary": "",
+        "summary": "Templates Execute",
         "description": "Execute a template (render + LLM call)",
         "tags": [
           "General"
@@ -1807,14 +1807,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Templates Execute",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/analyze": {
       "post": {
         "operationId": "PostTemplatesAnalyze",
-        "summary": "",
+        "summary": "Templates Analyze",
         "description": "Analyze a template string",
         "tags": [
           "General"
@@ -1837,14 +1837,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Templates Analyze",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/import": {
       "post": {
         "operationId": "PostTemplatesImport",
-        "summary": "",
+        "summary": "Templates Import",
         "description": "Import multiple templates",
         "tags": [
           "General"
@@ -1867,14 +1867,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Templates Import",
         "x-ntx-visibility": "important"
       }
     },
     "/templates/export/all": {
       "get": {
         "operationId": "GetTemplatesExportAll",
-        "summary": "",
+        "summary": "Get Templates Export All",
         "description": "Export all templates as JSON",
         "tags": [
           "General"
@@ -1897,14 +1897,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Templates Export All",
         "x-ntx-visibility": "important"
       }
     },
     "/health/live": {
       "get": {
         "operationId": "GetHealthLive",
-        "summary": "",
+        "summary": "Get Health Live",
         "description": "Liveness probe",
         "tags": [
           "General"
@@ -1927,14 +1927,14 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Health Live",
         "x-ntx-visibility": "important"
       }
     },
     "/health/ready": {
       "get": {
         "operationId": "GetHealthReady",
-        "summary": "",
+        "summary": "Get Health Ready",
         "description": "Readiness probe",
         "tags": [
           "General"
@@ -1957,7 +1957,7 @@
             "description": "Internal server error"
           }
         },
-        "x-ntx-summary": "",
+        "x-ntx-summary": "Get Health Ready",
         "x-ntx-visibility": "important"
       }
     }

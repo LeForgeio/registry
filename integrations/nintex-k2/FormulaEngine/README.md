@@ -36,7 +36,26 @@ Import these for common operations.
 
 ## Available Operations
 
-| No actions defined | |
+| SUM | Adds all numbers in a range |
+| AVERAGE | Calculates the arithmetic mean of numbers |
+| COUNT | Counts how many numbers are in a range |
+| COUNTA | Counts non-empty values in a range |
+| COUNTBLANK | Counts empty cells in a range |
+| COUNTIF | Counts cells that meet a condition |
+| COUNTIFS | Counts cells meeting multiple criteria |
+| MAX | Returns the largest number in a range |
+| MIN | Returns the smallest number in a range |
+| MEDIAN | Returns the median of numbers |
+| MODE | Returns the most frequently occurring value |
+| STDEV | Calculates standard deviation (sample) |
+| STDEVP | Calculates standard deviation (population) |
+| VAR | Calculates variance (sample) |
+| VARP | Calculates variance (population) |
+| SUMIF | Sums values meeting a condition |
+| SUMIFS | Sums values meeting multiple conditions |
+| AVERAGEIF | Averages values meeting a condition |
+| ROUND | Rounds a number to specified decimal places |
+| ROUNDUP | Rounds a number up (away from zero) |
 
 ## Using in K2 Forms & Workflows
 

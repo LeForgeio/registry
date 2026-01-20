@@ -29,6 +29,9 @@ ENV PATH=/home/appuser/.local/bin:$PATH
 # Copy application code
 COPY src ./src
 
+# Copy integration assets for air-gapped distribution
+COPY --chown=appuser:appuser integrations/ /integrations/
+
 # Set ownership
 RUN chown -R appuser:appuser /app
 

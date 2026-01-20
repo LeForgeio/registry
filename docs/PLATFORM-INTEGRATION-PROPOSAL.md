@@ -25,6 +25,8 @@ Each platform has its own integration mechanism, but they share a common thread:
 | **Power Automate** | Custom Connectors | OpenAPI 2.0/3.0 | API Key, OAuth2 | Low |
 | **OutSystems** | REST Integration + Forge Component | OpenAPI/WSDL | API Key, OAuth2 | Medium |
 | **Mendix** | Marketplace Module | REST + Microflow Actions | API Key, OAuth2 | High |
+| **Salesforce** | External Services + Flow Actions | OpenAPI 3.0 + Apex | OAuth 2.0, Named Credentials | Medium |
+| **ServiceNow** | IntegrationHub Spokes + Flow Designer | REST API Actions | OAuth 2.0, API Key | Medium |
 
 ---
 
@@ -379,7 +381,373 @@ ServerAction: LLM_Chat
 
 ---
 
-## Shared Components
+## 7. Salesforce (External Services + Flow Actions)
+
+### What We Need to Create
+**External Services definitions** (OpenAPI 3.0) + **Apex wrapper classes** + **Flow-compatible invocable actions**
+
+### Deliverables
+```
+/integrations/salesforce/
+├── external-services/
+│   ├── FlowForge_LLM.yaml           # OpenAPI 3.0 spec
+│   ├── FlowForge_Formula.yaml
+│   ├── FlowForge_Files.yaml
+│   └── FlowForge_Crypto.yaml
+├── apex/
+│   ├── classes/
+│   │   ├── FlowForgeLLMService.cls
+│   │   ├── FlowForgeLLMService.cls-meta.xml
+│   │   ├── FlowForgeFormulaService.cls
+│   │   ├── FlowForgeCryptoService.cls
+│   │   └── FlowForgeFileService.cls
+│   ├── namedCredentials/
+│   │   └── FlowForge_API.namedCredential-meta.xml
+│   └── externalServiceRegistrations/
+│       └── FlowForge_LLM.externalServiceRegistration-meta.xml
+├── package/
+│   └── package.xml                  # Deployable metadata package
+└── README.md
+```
+
+### Implementation Approach
+
+#### Option A: External Services (Recommended for simplicity)
+Salesforce can consume OpenAPI 3.0 specs directly via External Services:
+
+```yaml
+# FlowForge_LLM.yaml (OpenAPI 3.0 for Salesforce)
+openapi: "3.0.0"
+info:
+  title: FlowForge LLM Service
+  version: "2.0.0"
+servers:
+  - url: https://your-flowforge-instance.com/api/v1
+paths:
+  /chat:
+    post:
+      operationId: sendChatMessage
+      summary: Send a chat message and get AI response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                system_prompt:
+                  type: string
+                max_tokens:
+                  type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                  tokens_used:
+                    type: integer
+```
+
+#### Option B: Apex Invocable Actions (For complex logic)
+```java
+// FlowForgeLLMService.cls
+public class FlowForgeLLMService {
+    
+    @InvocableMethod(label='Chat with AI' description='Send a message to FlowForge LLM and get a response' category='FlowForge')
+    public static List<ChatResponse> chat(List<ChatRequest> requests) {
+        List<ChatResponse> responses = new List<ChatResponse>();
+        
+        for (ChatRequest req : requests) {
+            HttpRequest httpReq = new HttpRequest();
+            httpReq.setEndpoint('callout:FlowForge_API/chat');
+            httpReq.setMethod('POST');
+            httpReq.setHeader('Content-Type', 'application/json');
+            httpReq.setBody(JSON.serialize(new Map<String, Object>{
+                'message' => req.message,
+                'system_prompt' => req.systemPrompt,
+                'max_tokens' => req.maxTokens
+            }));
+            
+            Http http = new Http();
+            HttpResponse httpRes = http.send(httpReq);
+            
+            ChatResponse res = new ChatResponse();
+            if (httpRes.getStatusCode() == 200) {
+                Map<String, Object> body = (Map<String, Object>) JSON.deserializeUntyped(httpRes.getBody());
+                res.response = (String) body.get('response');
+                res.tokensUsed = (Integer) body.get('tokens_used');
+                res.success = true;
+            } else {
+                res.success = false;
+                res.errorMessage = httpRes.getBody();
+            }
+            responses.add(res);
+        }
+        return responses;
+    }
+    
+    public class ChatRequest {
+        @InvocableVariable(label='Message' required=true)
+        public String message;
+        
+        @InvocableVariable(label='System Prompt')
+        public String systemPrompt;
+        
+        @InvocableVariable(label='Max Tokens')
+        public Integer maxTokens;
+    }
+    
+    public class ChatResponse {
+        @InvocableVariable(label='AI Response')
+        public String response;
+        
+        @InvocableVariable(label='Tokens Used')
+        public Integer tokensUsed;
+        
+        @InvocableVariable(label='Success')
+        public Boolean success;
+        
+        @InvocableVariable(label='Error Message')
+        public String errorMessage;
+    }
+}
+```
+
+### Named Credential Setup
+```xml
+<!-- FlowForge_API.namedCredential-meta.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<NamedCredential xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FlowForge_API</fullName>
+    <label>FlowForge API</label>
+    <endpoint>https://your-flowforge-instance.com/api/v1</endpoint>
+    <principalType>NamedUser</principalType>
+    <protocol>Custom</protocol>
+    <customHeaders>
+        <name>X-API-Key</name>
+        <value>{!$Credential.FlowForge_API.ApiKey}</value>
+    </customHeaders>
+</NamedCredential>
+```
+
+### User Experience in Salesforce Flow
+1. Admin imports External Service or deploys Apex package
+2. Configure Named Credential with API endpoint and key
+3. Actions appear in Flow Builder under "FlowForge" category
+4. Drag actions into Screen Flows, Record-Triggered Flows, etc.
+
+### Key Features for Salesforce
+- **Flow Builder Integration**: Native actions in Flow Builder
+- **Apex Callouts**: For complex integrations or triggers
+- **Named Credentials**: Secure credential management
+- **Platform Events**: Potential for async/streaming patterns
+- **AppExchange**: Distribution via managed package
+
+---
+
+## 8. ServiceNow (IntegrationHub Spokes + Flow Designer)
+
+### What We Need to Create
+**IntegrationHub Spoke** with Flow Designer actions + REST message configurations
+
+### Deliverables
+```
+/integrations/servicenow/
+├── spoke/
+│   ├── FlowForge_Spoke/
+│   │   ├── sys_hub_spoke.xml
+│   │   ├── actions/
+│   │   │   ├── llm_chat.xml
+│   │   │   ├── llm_generate.xml
+│   │   │   ├── llm_summarize.xml
+│   │   │   ├── formula_evaluate.xml
+│   │   │   ├── crypto_encrypt.xml
+│   │   │   ├── crypto_decrypt.xml
+│   │   │   └── file_upload.xml
+│   │   ├── connection_alias/
+│   │   │   └── flowforge_connection.xml
+│   │   └── rest_messages/
+│   │       ├── FlowForge_LLM.xml
+│   │       ├── FlowForge_Formula.xml
+│   │       └── FlowForge_Crypto.xml
+│   └── update_set.xml               # Deployable update set
+├── scripted-rest/
+│   └── FlowForgeWebhook.js          # For async callbacks
+├── documentation/
+│   └── installation-guide.md
+└── README.md
+```
+
+### Implementation Approach
+
+#### IntegrationHub Spoke Structure
+```javascript
+// Spoke Action: LLM Chat
+// sys_hub_action_type_definition
+{
+    "name": "FlowForge LLM Chat",
+    "description": "Send a message to FlowForge AI and get a response",
+    "category": "FlowForge",
+    "access": "public",
+    "inputs": [
+        {
+            "name": "message",
+            "label": "Message",
+            "type": "string",
+            "mandatory": true
+        },
+        {
+            "name": "system_prompt", 
+            "label": "System Prompt",
+            "type": "string",
+            "mandatory": false
+        },
+        {
+            "name": "max_tokens",
+            "label": "Max Tokens",
+            "type": "integer",
+            "default": 512
+        }
+    ],
+    "outputs": [
+        {
+            "name": "response",
+            "label": "AI Response",
+            "type": "string"
+        },
+        {
+            "name": "tokens_used",
+            "label": "Tokens Used", 
+            "type": "integer"
+        },
+        {
+            "name": "success",
+            "label": "Success",
+            "type": "boolean"
+        }
+    ]
+}
+```
+
+#### REST Message Configuration
+```xml
+<!-- FlowForge_LLM REST Message -->
+<REST_Message>
+    <name>FlowForge_LLM</name>
+    <rest_endpoint>https://your-flowforge-instance.com/api/v1</rest_endpoint>
+    <authentication_type>basic</authentication_type>
+    
+    <HTTP_Methods>
+        <method name="chat" http_method="POST">
+            <endpoint>/chat</endpoint>
+            <headers>
+                <header name="Content-Type">application/json</header>
+                <header name="X-API-Key">${api_key}</header>
+            </headers>
+            <content>${request_body}</content>
+        </method>
+        
+        <method name="generate" http_method="POST">
+            <endpoint>/generate</endpoint>
+            <headers>
+                <header name="Content-Type">application/json</header>
+                <header name="X-API-Key">${api_key}</header>
+            </headers>
+            <content>${request_body}</content>
+        </method>
+    </HTTP_Methods>
+</REST_Message>
+```
+
+#### Action Script Implementation
+```javascript
+// Action Script for LLM Chat
+(function execute(inputs, outputs) {
+    var restMessage = new sn_ws.RESTMessageV2('FlowForge_LLM', 'chat');
+    
+    // Get connection alias credentials
+    var connectionAlias = inputs.connection_alias || 'flowforge_connection';
+    restMessage.setStringParameterNoEscape('api_key', getApiKey(connectionAlias));
+    
+    // Build request body
+    var requestBody = {
+        message: inputs.message,
+        system_prompt: inputs.system_prompt || '',
+        max_tokens: inputs.max_tokens || 512
+    };
+    restMessage.setRequestBody(JSON.stringify(requestBody));
+    
+    var response = restMessage.execute();
+    var httpStatus = response.getStatusCode();
+    var responseBody = response.getBody();
+    
+    if (httpStatus == 200) {
+        var result = JSON.parse(responseBody);
+        outputs.response = result.response;
+        outputs.tokens_used = result.tokens_used;
+        outputs.success = true;
+    } else {
+        outputs.success = false;
+        outputs.error_message = responseBody;
+    }
+    
+})(inputs, outputs);
+
+function getApiKey(aliasName) {
+    var gr = new GlideRecord('sys_alias');
+    gr.addQuery('name', aliasName);
+    gr.query();
+    if (gr.next()) {
+        return gr.getValue('api_key');
+    }
+    return '';
+}
+```
+
+### Connection Alias for Credentials
+```xml
+<!-- flowforge_connection alias -->
+<sys_alias>
+    <name>flowforge_connection</name>
+    <type>connection</type>
+    <configuration>
+        <endpoint>https://your-flowforge-instance.com/api/v1</endpoint>
+        <auth_type>api_key</auth_type>
+        <api_key_header>X-API-Key</api_key_header>
+    </configuration>
+</sys_alias>
+```
+
+### User Experience in ServiceNow
+1. Import Update Set containing the FlowForge Spoke
+2. Configure Connection Alias with API endpoint and credentials
+3. FlowForge actions appear in Flow Designer
+4. Build flows using drag-and-drop actions
+5. Use in Service Catalog, Incident Management, HR workflows, etc.
+
+### Key Features for ServiceNow
+- **Flow Designer**: Native low-code flow building
+- **IntegrationHub**: Enterprise integration platform
+- **Connection Aliases**: Secure, reusable credentials
+- **Subflows**: Reusable action sequences
+- **Service Catalog**: Self-service automation
+- **Virtual Agent**: AI chatbot integration potential
+
+### Use Cases in ServiceNow
+| Use Case | FlowForge Service | ServiceNow Application |
+|----------|-------------------|------------------------|
+| Auto-classify incidents | LLM Service | ITSM |
+| Generate KB articles | LLM Service | Knowledge Management |
+| Encrypt sensitive data | Crypto Service | Security Operations |
+| Calculate SLA metrics | Formula Engine | Service Level Management |
+| Process attachments | File Service | Any module with attachments |
 
 ### OpenAPI Generator Script
 Create a script to generate platform-specific OpenAPI files from our base specs:
@@ -449,20 +817,20 @@ For each plugin, expose these as actions/operations:
 ## Implementation Roadmap
 
 ### Phase 1: Foundation (Week 1-2)
-- [ ] Create OpenAPI 2.0 specs for all plugins
-- [ ] Create OpenAPI 3.0 specs for all plugins
-- [ ] Build OpenAPI generator script
+- [x] Create OpenAPI 2.0 specs for all plugins
+- [x] Create OpenAPI 3.0 specs for all plugins
+- [x] Build OpenAPI generator script
 - [ ] Create icons/branding for each plugin
 
 ### Phase 2: Microsoft & Nintex (Week 3-4)
-- [ ] Power Automate custom connectors (4 plugins)
-- [ ] Nintex Workflow Cloud Xtensions (4 plugins)
-- [ ] Nintex K2 Swagger + SmartObject templates
+- [x] Power Automate custom connectors (4 plugins)
+- [x] Nintex Workflow Cloud Xtensions (4 plugins)
+- [x] Nintex K2 Swagger + SmartObject templates
 - [ ] Testing and documentation
 
 ### Phase 3: n8n (Week 5-6)
-- [ ] n8n node package structure
-- [ ] Implement all nodes with credentials
+- [x] n8n node package structure
+- [x] Implement all nodes with credentials
 - [ ] Test with n8n self-hosted
 - [ ] Publish to npm
 - [ ] Submit to n8n Community Nodes
@@ -473,8 +841,16 @@ For each plugin, expose these as actions/operations:
 - [ ] Integration testing
 - [ ] Documentation and examples
 
-### Phase 5: Certification & Publishing (Week 9-10)
+### Phase 5: Enterprise Platforms (Week 9-10)
+- [ ] Salesforce External Services + Apex package
+- [ ] ServiceNow IntegrationHub Spoke
+- [ ] Named Credentials / Connection Alias setup
+- [ ] Testing in sandbox environments
+
+### Phase 6: Certification & Publishing (Week 11-12)
 - [ ] Power Automate connector certification
+- [ ] Salesforce AppExchange listing
+- [ ] ServiceNow Store submission
 - [ ] OutSystems Forge publishing
 - [ ] Mendix Marketplace publishing
 - [ ] Marketing materials
@@ -485,12 +861,368 @@ For each plugin, expose these as actions/operations:
 
 Based on market reach and implementation effort:
 
-1. **Power Automate** - Largest user base, easy OpenAPI import
-2. **Nintex Workflow Cloud** - Direct competitor, OpenAPI-based
-3. **n8n** - Growing open-source community, good visibility
-4. **OutSystems** - Enterprise low-code, REST-friendly
-5. **Nintex K2** - Legacy but still used, more complex
-6. **Mendix** - Requires most custom work
+1. **Power Automate** - Largest user base, easy OpenAPI import ✅ In Progress
+2. **Nintex Workflow Cloud** - Direct competitor, OpenAPI-based ✅ In Progress
+3. **n8n** - Growing open-source community, good visibility ✅ In Progress
+4. **Salesforce** - Massive enterprise market, Flow Builder adoption 🆕
+5. **ServiceNow** - Enterprise ITSM leader, IntegrationHub growing 🆕
+6. **OutSystems** - Enterprise low-code, REST-friendly
+7. **Nintex K2** - Legacy but still used, more complex ✅ In Progress
+8. **Mendix** - Requires most custom work
+
+---
+
+## 9. Integration Asset Distribution
+
+### Strategy: Registry API Endpoint
+
+Rather than bundling integration assets or requiring manual downloads, the FlowForge Registry exposes an API endpoint that generates and serves platform-specific integration packages on-demand.
+
+### API Design
+
+```
+GET /api/v1/plugins/{plugin}/integrations/{platform}
+GET /api/v1/plugins/{plugin}/integrations/{platform}/{asset}
+```
+
+#### Endpoints
+
+| Endpoint | Description | Response |
+|----------|-------------|----------|
+| `GET /plugins/llm-service/integrations` | List available platforms | JSON array of platforms |
+| `GET /plugins/llm-service/integrations/nintex-cloud` | Get Nintex Cloud package | ZIP with swagger + readme |
+| `GET /plugins/llm-service/integrations/nintex-cloud/swagger.json` | Swagger file only | JSON |
+| `GET /plugins/llm-service/integrations/nintex-k2` | Get K2 package | ZIP with swagger + SmartObjects |
+| `GET /plugins/llm-service/integrations/salesforce` | Salesforce package | ZIP with OpenAPI + Apex classes |
+| `GET /plugins/llm-service/integrations/servicenow` | ServiceNow spoke | ZIP with spoke XML + scripts |
+
+#### Query Parameters
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `baseUrl` | Override default API base URL | `?baseUrl=https://api.mycompany.com` |
+| `version` | Plugin version (default: latest) | `?version=2.1.0` |
+| `format` | Response format: `zip`, `json`, `yaml` | `?format=json` |
+| `auth` | Auth type hint for spec | `?auth=oauth2` |
+
+### Example Requests
+
+```bash
+# Download Nintex Cloud Xtension package
+curl -o llm-service-nintex.zip \
+  "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/nintex-cloud?baseUrl=https://flowforge.mycompany.com"
+
+# Get just the Swagger file
+curl "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/nintex-cloud/swagger.json"
+
+# Download K2 SmartObject templates
+curl -o llm-service-k2.zip \
+  "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/nintex-k2"
+
+# Get Salesforce Apex classes
+curl -o llm-salesforce.zip \
+  "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/salesforce"
+```
+
+### Response Structure
+
+#### List Integrations
+```json
+{
+  "plugin": "llm-service",
+  "version": "2.0.0",
+  "integrations": [
+    {
+      "platform": "nintex-cloud",
+      "name": "Nintex Workflow Cloud",
+      "format": "OpenAPI 2.0 (Swagger)",
+      "assets": ["swagger.json", "icon.png", "README.md"]
+    },
+    {
+      "platform": "nintex-k2",
+      "name": "Nintex K2",
+      "format": "Swagger 2.0 + SmartObjects",
+      "assets": ["swagger.json", "smartobjects/", "README.md"]
+    },
+    {
+      "platform": "salesforce",
+      "name": "Salesforce",
+      "format": "OpenAPI 3.0 + Apex",
+      "assets": ["openapi.yaml", "apex/", "package.xml", "README.md"]
+    },
+    {
+      "platform": "servicenow",
+      "name": "ServiceNow",
+      "format": "IntegrationHub Spoke",
+      "assets": ["spoke/", "rest_messages/", "README.md"]
+    },
+    {
+      "platform": "power-automate",
+      "name": "Power Automate",
+      "format": "Custom Connector",
+      "assets": ["apiDefinition.swagger.json", "apiProperties.json", "icon.png"]
+    }
+  ]
+}
+```
+
+#### ZIP Package Contents
+
+**Nintex Cloud (`nintex-cloud.zip`):**
+```
+llm-service-nintex-cloud/
+├── llm-service.swagger.json
+├── icon.png
+├── README.md
+└── INSTALLATION.md
+```
+
+**Nintex K2 (`nintex-k2.zip`):**
+```
+llm-service-k2/
+├── swagger/
+│   └── llm-service.swagger.json
+├── smartobjects/
+│   ├── LlmChat.xml
+│   ├── LlmClassify.xml
+│   └── LlmSummarize.xml
+├── README.md
+└── INSTALLATION.md
+```
+
+**Salesforce (`salesforce.zip`):**
+```
+llm-service-salesforce/
+├── external-services/
+│   └── FlowForge_LLM.yaml
+├── apex/
+│   ├── classes/
+│   │   ├── FlowForgeLLMService.cls
+│   │   └── FlowForgeLLMService.cls-meta.xml
+│   └── namedCredentials/
+│       └── FlowForge_API.namedCredential-meta.xml
+├── package.xml
+├── README.md
+└── INSTALLATION.md
+```
+
+### Implementation Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    FlowForge Registry                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  GET /plugins/{plugin}/integrations/{platform}               │
+│                          │                                   │
+│                          ▼                                   │
+│  ┌──────────────────────────────────────────┐               │
+│  │         Integration Generator            │               │
+│  │                                          │               │
+│  │  1. Load forgehook.json                  │               │
+│  │  2. Apply baseUrl override               │               │
+│  │  3. Generate platform-specific assets    │               │
+│  │  4. Package as ZIP or return single file │               │
+│  └──────────────────────────────────────────┘               │
+│                          │                                   │
+│                          ▼                                   │
+│  ┌──────────────────────────────────────────┐               │
+│  │              Asset Cache                  │               │
+│  │  (Redis/filesystem, 1hr TTL)             │               │
+│  └──────────────────────────────────────────┘               │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### CLI Integration
+
+The `flowforge` CLI can also fetch integration assets:
+
+```bash
+# Download integration package
+flowforge integrations download llm-service --platform nintex-cloud --output ./
+
+# List available integrations
+flowforge integrations list llm-service
+
+# Generate with custom base URL
+flowforge integrations download crypto-service --platform salesforce \
+  --base-url https://flowforge.mycompany.com
+```
+
+### Air-Gapped / Offline Distribution
+
+For environments without internet access (air-gapped networks), integration assets are available through multiple offline channels:
+
+#### Option 1: Bundled in Plugin Docker Images
+
+Each plugin Docker image includes pre-generated integration assets at `/integrations/`:
+
+```
+/integrations/
+├── nintex-cloud/
+│   ├── swagger.json
+│   ├── icon.png
+│   └── README.md
+├── nintex-k2/
+│   ├── swagger.json
+│   ├── smartobjects/
+│   └── README.md
+├── salesforce/
+│   ├── openapi.yaml
+│   ├── apex/
+│   └── README.md
+├── servicenow/
+│   ├── spoke/
+│   └── README.md
+└── power-automate/
+    ├── apiDefinition.swagger.json
+    └── apiProperties.json
+```
+
+**Extract from running container:**
+```bash
+# Copy integration assets from running container
+docker cp flowforge-llm-service:/integrations ./llm-service-integrations
+
+# Or from image directly
+docker run --rm -v $(pwd)/output:/out flowforge/llm-service:2.0.0 \
+  cp -r /integrations /out/
+```
+
+**Air-Gapped K2 5.9 Workflow:**
+```bash
+# 1. On internet-connected machine, pull and save image
+docker pull flowforge/llm-service:2.0.0
+docker save flowforge/llm-service:2.0.0 -o llm-service.tar
+
+# 2. Transfer llm-service.tar to air-gapped network (USB, etc.)
+
+# 3. On air-gapped network, load image
+docker load -i llm-service.tar
+
+# 4. Extract K2 integration assets
+docker run --rm -v /path/to/output:/out flowforge/llm-service:2.0.0 \
+  cp -r /integrations/nintex-k2 /out/
+
+# 5. Import swagger.json into K2 REST Service Broker
+# 6. Import SmartObjects from smartobjects/ folder
+```
+
+#### Option 2: GitHub Release Artifacts
+
+Each FlowForge release includes downloadable integration bundles:
+
+```
+flowforge-v2.0.0-integrations.zip
+├── llm-service/
+│   ├── nintex-cloud.zip
+│   ├── nintex-k2.zip
+│   ├── salesforce.zip
+│   ├── servicenow.zip
+│   └── power-automate.zip
+├── crypto-service/
+│   └── ...
+├── formula-engine/
+│   └── ...
+└── streaming-file-service/
+    └── ...
+```
+
+Download once, transfer to air-gapped network, extract as needed.
+
+#### Option 3: FlowForge Installer Bundle
+
+The enterprise FlowForge installer includes all integration assets:
+
+```
+flowforge-enterprise-2.0.0/
+├── docker-compose.yml
+├── images/
+│   ├── llm-service.tar
+│   ├── crypto-service.tar
+│   └── ...
+├── integrations/           # Pre-extracted for convenience
+│   ├── nintex-cloud/
+│   ├── nintex-k2/
+│   ├── salesforce/
+│   └── ...
+└── docs/
+    └── air-gapped-install.md
+```
+
+#### Air-Gapped Customization
+
+Since air-gapped assets are pre-generated, the `baseUrl` needs manual editing:
+
+**Swagger files (Nintex Cloud/K2):**
+```json
+{
+  "host": "flowforge.internal.company.com",
+  "basePath": "/api/v1",
+  "schemes": ["https"]
+}
+```
+
+**Salesforce Named Credential:**
+Edit `FlowForge_API.namedCredential-meta.xml`:
+```xml
+<endpoint>https://flowforge.internal.company.com</endpoint>
+```
+
+**ServiceNow Connection Alias:**
+Update `connection_alias.xml` or configure in ServiceNow UI after import.
+
+#### Build-Time Integration Generation
+
+For CI/CD pipelines in air-gapped environments, run the generator during build:
+
+```bash
+# In your build pipeline (before air-gap)
+python scripts/generate-integrations.py \
+  --plugin llm-service \
+  --platform nintex-k2 \
+  --base-url https://flowforge.internal.corp \
+  --output ./release/integrations/
+
+# Bundle output with your deployment artifacts
+```
+
+### Customer Workflow
+
+#### Nintex Workflow Cloud
+1. **Admin** visits FlowForge registry or uses CLI
+2. Downloads `llm-service-nintex-cloud.zip`
+3. Extracts and uploads `swagger.json` to Nintex Xtensions
+4. Configures API key
+5. Actions available in workflow designer
+
+#### Nintex K2 5.9 (Connected)
+1. **Admin** downloads `llm-service-k2.zip`
+2. Imports swagger via K2 REST Service Broker
+3. Imports SmartObject templates from `smartobjects/`
+4. Configures service instance with API key
+5. SmartObjects available in K2 Designer
+
+#### Nintex K2 5.9 (Air-Gapped)
+1. **Admin** extracts assets from Docker image or installer bundle
+2. Edits `swagger.json` to set internal `host` URL
+3. Imports swagger via K2 REST Service Broker
+4. Imports SmartObject templates from `smartobjects/`
+5. Configures service instance with API key
+6. SmartObjects available in K2 Designer
+
+#### Salesforce
+1. **Admin** downloads `llm-service-salesforce.zip`
+2. Deploys via Salesforce CLI: `sf project deploy start --source-dir llm-service-salesforce/`
+3. Configures Named Credential with OAuth/API key
+4. Invocable Actions appear in Flow Builder
+
+#### ServiceNow
+1. **Admin** downloads `llm-service-servicenow.zip`
+2. Imports spoke via Update Set or Studio
+3. Configures Connection Alias
+4. Actions available in Flow Designer
 
 ---
 
@@ -500,7 +1232,8 @@ Based on market reach and implementation effort:
 2. **Set up integration folder structure** in repository
 3. **Begin with OpenAPI generation** (foundation for most platforms)
 4. **Create first Power Automate connector** as proof of concept
-5. **Iterate based on feedback**
+5. **Implement registry API endpoint** for asset distribution
+6. **Iterate based on feedback**
 
 ---
 
@@ -510,3 +1243,4 @@ Based on market reach and implementation effort:
 2. What authentication method is preferred? (API Key recommended)
 3. Do we want certified/published connectors or private only?
 4. What's the branding/naming convention? (FlowForge vs custom?)
+5. ~~How do customers get integration assets?~~ ✅ Registry API endpoint

@@ -37,7 +37,7 @@
     "/upload/init": {
       "post": {
         "operationId": "PostUploadInit",
-        "summary": "",
+        "summary": "Upload Init",
         "description": "Initialize a chunked upload session. Returns uploadId for subsequent chunk uploads.",
         "tags": [
           "General"
@@ -75,7 +75,7 @@
     "/upload/{uploadId}/chunk/{chunkIndex}": {
       "put": {
         "operationId": "PutUploadChunk",
-        "summary": "",
+        "summary": "Update Upload Chunk",
         "description": "Upload a single chunk. Supports resume - re-upload failed chunks.",
         "tags": [
           "General"
@@ -128,7 +128,7 @@
     "/upload/{uploadId}/complete": {
       "post": {
         "operationId": "PostUploadComplete",
-        "summary": "",
+        "summary": "Upload Complete",
         "description": "Complete chunked upload - assembles chunks and verifies integrity.",
         "tags": [
           "General"
@@ -173,7 +173,7 @@
     "/upload/{uploadId}/status": {
       "get": {
         "operationId": "GetUploadStatus",
-        "summary": "",
+        "summary": "Get Upload Status",
         "description": "Get upload progress - which chunks received, resume point.",
         "tags": [
           "General"
@@ -209,7 +209,7 @@
     "/upload/{uploadId}": {
       "delete": {
         "operationId": "DeleteUpload",
-        "summary": "",
+        "summary": "Delete Upload",
         "description": "Cancel and cleanup an incomplete upload.",
         "tags": [
           "General"
@@ -245,7 +245,7 @@
     "/download/{fileId}": {
       "get": {
         "operationId": "GetDownload",
-        "summary": "",
+        "summary": "Get Download",
         "description": "Stream download with Range header support for resume.",
         "tags": [
           "General"
@@ -281,7 +281,7 @@
     "/download/init": {
       "post": {
         "operationId": "PostDownloadInit",
-        "summary": "",
+        "summary": "Download Init",
         "description": "Initialize chunked download - get download manifest.",
         "tags": [
           "General"
@@ -319,7 +319,7 @@
     "/cloud/upload": {
       "post": {
         "operationId": "PostCloudUpload",
-        "summary": "",
+        "summary": "Cloud Upload",
         "description": "Stream upload directly to cloud storage (S3/Azure/GCS) without storing locally.",
         "tags": [
           "General"
@@ -357,7 +357,7 @@
     "/cloud/download": {
       "post": {
         "operationId": "PostCloudDownload",
-        "summary": "",
+        "summary": "Cloud Download",
         "description": "Stream download from cloud storage to local or another destination.",
         "tags": [
           "General"
@@ -395,7 +395,7 @@
     "/cloud/copy": {
       "post": {
         "operationId": "PostCloudCopy",
-        "summary": "",
+        "summary": "Cloud Copy",
         "description": "Copy files between cloud providers (S3 to Azure, GCS to S3, etc.).",
         "tags": [
           "General"
@@ -433,7 +433,7 @@
     "/cloud/presigned-url": {
       "post": {
         "operationId": "PostCloudPresignedUrl",
-        "summary": "",
+        "summary": "Cloud Presigned Url",
         "description": "Generate presigned URLs for direct browser uploads/downloads.",
         "tags": [
           "General"
@@ -471,7 +471,7 @@
     "/transform/split-pdf": {
       "post": {
         "operationId": "PostTransformSplitPdf",
-        "summary": "",
+        "summary": "Transform Split Pdf",
         "description": "Split large PDF into smaller files by page ranges.",
         "tags": [
           "General"
@@ -509,7 +509,7 @@
     "/transform/merge-pdf": {
       "post": {
         "operationId": "PostTransformMergePdf",
-        "summary": "",
+        "summary": "Transform Merge Pdf",
         "description": "Merge multiple PDFs into one.",
         "tags": [
           "General"
@@ -547,7 +547,7 @@
     "/transform/compress": {
       "post": {
         "operationId": "PostTransformCompress",
-        "summary": "",
+        "summary": "Transform Compress",
         "description": "Compress files (zip, gzip, tar.gz) with streaming.",
         "tags": [
           "General"
@@ -585,7 +585,7 @@
     "/transform/extract": {
       "post": {
         "operationId": "PostTransformExtract",
-        "summary": "",
+        "summary": "Transform Extract",
         "description": "Extract compressed archives with streaming.",
         "tags": [
           "General"
@@ -623,7 +623,7 @@
     "/transform/transcode": {
       "post": {
         "operationId": "PostTransformTranscode",
-        "summary": "",
+        "summary": "Transform Transcode",
         "description": "Transcode video/audio files. Runs asynchronously for large files.",
         "tags": [
           "General"
@@ -661,7 +661,7 @@
     "/transform/extract-audio": {
       "post": {
         "operationId": "PostTransformExtractAudio",
-        "summary": "",
+        "summary": "Transform Extract Audio",
         "description": "Extract audio track from video file.",
         "tags": [
           "General"
@@ -699,7 +699,7 @@
     "/transform/thumbnail": {
       "post": {
         "operationId": "PostTransformThumbnail",
-        "summary": "",
+        "summary": "Transform Thumbnail",
         "description": "Generate thumbnails from video at specified timestamps.",
         "tags": [
           "General"
@@ -737,7 +737,7 @@
     "/transform/status/{jobId}": {
       "get": {
         "operationId": "GetTransformStatus",
-        "summary": "",
+        "summary": "Get Transform Status",
         "description": "Check status of async transformation job.",
         "tags": [
           "General"
@@ -773,7 +773,7 @@
     "/checksum": {
       "post": {
         "operationId": "PostChecksum",
-        "summary": "",
+        "summary": "Checksum",
         "description": "Calculate checksum of file without loading into memory.",
         "tags": [
           "General"
@@ -811,7 +811,7 @@
     "/diff": {
       "post": {
         "operationId": "PostDiff",
-        "summary": "",
+        "summary": "Diff",
         "description": "Binary diff between two files for delta sync.",
         "tags": [
           "General"
@@ -849,7 +849,7 @@
     "/pipe": {
       "post": {
         "operationId": "PostPipe",
-        "summary": "",
+        "summary": "Pipe",
         "description": "Pipe data between sources - URL to cloud, cloud to webhook, file to email, etc.",
         "tags": [
           "General"
@@ -887,7 +887,7 @@
     "/{fileId}": {
       "delete": {
         "operationId": "Delete",
-        "summary": "",
+        "summary": "Delete",
         "description": "Delete a file from temporary storage.",
         "tags": [
           "General"
@@ -923,7 +923,7 @@
     "/{fileId}/metadata": {
       "get": {
         "operationId": "GetMetadata",
-        "summary": "",
+        "summary": "Get Metadata",
         "description": "Get file metadata without downloading.",
         "tags": [
           "General"
@@ -959,7 +959,7 @@
     "/health": {
       "get": {
         "operationId": "GetHealth",
-        "summary": "",
+        "summary": "Get Health",
         "description": "Health check endpoint",
         "tags": [
           "General"

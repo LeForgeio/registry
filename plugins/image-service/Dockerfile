@@ -12,6 +12,8 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 COPY --from=builder /app/dist ./dist
+# Copy integration assets for air-gapped distribution
+COPY integrations/ /integrations/
 RUN chown -R nodejs:nodejs /app
 USER nodejs
 ENV NODE_ENV=production PORT=3005

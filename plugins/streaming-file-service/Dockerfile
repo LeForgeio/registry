@@ -24,6 +24,9 @@ RUN npm ci --only=production
 # Copy application code
 COPY . .
 
+# Copy integration assets for air-gapped distribution
+COPY integrations/ /integrations/
+
 # Create data directory
 RUN mkdir -p /data/files /data/chunks /data/transforms
 

@@ -45,6 +45,9 @@ COPY --from=builder --chown=crypto:nodejs /app/dist ./dist
 COPY --from=builder --chown=crypto:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=crypto:nodejs /app/package.json ./package.json
 
+# Copy integration assets for air-gapped distribution
+COPY --chown=crypto:nodejs integrations/ /integrations/
+
 # Set environment variables
 ENV NODE_ENV=production \
     PORT=3001 \

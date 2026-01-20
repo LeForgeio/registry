@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    FlowForge LLM Chat Action
+    Send a message to FlowForge AI and get a response
+-->
+<unload>
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <acls>
+            <operation>execute</operation>
+            <role>flow_designer</role>
+        </acls>
+        <action_template>FlowForge_LLM_Chat</action_template>
+        <active>true</active>
+        <annotation/>
+        <category>FlowForge</category>
+        <description>Send a message to FlowForge AI and receive an intelligent response. Use for chatbots, automated responses, and AI-assisted workflows.</description>
+        <internal_name>flowforge_llm_chat</internal_name>
+        <label>Chat with AI</label>
+        <name>FlowForge LLM Chat</name>
+        <spoke>flowforge_spoke_001</spoke>
+        <sys_id>flowforge_action_llm_chat</sys_id>
+        
+        <inputs>
+            <input>
+                <internal_name>message</internal_name>
+                <label>Message</label>
+                <mandatory>true</mandatory>
+                <type>string</type>
+                <hint>The message to send to the AI</hint>
+                <max_length>32000</max_length>
+            </input>
+            <input>
+                <internal_name>system_prompt</internal_name>
+                <label>System Prompt</label>
+                <mandatory>false</mandatory>
+                <type>string</type>
+                <hint>Instructions for how the AI should behave</hint>
+                <max_length>4000</max_length>
+            </input>
+            <input>
+                <internal_name>max_tokens</internal_name>
+                <label>Max Tokens</label>
+                <mandatory>false</mandatory>
+                <type>integer</type>
+                <default>512</default>
+                <hint>Maximum tokens in the response</hint>
+            </input>
+            <input>
+                <internal_name>temperature</internal_name>
+                <label>Temperature</label>
+                <mandatory>false</mandatory>
+                <type>decimal</type>
+                <default>0.7</default>
+                <hint>Creativity level (0-2, higher = more creative)</hint>
+            </input>
+            <input>
+                <internal_name>connection_alias</internal_name>
+                <label>Connection</label>
+                <mandatory>false</mandatory>
+                <type>reference</type>
+                <reference_type>sys_alias</reference_type>
+                <default>flowforge_connection</default>
+                <hint>FlowForge API connection</hint>
+            </input>
+        </inputs>
+        
+        <outputs>
+            <output>
+                <internal_name>response</internal_name>
+                <label>AI Response</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>tokens_used</internal_name>
+                <label>Tokens Used</label>
+                <type>integer</type>
+            </output>
+            <output>
+                <internal_name>success</internal_name>
+                <label>Success</label>
+                <type>boolean</type>
+            </output>
+            <output>
+                <internal_name>error_message</internal_name>
+                <label>Error Message</label>
+                <type>string</type>
+            </output>
+        </outputs>
+    </sys_hub_action_type_definition>
+</unload>

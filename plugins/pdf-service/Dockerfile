@@ -29,6 +29,9 @@ COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 COPY --from=builder /app/dist ./dist
 
+# Copy integration assets for air-gapped distribution
+COPY integrations/ /integrations/
+
 # Create temp directory
 RUN mkdir -p /tmp/pdf-service && chown -R nodejs:nodejs /tmp/pdf-service
 RUN chown -R nodejs:nodejs /app

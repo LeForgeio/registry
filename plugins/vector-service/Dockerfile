@@ -44,6 +44,9 @@ ENV PYTHONPATH=/app
 # Copy application code
 COPY src ./src
 
+# Copy integration assets for air-gapped distribution
+COPY --chown=appuser:appuser integrations/ /integrations/
+
 # Create cache directory for models
 RUN mkdir -p /home/appuser/.cache && chown -R appuser:appuser /home/appuser/.cache
 

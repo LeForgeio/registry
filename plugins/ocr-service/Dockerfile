@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /root/.local /home/appuser/.local
 ENV PATH=/home/appuser/.local/bin:$PATH
 COPY src ./src
+# Copy integration assets for air-gapped distribution
+COPY --chown=appuser:appuser integrations/ /integrations/
 RUN chown -R appuser:appuser /app
 USER appuser
 ENV ENVIRONMENT=production PORT=3004

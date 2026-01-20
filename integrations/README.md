@@ -10,6 +10,8 @@ This folder contains ready-to-use connectors and integration packages for variou
 | **Nintex Workflow Cloud** | `nintex-cloud/` | 🚧 In Development | OpenAPI Xtension |
 | **Nintex K2** | `nintex-k2/` | 🚧 In Development | Swagger + SmartObjects |
 | **n8n** | `n8n/` | 🚧 In Development | TypeScript npm package |
+| **Salesforce** | `salesforce/` | 📋 Planned | External Services + Apex |
+| **ServiceNow** | `servicenow/` | 📋 Planned | IntegrationHub Spoke |
 | **OutSystems** | `outsystems/` | 📋 Planned | Forge Component |
 | **Mendix** | `mendix/` | 📋 Planned | Marketplace Module |
 
@@ -31,6 +33,18 @@ This folder contains ready-to-use connectors and integration packages for variou
 ```bash
 npm install n8n-nodes-flowforge
 ```
+
+### Salesforce
+1. Go to `salesforce/` folder
+2. Import External Service spec or deploy Apex package
+3. Configure Named Credential with API key
+4. Use actions in Flow Builder
+
+### ServiceNow
+1. Go to `servicenow/` folder
+2. Import the Update Set
+3. Configure Connection Alias
+4. Use FlowForge actions in Flow Designer
 
 ## Generating Integrations
 

@@ -43,7 +43,9 @@ SUPPORTED_PLATFORMS = [
     "nintex-k2",
     "n8n",
     "outsystems",
-    "mendix"
+    "mendix",
+    "salesforce",
+    "servicenow"
 ]
 
 SUPPORTED_PLUGINS = [
@@ -83,6 +85,29 @@ def sanitize_operation_id(path: str, method: str) -> str:
     # Capitalize and prepend method
     parts = [p.capitalize() for p in clean.split('_') if p]
     return method.capitalize() + ''.join(parts)
+
+
+def generate_action_name(path: str, method: str) -> str:
+    """Generate a human-readable action name from path and method."""
+    # Remove leading slash and path parameters
+    clean = re.sub(r'\{[^}]+\}', '', path).strip('/')
+    
+    # Split by slashes and capitalize
+    parts = [p.replace('-', ' ').replace('_', ' ').title() for p in clean.split('/') if p]
+    
+    # Add method prefix for non-standard operations
+    if method.upper() == "DELETE":
+        return "Delete " + " ".join(parts) if parts else "Delete"
+    elif method.upper() == "PUT":
+        return "Update " + " ".join(parts) if parts else "Update"
+    elif method.upper() == "GET":
+        if not parts:
+            return "List All"
+        return "Get " + " ".join(parts)
+    elif method.upper() == "POST":
+        return " ".join(parts) if parts else "Create"
+    
+    return " ".join(parts) if parts else method.capitalize()
 
 
 def generate_openapi_20(forgehook: Dict[str, Any], plugin_name: str) -> Dict[str, Any]:
@@ -128,9 +153,12 @@ def generate_openapi_20(forgehook: Dict[str, Any], plugin_name: str) -> Dict[str
         if path not in paths:
             paths[path] = {}
         
+        # Generate action name from path if not provided
+        action_name = endpoint.get("name") or generate_action_name(path, method.upper())
+        
         operation = {
             "operationId": sanitize_operation_id(path, method),
-            "summary": endpoint.get("name", ""),
+            "summary": action_name,
             "description": endpoint.get("description", ""),
             "tags": [endpoint.get("category", "General")],
             "parameters": [],
@@ -1265,6 +1293,336 @@ For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
 
 
 # =============================================================================
+# Salesforce Generator
+# =============================================================================
+
+def generate_salesforce(forgehook: Dict[str, Any], plugin_name: str, output_dir: Path):
+    """Generate Salesforce External Services and Apex integration files."""
+    platform_dir = output_dir / "salesforce" / format_connector_name(plugin_name)
+    external_services_dir = platform_dir / "external-services"
+    apex_dir = platform_dir / "apex" / "classes"
+    
+    external_services_dir.mkdir(parents=True, exist_ok=True)
+    apex_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Generate OpenAPI 3.0 spec for External Services
+    openapi = generate_salesforce_openapi(forgehook, plugin_name)
+    openapi_path = external_services_dir / f"FlowForge_{format_connector_name(plugin_name)}.yaml"
+    with open(openapi_path, "w", encoding="utf-8") as f:
+        import yaml
+        yaml.dump(openapi, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+    
+    # Generate Apex Invocable class
+    apex_code = generate_salesforce_apex(forgehook, plugin_name)
+    class_name = f"FlowForge{format_connector_name(plugin_name)}Service"
+    apex_path = apex_dir / f"{class_name}.cls"
+    with open(apex_path, "w", encoding="utf-8") as f:
+        f.write(apex_code)
+    
+    # Generate Apex metadata
+    apex_meta = '''<?xml version="1.0" encoding="UTF-8"?>
+<ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <status>Active</status>
+</ApexClass>
+'''
+    with open(apex_dir / f"{class_name}.cls-meta.xml", "w", encoding="utf-8") as f:
+        f.write(apex_meta)
+    
+    # Generate README
+    readme = generate_salesforce_readme(forgehook, plugin_name)
+    with open(platform_dir / "README.md", "w", encoding="utf-8") as f:
+        f.write(readme)
+    
+    print(f"  ✓ Salesforce integration: {platform_dir}")
+
+
+def generate_salesforce_openapi(forgehook: Dict[str, Any], plugin_name: str) -> Dict[str, Any]:
+    """Generate Salesforce-compatible OpenAPI 3.0 spec."""
+    info = forgehook.get("info", {})
+    endpoints = forgehook.get("endpoints", [])
+    
+    openapi = {
+        "openapi": "3.0.0",
+        "info": {
+            "title": f"FlowForge {info.get('name', plugin_name)}",
+            "description": info.get("description", "FlowForge plugin"),
+            "version": info.get("version", "1.0.0")
+        },
+        "servers": [
+            {"url": "https://{instance}/api/v1", "variables": {"instance": {"default": "api.flowforge.io"}}}
+        ],
+        "paths": {},
+        "components": {
+            "securitySchemes": {
+                "ApiKey": {"type": "apiKey", "in": "header", "name": "X-API-Key"}
+            }
+        },
+        "security": [{"ApiKey": []}]
+    }
+    
+    for endpoint in endpoints[:10]:
+        path = endpoint.get("path", "/")
+        method = endpoint.get("method", "GET").lower()
+        
+        if path not in openapi["paths"]:
+            openapi["paths"][path] = {}
+        
+        operation = {
+            "operationId": sanitize_operation_id(path, method),
+            "summary": endpoint.get("name", ""),
+            "description": endpoint.get("description", ""),
+            "responses": {
+                "200": {
+                    "description": "Success",
+                    "content": {"application/json": {"schema": {"type": "object"}}}
+                }
+            }
+        }
+        
+        if method in ["post", "put", "patch"]:
+            operation["requestBody"] = {
+                "required": True,
+                "content": {"application/json": {"schema": {"type": "object"}}}
+            }
+        
+        openapi["paths"][path][method] = operation
+    
+    return openapi
+
+
+def generate_salesforce_apex(forgehook: Dict[str, Any], plugin_name: str) -> str:
+    """Generate Salesforce Apex Invocable class."""
+    info = forgehook.get("info", {})
+    class_name = f"FlowForge{format_connector_name(plugin_name)}Service"
+    endpoints = forgehook.get("endpoints", [])
+    
+    # Get first endpoint for example
+    first_endpoint = endpoints[0] if endpoints else {"name": "Execute", "path": "/execute", "method": "POST"}
+    
+    return f'''/**
+ * FlowForge {info.get('name', plugin_name)} - Salesforce Apex Invocable Actions
+ * {info.get('description', '')}
+ * 
+ * @author FlowForge Generator
+ * @version {info.get('version', '1.0.0')}
+ */
+public class {class_name} {{
+    
+    private static final String NAMED_CREDENTIAL = 'callout:FlowForge_API';
+    
+    @InvocableMethod(label='{first_endpoint.get("name", "Execute")}' 
+                     description='{first_endpoint.get("description", "Execute FlowForge operation")[:200]}' 
+                     category='FlowForge')
+    public static List<Response> execute(List<Request> requests) {{
+        List<Response> responses = new List<Response>();
+        
+        for (Request req : requests) {{
+            Response res = new Response();
+            try {{
+                HttpRequest httpReq = new HttpRequest();
+                httpReq.setEndpoint(NAMED_CREDENTIAL + '{first_endpoint.get("path", "/")}');
+                httpReq.setMethod('{first_endpoint.get("method", "POST")}');
+                httpReq.setHeader('Content-Type', 'application/json');
+                httpReq.setTimeout(120000);
+                
+                if (String.isNotBlank(req.requestBody)) {{
+                    httpReq.setBody(req.requestBody);
+                }}
+                
+                Http http = new Http();
+                HttpResponse httpRes = http.send(httpReq);
+                
+                if (httpRes.getStatusCode() == 200) {{
+                    res.responseBody = httpRes.getBody();
+                    res.success = true;
+                }} else {{
+                    res.success = false;
+                    res.errorMessage = 'HTTP ' + httpRes.getStatusCode() + ': ' + httpRes.getBody();
+                }}
+            }} catch (Exception e) {{
+                res.success = false;
+                res.errorMessage = e.getMessage();
+            }}
+            responses.add(res);
+        }}
+        return responses;
+    }}
+    
+    public class Request {{
+        @InvocableVariable(label='Request Body (JSON)' required=false)
+        public String requestBody;
+    }}
+    
+    public class Response {{
+        @InvocableVariable(label='Response Body')
+        public String responseBody;
+        
+        @InvocableVariable(label='Success')
+        public Boolean success;
+        
+        @InvocableVariable(label='Error Message')
+        public String errorMessage;
+    }}
+}}
+'''
+
+
+def generate_salesforce_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
+    """Generate README for Salesforce integration."""
+    info = forgehook.get("info", {})
+    return f"""# FlowForge {info.get('name', plugin_name)} - Salesforce Integration
+
+## Overview
+{info.get('description', 'FlowForge plugin integration for Salesforce.')}
+
+## Installation
+
+### External Services
+1. Go to **Setup** > **External Services**
+2. Click **Add an External Service**
+3. Upload `external-services/FlowForge_{format_connector_name(plugin_name)}.yaml`
+4. Configure Named Credential
+
+### Apex Package
+Deploy using Salesforce CLI:
+```bash
+sfdx force:source:deploy -p apex/
+```
+
+## Configuration
+
+Create Named Credential:
+1. **Setup** > **Named Credentials**
+2. Create new: FlowForge_API
+3. URL: https://your-instance.flowforge.io/api/v1
+4. Authentication: Custom Header (X-API-Key)
+
+## Available Operations
+
+{generate_actions_table(forgehook)}
+
+## Support
+
+Visit [FlowForge Support](https://flowforge.io/support)
+"""
+
+
+# =============================================================================
+# ServiceNow Generator
+# =============================================================================
+
+def generate_servicenow(forgehook: Dict[str, Any], plugin_name: str, output_dir: Path):
+    """Generate ServiceNow IntegrationHub Spoke files."""
+    platform_dir = output_dir / "servicenow" / format_connector_name(plugin_name)
+    spoke_dir = platform_dir / "spoke"
+    actions_dir = spoke_dir / "actions"
+    
+    actions_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Generate spoke definition
+    spoke_xml = generate_servicenow_spoke_xml(forgehook, plugin_name)
+    with open(spoke_dir / "sys_hub_spoke.xml", "w", encoding="utf-8") as f:
+        f.write(spoke_xml)
+    
+    # Generate action definitions
+    endpoints = forgehook.get("endpoints", [])
+    for endpoint in endpoints[:5]:
+        action_xml = generate_servicenow_action_xml(endpoint, plugin_name, forgehook.get("info", {}))
+        operation_id = sanitize_operation_id(endpoint.get("path", ""), endpoint.get("method", "GET")).lower()
+        with open(actions_dir / f"{operation_id}.xml", "w", encoding="utf-8") as f:
+            f.write(action_xml)
+    
+    # Generate README
+    readme = generate_servicenow_readme(forgehook, plugin_name)
+    with open(platform_dir / "README.md", "w", encoding="utf-8") as f:
+        f.write(readme)
+    
+    print(f"  ✓ ServiceNow integration: {platform_dir}")
+
+
+def generate_servicenow_spoke_xml(forgehook: Dict[str, Any], plugin_name: str) -> str:
+    """Generate ServiceNow spoke definition XML."""
+    info = forgehook.get("info", {})
+    return f'''<?xml version="1.0" encoding="UTF-8"?>
+<unload>
+    <sys_hub_spoke action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>{info.get('description', 'FlowForge plugin')}</description>
+        <name>FlowForge {info.get('name', plugin_name)}</name>
+        <sys_id>flowforge_{plugin_name.replace("-", "_")}_spoke</sys_id>
+        <vendor>FlowForge</vendor>
+        <version>{info.get('version', '1.0.0')}</version>
+    </sys_hub_spoke>
+</unload>
+'''
+
+
+def generate_servicenow_action_xml(endpoint: Dict[str, Any], plugin_name: str, info: Dict[str, Any]) -> str:
+    """Generate ServiceNow action definition XML."""
+    operation_id = sanitize_operation_id(endpoint.get("path", ""), endpoint.get("method", "GET"))
+    return f'''<?xml version="1.0" encoding="UTF-8"?>
+<unload>
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <category>FlowForge</category>
+        <description>{endpoint.get('description', '')}</description>
+        <internal_name>flowforge_{operation_id.lower()}</internal_name>
+        <label>{endpoint.get('name', operation_id)}</label>
+        <name>FlowForge {endpoint.get('name', operation_id)}</name>
+        <spoke>flowforge_{plugin_name.replace("-", "_")}_spoke</spoke>
+        <sys_id>flowforge_action_{operation_id.lower()}</sys_id>
+        <inputs>
+            <input>
+                <internal_name>request_body</internal_name>
+                <label>Request Body (JSON)</label>
+                <mandatory>false</mandatory>
+                <type>string</type>
+            </input>
+        </inputs>
+        <outputs>
+            <output>
+                <internal_name>response</internal_name>
+                <label>Response</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>success</internal_name>
+                <label>Success</label>
+                <type>boolean</type>
+            </output>
+        </outputs>
+    </sys_hub_action_type_definition>
+</unload>
+'''
+
+
+def generate_servicenow_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
+    """Generate README for ServiceNow integration."""
+    info = forgehook.get("info", {})
+    return f"""# FlowForge {info.get('name', plugin_name)} - ServiceNow Integration
+
+## Overview
+{info.get('description', 'FlowForge plugin integration for ServiceNow.')}
+
+## Installation
+
+1. Import the Update Set from the `spoke/` folder
+2. Configure Connection Alias with your FlowForge API details
+3. FlowForge actions will appear in Flow Designer
+
+## Available Operations
+
+{generate_actions_table(forgehook)}
+
+## Support
+
+Visit [FlowForge Support](https://flowforge.io/support)
+"""
+
+
+# =============================================================================
 # Utility Functions
 # =============================================================================
 
@@ -1282,13 +1640,28 @@ def format_class_name(plugin_name: str) -> str:
 def generate_actions_table(forgehook: Dict[str, Any]) -> str:
     """Generate markdown table of actions from forgehook."""
     endpoints = forgehook.get("endpoints", [])
+    exports = forgehook.get("exports", [])
     lines = []
+    
+    # Handle API-style endpoints (llm-service, etc.)
     for endpoint in endpoints[:20]:  # Limit to 20 for readability
-        name = endpoint.get("name", "Unknown")
+        # Generate name from path if not provided
+        path = endpoint.get("path", "/")
+        method = endpoint.get("method", "GET")
+        name = endpoint.get("name") or generate_action_name(path, method)
         desc = endpoint.get("description", "")[:60]
         if len(endpoint.get("description", "")) > 60:
             desc += "..."
         lines.append(f"| {name} | {desc} |")
+    
+    # Handle embedded exports (crypto-service, etc.)
+    for export in exports[:20]:
+        name = export.get("name", "Unknown")
+        desc = export.get("description", "")[:60]
+        if len(export.get("description", "")) > 60:
+            desc += "..."
+        lines.append(f"| {name} | {desc} |")
+    
     return "\n".join(lines) if lines else "| No actions defined | |"
 
 
@@ -1314,6 +1687,8 @@ def generate_integrations(
         "n8n": generate_n8n,
         "outsystems": generate_outsystems,
         "mendix": generate_mendix,
+        "salesforce": generate_salesforce,
+        "servicenow": generate_servicenow,
     }
     
     print(f"\n{'='*60}")

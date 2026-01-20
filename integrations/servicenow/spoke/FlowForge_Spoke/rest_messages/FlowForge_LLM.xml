@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    FlowForge LLM REST Message
+    REST API configuration for LLM Service endpoints
+-->
+<unload>
+    <sys_rest_message action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <description>FlowForge LLM Service REST API - Chat, Generate, Classify, Summarize, Extract</description>
+        <name>FlowForge_LLM</name>
+        <rest_endpoint>${endpoint}</rest_endpoint>
+        <sys_id>flowforge_rest_message_llm</sys_id>
+        
+        <!-- HTTP Methods -->
+        <http_methods>
+            <!-- Chat Method -->
+            <sys_rest_message_fn>
+                <function_name>chat</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/chat</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "message": "${message}",
+    "system_prompt": "${system_prompt}",
+    "max_tokens": ${max_tokens},
+    "temperature": ${temperature}
+}</http_request_body>
+            </sys_rest_message_fn>
+            
+            <!-- Generate Method -->
+            <sys_rest_message_fn>
+                <function_name>generate</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/generate</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "prompt": "${prompt}",
+    "max_tokens": ${max_tokens},
+    "temperature": ${temperature}
+}</http_request_body>
+            </sys_rest_message_fn>
+            
+            <!-- Classify Method -->
+            <sys_rest_message_fn>
+                <function_name>classify</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/classify</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "text": "${text}",
+    "categories": ${categories}
+}</http_request_body>
+            </sys_rest_message_fn>
+            
+            <!-- Summarize Method -->
+            <sys_rest_message_fn>
+                <function_name>summarize</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/summarize</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "text": "${text}",
+    "max_length": ${max_length},
+    "style": "${style}"
+}</http_request_body>
+            </sys_rest_message_fn>
+            
+            <!-- Extract Entities Method -->
+            <sys_rest_message_fn>
+                <function_name>extract_entities</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/extract-entities</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "text": "${text}",
+    "entity_types": ${entity_types}
+}</http_request_body>
+            </sys_rest_message_fn>
+        </http_methods>
+    </sys_rest_message>
+</unload>

@@ -36,26 +36,26 @@ Import these for common operations.
 
 ## Available Operations
 
-| Unknown | Initialize a chunked upload session. Returns uploadId for su... |
-| Unknown | Upload a single chunk. Supports resume - re-upload failed ch... |
-| Unknown | Complete chunked upload - assembles chunks and verifies inte... |
-| Unknown | Get upload progress - which chunks received, resume point. |
-| Unknown | Cancel and cleanup an incomplete upload. |
-| Unknown | Stream download with Range header support for resume. |
-| Unknown | Initialize chunked download - get download manifest. |
-| Unknown | Stream upload directly to cloud storage (S3/Azure/GCS) witho... |
-| Unknown | Stream download from cloud storage to local or another desti... |
-| Unknown | Copy files between cloud providers (S3 to Azure, GCS to S3, ... |
-| Unknown | Generate presigned URLs for direct browser uploads/downloads... |
-| Unknown | Split large PDF into smaller files by page ranges. |
-| Unknown | Merge multiple PDFs into one. |
-| Unknown | Compress files (zip, gzip, tar.gz) with streaming. |
-| Unknown | Extract compressed archives with streaming. |
-| Unknown | Transcode video/audio files. Runs asynchronously for large f... |
-| Unknown | Extract audio track from video file. |
-| Unknown | Generate thumbnails from video at specified timestamps. |
-| Unknown | Check status of async transformation job. |
-| Unknown | Calculate checksum of file without loading into memory. |
+| Upload Init | Initialize a chunked upload session. Returns uploadId for su... |
+| Update Upload Chunk | Upload a single chunk. Supports resume - re-upload failed ch... |
+| Upload Complete | Complete chunked upload - assembles chunks and verifies inte... |
+| Get Upload Status | Get upload progress - which chunks received, resume point. |
+| Delete Upload | Cancel and cleanup an incomplete upload. |
+| Get Download | Stream download with Range header support for resume. |
+| Download Init | Initialize chunked download - get download manifest. |
+| Cloud Upload | Stream upload directly to cloud storage (S3/Azure/GCS) witho... |
+| Cloud Download | Stream download from cloud storage to local or another desti... |
+| Cloud Copy | Copy files between cloud providers (S3 to Azure, GCS to S3, ... |
+| Cloud Presigned Url | Generate presigned URLs for direct browser uploads/downloads... |
+| Transform Split Pdf | Split large PDF into smaller files by page ranges. |
+| Transform Merge Pdf | Merge multiple PDFs into one. |
+| Transform Compress | Compress files (zip, gzip, tar.gz) with streaming. |
+| Transform Extract | Extract compressed archives with streaming. |
+| Transform Transcode | Transcode video/audio files. Runs asynchronously for large f... |
+| Transform Extract Audio | Extract audio track from video file. |
+| Transform Thumbnail | Generate thumbnails from video at specified timestamps. |
+| Get Transform Status | Check status of async transformation job. |
+| Checksum | Calculate checksum of file without loading into memory. |
 
 ## Using in K2 Forms & Workflows
 

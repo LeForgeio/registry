@@ -44,6 +44,9 @@ ENV PYTHONPATH=/app
 # Copy application code
 COPY src ./src
 
+# Copy integration assets for air-gapped distribution
+COPY --chown=appuser:appuser integrations/ /integrations/
+
 # Create logs directory
 RUN mkdir -p /var/log/llm-service && chown -R appuser:appuser /var/log/llm-service
 

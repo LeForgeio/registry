@@ -24,26 +24,26 @@ Update the host in the Swagger file to your FlowForge instance URL.
 
 ## Available Actions
 
-| Unknown | List available LLM providers |
-| Unknown | Configure a provider with API credentials |
-| Unknown | List available models for a provider |
-| Unknown | Check provider health status |
-| Unknown | Chat with a specific provider |
-| Unknown | Generate embeddings with a specific provider |
-| Unknown | Universal chat endpoint with provider selection |
-| Unknown | Chat completion (vLLM/default provider) |
-| Unknown | Simple chat with just a message |
-| Unknown | Text generation/completion |
-| Unknown | Generate text embeddings |
-| Unknown | Classify text into categories |
-| Unknown | Extract named entities from text |
-| Unknown | Summarize text content |
-| Unknown | Vision-based OCR from images |
-| Unknown | Describe image content |
-| Unknown | Extract structured data from images |
-| Unknown | Transform data using natural language |
-| Unknown | Transform data to match a target schema |
-| Unknown | Convert between data formats |
+| Get Providers | List available LLM providers |
+| Providers Configure | Configure a provider with API credentials |
+| Get Providers Models | List available models for a provider |
+| Get Providers Health | Check provider health status |
+| Providers Chat | Chat with a specific provider |
+| Providers Embed | Generate embeddings with a specific provider |
+| Providers Chat | Universal chat endpoint with provider selection |
+| Chat | Chat completion (vLLM/default provider) |
+| Chat Simple | Simple chat with just a message |
+| Generate | Text generation/completion |
+| Embeddings | Generate text embeddings |
+| Classify | Classify text into categories |
+| Extract | Extract named entities from text |
+| Summarize | Summarize text content |
+| Vision Ocr | Vision-based OCR from images |
+| Vision Describe | Describe image content |
+| Vision Extract | Extract structured data from images |
+| Transform | Transform data using natural language |
+| Transform Schema | Transform data to match a target schema |
+| Transform Convert | Convert between data formats |
 
 ## Usage in Workflows
 

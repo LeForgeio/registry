@@ -1,0 +1,326 @@
+openapi: "3.0.0"
+info:
+  title: FlowForge Crypto Service
+  description: Cryptographic operations - hashing, encryption, decryption, and key generation
+  version: "1.0.0"
+  contact:
+    name: FlowForge Team
+
+servers:
+  - url: https://{instance}/api/v1/crypto
+    variables:
+      instance:
+        default: api.flowforge.io
+        description: FlowForge instance URL
+
+paths:
+  /hash:
+    post:
+      operationId: Hash
+      summary: Generate cryptographic hash
+      description: Generate a hash from input data using various algorithms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: string
+                  description: Data to hash
+                  maxLength: 10000000
+                algorithm:
+                  type: string
+                  description: Hash algorithm
+                  enum:
+                    - md5
+                    - sha1
+                    - sha256
+                    - sha384
+                    - sha512
+                  default: sha256
+                encoding:
+                  type: string
+                  description: Output encoding
+                  enum:
+                    - hex
+                    - base64
+                  default: hex
+      responses:
+        "200":
+          description: Hash generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      hash:
+                        type: string
+                        description: Generated hash value
+                      algorithm:
+                        type: string
+                      encoding:
+                        type: string
+
+  /hmac:
+    post:
+      operationId: HMAC
+      summary: Generate HMAC
+      description: Generate a Hash-based Message Authentication Code
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - key
+              properties:
+                data:
+                  type: string
+                  description: Data to authenticate
+                key:
+                  type: string
+                  description: Secret key for HMAC
+                algorithm:
+                  type: string
+                  enum:
+                    - md5
+                    - sha1
+                    - sha256
+                    - sha384
+                    - sha512
+                  default: sha256
+                encoding:
+                  type: string
+                  enum:
+                    - hex
+                    - base64
+                  default: hex
+      responses:
+        "200":
+          description: HMAC generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      hmac:
+                        type: string
+                      algorithm:
+                        type: string
+                      encoding:
+                        type: string
+
+  /encrypt:
+    post:
+      operationId: Encrypt
+      summary: Encrypt data
+      description: Encrypt data using AES encryption
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+                - key
+              properties:
+                data:
+                  type: string
+                  description: Data to encrypt
+                key:
+                  type: string
+                  description: Encryption key (hex or base64)
+                algorithm:
+                  type: string
+                  description: Encryption algorithm
+                  enum:
+                    - aes-128-gcm
+                    - aes-256-gcm
+                    - aes-256-cbc
+                  default: aes-256-gcm
+      responses:
+        "200":
+          description: Data encrypted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      encrypted:
+                        type: string
+                        description: Encrypted data (base64)
+                      iv:
+                        type: string
+                        description: Initialization vector
+                      tag:
+                        type: string
+                        description: Authentication tag (for GCM)
+                      algorithm:
+                        type: string
+
+  /decrypt:
+    post:
+      operationId: Decrypt
+      summary: Decrypt data
+      description: Decrypt data that was encrypted by this service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - encrypted
+                - key
+                - iv
+              properties:
+                encrypted:
+                  type: string
+                  description: Encrypted data to decrypt
+                key:
+                  type: string
+                  description: Decryption key
+                iv:
+                  type: string
+                  description: Initialization vector from encryption
+                tag:
+                  type: string
+                  description: Authentication tag (required for GCM)
+                algorithm:
+                  type: string
+                  enum:
+                    - aes-128-gcm
+                    - aes-256-gcm
+                    - aes-256-cbc
+                  default: aes-256-gcm
+      responses:
+        "200":
+          description: Data decrypted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      decrypted:
+                        type: string
+                        description: Decrypted plaintext
+                      algorithm:
+                        type: string
+
+  /generate-key:
+    post:
+      operationId: GenerateKey
+      summary: Generate cryptographic key
+      description: Generate a random cryptographic key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                length:
+                  type: integer
+                  description: Key length in bytes
+                  minimum: 8
+                  maximum: 256
+                  default: 32
+                encoding:
+                  type: string
+                  enum:
+                    - hex
+                    - base64
+                  default: hex
+      responses:
+        "200":
+          description: Key generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        description: Generated key
+                      length:
+                        type: integer
+                      encoding:
+                        type: string
+
+  /generate-uuid:
+    post:
+      operationId: GenerateUUID
+      summary: Generate UUID
+      description: Generate one or more UUIDs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  description: Number of UUIDs to generate
+                  minimum: 1
+                  maximum: 100
+                  default: 1
+      responses:
+        "200":
+          description: UUID(s) generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      uuids:
+                        type: array
+                        items:
+                          type: string
+
+components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: FlowForge API Key
+
+security:
+  - ApiKey: []
