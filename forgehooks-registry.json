@@ -1,12 +1,12 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "registry": {
     "name": "FlowForge Official Registry",
     "description": "Official ForgeHook plugins maintained by the FlowForge team",
     "url": "https://github.com/danstoll/forgehooks-registry",
     "maintainer": "FlowForge Team"
   },
-  "lastUpdated": "2026-01-19T12:00:00Z",
+  "lastUpdated": "2026-01-19T18:00:00Z",
   "packages": {
     "crypto-service": {
       "version": "1.0.0",
@@ -27,9 +27,128 @@
       "version": "1.0.0",
       "file": "packages/vector-service-1.0.0.fhk",
       "size": "4.2GB"
+    },
+    "string-utils": {
+      "version": "1.0.0",
+      "file": "packages/string-utils-1.0.0.fhk",
+      "size": "15KB",
+      "runtime": "embedded"
+    },
+    "date-utils": {
+      "version": "1.0.0",
+      "file": "packages/date-utils-1.0.0.fhk",
+      "size": "12KB",
+      "runtime": "embedded"
     }
   },
   "plugins": [
+    {
+      "id": "string-utils",
+      "verified": true,
+      "featured": true,
+      "downloads": 2100,
+      "rating": 4.9,
+      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/string-utils",
+      "manifest": {
+        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+        "id": "string-utils",
+        "name": "String Utilities",
+        "version": "1.0.0",
+        "description": "Lightweight string manipulation utilities including slugify, camelCase, truncate, sanitize HTML, and more. Runs embedded without Docker overhead.",
+        "author": {
+          "name": "FlowForge Team",
+          "url": "https://flowforge.dev"
+        },
+        "license": "MIT",
+        "repository": "https://github.com/danstoll/forgehooks-registry",
+        "icon": "type",
+        "category": "utility",
+        "tags": ["string", "text", "utility", "slugify", "camelcase", "sanitize", "embedded", "lightweight"],
+        "runtime": "embedded",
+        "embedded": {
+          "entrypoint": "index.js",
+          "exports": ["slugify", "camelCase", "pascalCase", "snakeCase", "kebabCase", "truncate", "sanitizeHtml", "escapeHtml", "unescapeHtml", "capitalize", "titleCase", "wordCount", "reverse", "padLeft", "padRight", "removeWhitespace", "normalizeWhitespace"],
+          "timeout": 1000,
+          "memoryLimit": 32
+        },
+        "endpoints": [
+          { "method": "POST", "path": "/slugify", "description": "Convert string to URL-friendly slug" },
+          { "method": "POST", "path": "/camelCase", "description": "Convert string to camelCase" },
+          { "method": "POST", "path": "/pascalCase", "description": "Convert string to PascalCase" },
+          { "method": "POST", "path": "/snakeCase", "description": "Convert string to snake_case" },
+          { "method": "POST", "path": "/kebabCase", "description": "Convert string to kebab-case" },
+          { "method": "POST", "path": "/truncate", "description": "Truncate string to specified length" },
+          { "method": "POST", "path": "/sanitizeHtml", "description": "Remove HTML tags from string" },
+          { "method": "POST", "path": "/escapeHtml", "description": "Escape HTML special characters" },
+          { "method": "POST", "path": "/capitalize", "description": "Capitalize first letter" },
+          { "method": "POST", "path": "/titleCase", "description": "Convert to Title Case" },
+          { "method": "POST", "path": "/wordCount", "description": "Count words in string" }
+        ],
+        "config": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "defaultTruncateLength": { "type": "number", "default": 100 },
+              "truncateSuffix": { "type": "string", "default": "..." }
+            }
+          },
+          "defaults": { "defaultTruncateLength": 100, "truncateSuffix": "..." }
+        },
+        "resources": { "memory": "32Mi", "cpu": "0.1" }
+      }
+    },
+    {
+      "id": "date-utils",
+      "verified": true,
+      "featured": true,
+      "downloads": 1850,
+      "rating": 4.8,
+      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/date-utils",
+      "manifest": {
+        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+        "id": "date-utils",
+        "name": "Date Utilities",
+        "version": "1.0.0",
+        "description": "Lightweight date and time manipulation utilities including formatting, parsing, relative time, and date math. Runs embedded without Docker overhead.",
+        "author": {
+          "name": "FlowForge Team",
+          "url": "https://flowforge.dev"
+        },
+        "license": "MIT",
+        "repository": "https://github.com/danstoll/forgehooks-registry",
+        "icon": "calendar",
+        "category": "utility",
+        "tags": ["date", "time", "datetime", "format", "parse", "utility", "embedded", "lightweight"],
+        "runtime": "embedded",
+        "embedded": {
+          "entrypoint": "index.js",
+          "exports": ["format", "parse", "now", "toISO", "toUnix", "fromUnix", "relativeTime", "addDays", "addHours", "addMinutes", "addMonths", "addYears", "diff", "startOf", "endOf", "isValid", "isBefore", "isAfter", "isBetween", "getWeekday", "getDaysInMonth"],
+          "timeout": 1000,
+          "memoryLimit": 32
+        },
+        "endpoints": [
+          { "method": "POST", "path": "/format", "description": "Format a date to string" },
+          { "method": "POST", "path": "/parse", "description": "Parse a date string" },
+          { "method": "GET", "path": "/now", "description": "Get current date/time" },
+          { "method": "POST", "path": "/relativeTime", "description": "Get human-readable relative time" },
+          { "method": "POST", "path": "/addDays", "description": "Add days to a date" },
+          { "method": "POST", "path": "/diff", "description": "Calculate difference between dates" },
+          { "method": "POST", "path": "/startOf", "description": "Get start of day/week/month/year" },
+          { "method": "POST", "path": "/endOf", "description": "Get end of day/week/month/year" }
+        ],
+        "config": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "defaultFormat": { "type": "string", "default": "YYYY-MM-DD HH:mm:ss" },
+              "defaultTimezone": { "type": "string", "default": "UTC" }
+            }
+          },
+          "defaults": { "defaultFormat": "YYYY-MM-DD HH:mm:ss", "defaultTimezone": "UTC" }
+        },
+        "resources": { "memory": "32Mi", "cpu": "0.1" }
+      }
+    },
     {
       "id": "crypto-service",
       "verified": true,
