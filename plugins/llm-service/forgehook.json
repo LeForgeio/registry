@@ -2,8 +2,8 @@
   "$schema": "../../forgehook-schema.json",
   "id": "llm-service",
   "name": "LLM Service",
-  "version": "1.0.0",
-  "description": "Large Language Model service for text generation, completion, summarization, translation, and embeddings with OpenAI-compatible API",
+  "version": "2.0.0",
+  "description": "Multi-provider LLM service supporting OpenAI, Anthropic Claude, Azure OpenAI, Google Gemini, AWS Bedrock, and Hugging Face models. Provides text generation, chat, embeddings, vision/OCR, and data transformation capabilities.",
   "author": {
     "name": "FlowForge",
     "url": "https://flowforge.dev"
@@ -12,18 +12,18 @@
   "repository": "https://github.com/flowforge/llm-service",
   "icon": "brain",
   "category": "ai",
-  "tags": ["llm", "ai", "gpt", "text-generation", "completion", "embeddings", "openai"],
+  "tags": ["llm", "ai", "gpt", "claude", "gemini", "bedrock", "openai", "anthropic", "multi-provider", "text-generation", "embeddings", "vision", "ocr"],
   
   "image": {
     "repository": "flowforge/llm-service",
-    "tag": "1.0.0"
+    "tag": "2.0.0"
   },
   
-  "port": 4006,
-  "basePath": "/api/v1/llm",
+  "port": 8000,
+  "basePath": "/api/v1",
   
   "healthCheck": {
-    "path": "/health",
+    "path": "/health/ready",
     "interval": 30,
     "timeout": 10,
     "retries": 3
@@ -31,73 +31,344 @@
   
   "endpoints": [
     {
+      "method": "GET",
+      "path": "/providers",
+      "description": "List available LLM providers",
+      "authentication": false
+    },
+    {
       "method": "POST",
-      "path": "/chat/completions",
-      "description": "Generate chat completions (OpenAI-compatible)",
+      "path": "/providers/configure",
+      "description": "Configure a provider with API credentials",
       "requestBody": {
-        "model": "gpt-3.5-turbo",
-        "messages": [
-          { "role": "user", "content": "Hello!" }
-        ],
-        "temperature": 0.7
+        "provider": "openai",
+        "api_key": "sk-...",
+        "default_model": "gpt-4o-mini"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/providers/{provider}/models",
+      "description": "List available models for a provider"
+    },
+    {
+      "method": "GET",
+      "path": "/providers/{provider}/health",
+      "description": "Check provider health status"
+    },
+    {
+      "method": "POST",
+      "path": "/providers/{provider}/chat",
+      "description": "Chat with a specific provider",
+      "requestBody": {
+        "messages": [{"role": "user", "content": "Hello!"}],
+        "model": "gpt-4o-mini",
+        "max_tokens": 1024,
+        "stream": false
       }
     },
     {
       "method": "POST",
-      "path": "/completions",
-      "description": "Generate text completions",
+      "path": "/providers/{provider}/embed",
+      "description": "Generate embeddings with a specific provider"
+    },
+    {
+      "method": "POST",
+      "path": "/providers/chat",
+      "description": "Universal chat endpoint with provider selection",
       "requestBody": {
-        "model": "gpt-3.5-turbo-instruct",
-        "prompt": "Once upon a time",
-        "max_tokens": 100
+        "provider": "openai",
+        "messages": [{"role": "user", "content": "Hello!"}],
+        "model": "gpt-4o-mini"
       }
+    },
+    {
+      "method": "POST",
+      "path": "/chat",
+      "description": "Chat completion (vLLM/default provider)",
+      "requestBody": {
+        "messages": [{"role": "user", "content": "Hello!"}],
+        "temperature": 0.7,
+        "stream": false
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/chat/simple",
+      "description": "Simple chat with just a message"
+    },
+    {
+      "method": "POST",
+      "path": "/generate",
+      "description": "Text generation/completion"
     },
     {
       "method": "POST",
       "path": "/embeddings",
-      "description": "Generate text embeddings",
-      "requestBody": {
-        "model": "text-embedding-ada-002",
-        "input": "Hello, world!"
-      }
+      "description": "Generate text embeddings"
+    },
+    {
+      "method": "POST",
+      "path": "/classify",
+      "description": "Classify text into categories"
+    },
+    {
+      "method": "POST",
+      "path": "/extract",
+      "description": "Extract named entities from text"
     },
     {
       "method": "POST",
       "path": "/summarize",
-      "description": "Summarize text content",
-      "requestBody": {
-        "text": "Long text to summarize...",
-        "max_length": 200
-      }
+      "description": "Summarize text content"
     },
     {
       "method": "POST",
-      "path": "/translate",
-      "description": "Translate text between languages",
-      "requestBody": {
-        "text": "Hello, world!",
-        "source_language": "en",
-        "target_language": "es"
-      }
+      "path": "/vision/ocr",
+      "description": "Vision-based OCR from images"
     },
     {
       "method": "POST",
-      "path": "/analyze-sentiment",
-      "description": "Analyze sentiment of text",
+      "path": "/vision/describe",
+      "description": "Describe image content"
+    },
+    {
+      "method": "POST",
+      "path": "/vision/extract",
+      "description": "Extract structured data from images"
+    },
+    {
+      "method": "POST",
+      "path": "/transform",
+      "description": "Transform data using natural language"
+    },
+    {
+      "method": "POST",
+      "path": "/transform/schema",
+      "description": "Transform data to match a target schema"
+    },
+    {
+      "method": "POST",
+      "path": "/transform/convert",
+      "description": "Convert between data formats"
+    },
+    {
+      "method": "POST",
+      "path": "/transform/clean",
+      "description": "Clean and normalize data"
+    },
+    {
+      "method": "POST",
+      "path": "/transform/merge",
+      "description": "Merge multiple data sources"
+    },
+    {
+      "method": "POST",
+      "path": "/models/search",
+      "description": "Search HuggingFace Hub for models",
       "requestBody": {
-        "text": "I love this product!"
+        "query": "llama",
+        "task": "text-generation",
+        "limit": 20
       }
     },
     {
       "method": "GET",
-      "path": "/models",
-      "description": "List available models",
+      "path": "/models/info/{model_id}",
+      "description": "Get detailed info about a HuggingFace model"
+    },
+    {
+      "method": "POST",
+      "path": "/models/download",
+      "description": "Download a model from HuggingFace Hub",
+      "requestBody": {
+        "model_id": "meta-llama/Llama-3.2-3B-Instruct",
+        "quantization": "safetensors"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/models/download/cancel/{model_id}",
+      "description": "Cancel an in-progress download"
+    },
+    {
+      "method": "GET",
+      "path": "/models/download/progress",
+      "description": "Get progress of active downloads"
+    },
+    {
+      "method": "GET",
+      "path": "/models/local",
+      "description": "List locally downloaded models"
+    },
+    {
+      "method": "GET",
+      "path": "/models/local/{model_id}",
+      "description": "Get info about a local model"
+    },
+    {
+      "method": "DELETE",
+      "path": "/models/local/{model_id}",
+      "description": "Delete a local model"
+    },
+    {
+      "method": "GET",
+      "path": "/models/cache/stats",
+      "description": "Get model cache statistics"
+    },
+    {
+      "method": "POST",
+      "path": "/models/load",
+      "description": "Load a model for inference",
+      "requestBody": {
+        "model_id": "meta-llama/Llama-3.2-3B-Instruct",
+        "device": "auto",
+        "quantization": "4bit"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/models/unload/{model_id}",
+      "description": "Unload a model from memory"
+    },
+    {
+      "method": "GET",
+      "path": "/models/loaded",
+      "description": "List currently loaded models"
+    },
+    {
+      "method": "POST",
+      "path": "/models/hot-swap",
+      "description": "Hot-swap models at runtime",
+      "requestBody": {
+        "current_model": "model-a",
+        "new_model": "model-b"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/models/generate",
+      "description": "Generate text with a specific local model"
+    },
+    {
+      "method": "GET",
+      "path": "/models/memory",
+      "description": "Get GPU/CPU memory usage"
+    },
+    {
+      "method": "GET",
+      "path": "/models/recommended",
+      "description": "Get curated list of recommended models"
+    },
+    {
+      "method": "POST",
+      "path": "/functions/call",
+      "description": "Function calling completion",
+      "requestBody": {
+        "messages": [{"role": "user", "content": "What's the weather?"}],
+        "functions": [{"name": "get_weather", "description": "Get weather", "parameters": []}],
+        "function_call": "auto"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/functions/continue",
+      "description": "Continue after function execution"
+    },
+    {
+      "method": "POST",
+      "path": "/functions/json",
+      "description": "JSON mode completion with schema",
+      "requestBody": {
+        "messages": [{"role": "user", "content": "Extract: John, 30, NY"}],
+        "schema": {"type": "object", "properties": {"name": {"type": "string"}}}
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/functions/extract",
+      "description": "Extract structured data from text"
+    },
+    {
+      "method": "GET",
+      "path": "/functions/schemas/examples",
+      "description": "Get example JSON schemas"
+    },
+    {
+      "method": "GET",
+      "path": "/functions/functions/examples",
+      "description": "Get example function definitions"
+    },
+    {
+      "method": "GET",
+      "path": "/templates",
+      "description": "List available prompt templates"
+    },
+    {
+      "method": "GET",
+      "path": "/templates/categories",
+      "description": "List template categories"
+    },
+    {
+      "method": "GET",
+      "path": "/templates/tags",
+      "description": "List template tags"
+    },
+    {
+      "method": "GET",
+      "path": "/templates/{template_id}",
+      "description": "Get a specific template"
+    },
+    {
+      "method": "POST",
+      "path": "/templates",
+      "description": "Create a new template"
+    },
+    {
+      "method": "PUT",
+      "path": "/templates/{template_id}",
+      "description": "Update a template"
+    },
+    {
+      "method": "DELETE",
+      "path": "/templates/{template_id}",
+      "description": "Delete a template"
+    },
+    {
+      "method": "POST",
+      "path": "/templates/render",
+      "description": "Render a template with variables"
+    },
+    {
+      "method": "POST",
+      "path": "/templates/execute",
+      "description": "Execute a template (render + LLM call)"
+    },
+    {
+      "method": "POST",
+      "path": "/templates/analyze",
+      "description": "Analyze a template string"
+    },
+    {
+      "method": "POST",
+      "path": "/templates/import",
+      "description": "Import multiple templates"
+    },
+    {
+      "method": "GET",
+      "path": "/templates/export/all",
+      "description": "Export all templates as JSON"
+    },
+    {
+      "method": "GET",
+      "path": "/health/live",
+      "description": "Liveness probe",
       "authentication": false
     },
     {
       "method": "GET",
-      "path": "/health",
-      "description": "Health check endpoint",
+      "path": "/health/ready",
+      "description": "Readiness probe",
       "authentication": false
     }
   ],
@@ -106,7 +377,25 @@
     {
       "name": "LOG_LEVEL",
       "description": "Logging verbosity level",
-      "default": "info",
+      "default": "INFO",
+      "required": false
+    },
+    {
+      "name": "DEFAULT_PROVIDER",
+      "description": "Default LLM provider (vllm, openai, anthropic, azure, google, bedrock, huggingface)",
+      "default": "vllm",
+      "required": false
+    },
+    {
+      "name": "VLLM_BASE_URL",
+      "description": "vLLM server URL",
+      "default": "http://localhost:8001/v1",
+      "required": false
+    },
+    {
+      "name": "DEFAULT_MODEL",
+      "description": "Default model for vLLM",
+      "default": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
       "required": false
     },
     {
@@ -116,20 +405,142 @@
       "secret": true
     },
     {
-      "name": "OPENAI_API_BASE",
-      "description": "OpenAI API base URL (for compatible providers)",
+      "name": "OPENAI_ORGANIZATION",
+      "description": "OpenAI organization ID",
       "required": false
     },
     {
-      "name": "DEFAULT_MODEL",
-      "description": "Default model to use",
-      "default": "gpt-3.5-turbo",
+      "name": "OPENAI_DEFAULT_MODEL",
+      "description": "Default OpenAI model",
+      "default": "gpt-4o-mini",
       "required": false
     },
     {
-      "name": "MAX_TOKENS",
-      "description": "Maximum tokens per request",
-      "default": "4096",
+      "name": "ANTHROPIC_API_KEY",
+      "description": "Anthropic API key",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "ANTHROPIC_DEFAULT_MODEL",
+      "description": "Default Anthropic model",
+      "default": "claude-3-5-sonnet-20241022",
+      "required": false
+    },
+    {
+      "name": "AZURE_OPENAI_API_KEY",
+      "description": "Azure OpenAI API key",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "AZURE_OPENAI_ENDPOINT",
+      "description": "Azure OpenAI endpoint URL",
+      "required": false
+    },
+    {
+      "name": "AZURE_OPENAI_DEPLOYMENT",
+      "description": "Azure OpenAI deployment name",
+      "required": false
+    },
+    {
+      "name": "AZURE_OPENAI_API_VERSION",
+      "description": "Azure OpenAI API version",
+      "default": "2024-02-01",
+      "required": false
+    },
+    {
+      "name": "GOOGLE_API_KEY",
+      "description": "Google AI Studio API key",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "GOOGLE_PROJECT",
+      "description": "Google Cloud project ID (for Vertex AI)",
+      "required": false
+    },
+    {
+      "name": "GOOGLE_REGION",
+      "description": "Google Cloud region",
+      "default": "us-central1",
+      "required": false
+    },
+    {
+      "name": "GOOGLE_DEFAULT_MODEL",
+      "description": "Default Google model",
+      "default": "gemini-1.5-flash",
+      "required": false
+    },
+    {
+      "name": "AWS_ACCESS_KEY_ID",
+      "description": "AWS access key ID for Bedrock",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "AWS_SECRET_ACCESS_KEY",
+      "description": "AWS secret access key for Bedrock",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "AWS_REGION",
+      "description": "AWS region for Bedrock",
+      "default": "us-east-1",
+      "required": false
+    },
+    {
+      "name": "BEDROCK_DEFAULT_MODEL",
+      "description": "Default AWS Bedrock model",
+      "default": "anthropic.claude-3-5-sonnet-20241022-v2:0",
+      "required": false
+    },
+    {
+      "name": "HUGGINGFACE_API_KEY",
+      "description": "Hugging Face API token",
+      "required": false,
+      "secret": true
+    },
+    {
+      "name": "HUGGINGFACE_ENDPOINT",
+      "description": "Custom Hugging Face Inference Endpoint URL",
+      "required": false
+    },
+    {
+      "name": "HUGGINGFACE_DEFAULT_MODEL",
+      "description": "Default Hugging Face model",
+      "default": "meta-llama/Llama-3.2-3B-Instruct",
+      "required": false
+    },
+    {
+      "name": "ENABLE_VISION",
+      "description": "Enable vision/OCR endpoints",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "ENABLE_EMBEDDINGS",
+      "description": "Enable embeddings endpoint",
+      "default": "true",
+      "required": false
+    },
+    {
+      "name": "REDIS_URL",
+      "description": "Redis URL for request queuing",
+      "default": "redis://localhost:6379/0",
+      "required": false
+    },
+    {
+      "name": "REQUEST_TIMEOUT",
+      "description": "Request timeout in seconds",
+      "default": "120",
+      "required": false
+    },
+    {
+      "name": "MODEL_CACHE_DIR",
+      "description": "Directory for local model storage",
+      "default": "/models",
       "required": false
     }
   ],
@@ -138,7 +549,7 @@
     {
       "name": "models",
       "containerPath": "/models",
-      "description": "Directory for local model storage"
+      "description": "Directory for local model storage and cache"
     }
   ],
   
@@ -147,7 +558,7 @@
   },
   
   "resources": {
-    "memory": "2g",
+    "memory": "4g",
     "cpu": "2.0"
   }
 }

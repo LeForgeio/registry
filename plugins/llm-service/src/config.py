@@ -142,6 +142,129 @@ class Settings(BaseSettings):
         description="Max requests per minute"
     )
 
+    # ==========================================================================
+    # Multi-Provider Settings
+    # ==========================================================================
+    
+    # Default provider (vllm, openai, anthropic, azure, google, bedrock, huggingface)
+    default_provider: str = Field(
+        default="vllm",
+        alias="DEFAULT_PROVIDER",
+        description="Default LLM provider to use"
+    )
+    
+    # OpenAI
+    openai_api_key: Optional[str] = Field(
+        default=None,
+        alias="OPENAI_API_KEY",
+        description="OpenAI API key"
+    )
+    openai_organization: Optional[str] = Field(
+        default=None,
+        alias="OPENAI_ORGANIZATION",
+        description="OpenAI organization ID"
+    )
+    openai_default_model: str = Field(
+        default="gpt-4o-mini",
+        alias="OPENAI_DEFAULT_MODEL",
+        description="Default OpenAI model"
+    )
+    
+    # Anthropic
+    anthropic_api_key: Optional[str] = Field(
+        default=None,
+        alias="ANTHROPIC_API_KEY",
+        description="Anthropic API key"
+    )
+    anthropic_default_model: str = Field(
+        default="claude-3-5-sonnet-20241022",
+        alias="ANTHROPIC_DEFAULT_MODEL",
+        description="Default Anthropic model"
+    )
+    
+    # Azure OpenAI
+    azure_openai_api_key: Optional[str] = Field(
+        default=None,
+        alias="AZURE_OPENAI_API_KEY",
+        description="Azure OpenAI API key"
+    )
+    azure_openai_endpoint: Optional[str] = Field(
+        default=None,
+        alias="AZURE_OPENAI_ENDPOINT",
+        description="Azure OpenAI endpoint URL"
+    )
+    azure_openai_deployment: Optional[str] = Field(
+        default=None,
+        alias="AZURE_OPENAI_DEPLOYMENT",
+        description="Azure OpenAI deployment name"
+    )
+    azure_openai_api_version: str = Field(
+        default="2024-02-01",
+        alias="AZURE_OPENAI_API_VERSION",
+        description="Azure OpenAI API version"
+    )
+    
+    # Google Vertex AI / Google AI Studio
+    google_api_key: Optional[str] = Field(
+        default=None,
+        alias="GOOGLE_API_KEY",
+        description="Google AI Studio API key"
+    )
+    google_project: Optional[str] = Field(
+        default=None,
+        alias="GOOGLE_PROJECT",
+        description="Google Cloud project ID (for Vertex AI)"
+    )
+    google_region: str = Field(
+        default="us-central1",
+        alias="GOOGLE_REGION",
+        description="Google Cloud region"
+    )
+    google_default_model: str = Field(
+        default="gemini-1.5-flash",
+        alias="GOOGLE_DEFAULT_MODEL",
+        description="Default Google model"
+    )
+    
+    # AWS Bedrock
+    aws_access_key_id: Optional[str] = Field(
+        default=None,
+        alias="AWS_ACCESS_KEY_ID",
+        description="AWS access key ID"
+    )
+    aws_secret_access_key: Optional[str] = Field(
+        default=None,
+        alias="AWS_SECRET_ACCESS_KEY",
+        description="AWS secret access key"
+    )
+    aws_region: str = Field(
+        default="us-east-1",
+        alias="AWS_REGION",
+        description="AWS region for Bedrock"
+    )
+    bedrock_default_model: str = Field(
+        default="anthropic.claude-3-5-sonnet-20241022-v2:0",
+        alias="BEDROCK_DEFAULT_MODEL",
+        description="Default Bedrock model"
+    )
+    
+    # Hugging Face
+    huggingface_api_key: Optional[str] = Field(
+        default=None,
+        alias="HUGGINGFACE_API_KEY",
+        description="Hugging Face API token"
+    )
+    huggingface_endpoint: Optional[str] = Field(
+        default=None,
+        alias="HUGGINGFACE_ENDPOINT",
+        description="Custom Hugging Face Inference Endpoint URL"
+    )
+    huggingface_default_model: str = Field(
+        default="meta-llama/Llama-3.2-3B-Instruct",
+        alias="HUGGINGFACE_DEFAULT_MODEL",
+        description="Default Hugging Face model"
+    )
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

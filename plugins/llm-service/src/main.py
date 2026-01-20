@@ -30,6 +30,10 @@ from .routes import (
     health_router,
     vision_router,
     transform_router,
+    providers_router,
+    models_router,
+    functions_router,
+    templates_router,
 )
 from .services import get_vllm_client, get_embedding_service, get_queue_service
 
@@ -265,6 +269,10 @@ app.include_router(summarize_router, prefix="/api/v1", tags=["Summarization"])
 app.include_router(embeddings_router, prefix="/api/v1", tags=["Embeddings"])
 app.include_router(vision_router, prefix="/api/v1", tags=["Vision"])
 app.include_router(transform_router, prefix="/api/v1", tags=["Transform"])
+app.include_router(providers_router, prefix="/api/v1", tags=["Providers"])
+app.include_router(models_router, prefix="/api/v1", tags=["Model Management"])
+app.include_router(functions_router, prefix="/api/v1", tags=["Function Calling"])
+app.include_router(templates_router, prefix="/api/v1", tags=["Prompt Templates"])
 
 
 # Root endpoint
