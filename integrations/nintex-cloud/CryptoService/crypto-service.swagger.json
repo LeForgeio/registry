@@ -1,38 +1,974 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "FlowForge crypto-service",
-    "description": "FlowForge plugin",
-    "version": "1.0.0",
+    "title": "FlowForge Crypto Service",
+    "description": "Cryptographic operations including hashing (SHA-256, SHA-512, MD5), AES encryption/decryption, JWT token management, HMAC signatures, Base64 encoding, UUID generation, and secure password hashing. Part of the FlowForge plugin ecosystem.",
+    "version": "1.1.0",
     "contact": {
       "name": "FlowForge Support",
-      "url": "https://flowforge.io"
-    }
+      "url": "https://flowforge.dev"
+    },
+    "x-ntx-render-version": 2
   },
-  "host": "{{HOST}}",
-  "basePath": "/api/v1",
-  "schemes": [
-    "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "host": "{{FLOWFORGE_HOST}}",
+  "basePath": "/api/v1/crypto",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "securityDefinitions": {
-    "api_key": {
+    "apiKey": {
       "type": "apiKey",
       "in": "header",
       "name": "X-API-Key",
-      "description": "FlowForge API Key"
+      "description": "FlowForge API Key for authentication"
     }
   },
-  "security": [
-    {
-      "api_key": []
+  "security": [{ "apiKey": [] }],
+  "paths": {
+    "/hash": {
+      "post": {
+        "operationId": "hashData",
+        "summary": "Hash Data",
+        "x-ntx-summary": "Hash Data",
+        "description": "Create a cryptographic hash of the input data using SHA-1, SHA-256, SHA-512, or MD5 algorithm.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data"],
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "title": "Data to Hash",
+                  "x-ntx-summary": "Data",
+                  "description": "The string data to create a hash from"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm",
+                  "x-ntx-summary": "Algorithm",
+                  "description": "Hash algorithm to use",
+                  "default": "sha256",
+                  "enum": ["sha1", "sha256", "sha512", "md5"]
+                },
+                "encoding": {
+                  "type": "string",
+                  "title": "Output Encoding",
+                  "x-ntx-summary": "Encoding",
+                  "description": "Format of the hash output",
+                  "default": "hex",
+                  "enum": ["hex", "base64"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hash created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hash": {
+                  "type": "string",
+                  "title": "Hash",
+                  "description": "The computed hash digest"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm Used"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/encrypt": {
+      "post": {
+        "operationId": "encryptData",
+        "summary": "Encrypt Data",
+        "x-ntx-summary": "Encrypt Data",
+        "description": "Encrypt sensitive data using AES-256-GCM authenticated encryption. Returns encrypted data with IV and authentication tag for secure decryption.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data", "key"],
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "title": "Data to Encrypt",
+                  "x-ntx-summary": "Data",
+                  "description": "The plaintext data to encrypt"
+                },
+                "key": {
+                  "type": "string",
+                  "title": "Encryption Key",
+                  "x-ntx-summary": "Key",
+                  "description": "Secret key for encryption (will be derived to proper length)",
+                  "format": "password"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm",
+                  "x-ntx-summary": "Algorithm",
+                  "description": "Encryption algorithm",
+                  "default": "aes-256-gcm",
+                  "enum": ["aes-256-gcm", "aes-256-cbc", "aes-128-gcm", "aes-128-cbc"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data encrypted successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "encrypted": {
+                  "type": "string",
+                  "title": "Encrypted Data",
+                  "description": "Base64-encoded encrypted data"
+                },
+                "iv": {
+                  "type": "string",
+                  "title": "Initialization Vector",
+                  "description": "Base64-encoded IV (required for decryption)"
+                },
+                "tag": {
+                  "type": "string",
+                  "title": "Authentication Tag",
+                  "description": "Base64-encoded auth tag (for GCM modes)"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm Used"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/decrypt": {
+      "post": {
+        "operationId": "decryptData",
+        "summary": "Decrypt Data",
+        "x-ntx-summary": "Decrypt Data",
+        "description": "Decrypt AES encrypted data using the original key, IV, and authentication tag.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["encrypted", "key", "iv"],
+              "properties": {
+                "encrypted": {
+                  "type": "string",
+                  "title": "Encrypted Data",
+                  "x-ntx-summary": "Encrypted Data",
+                  "description": "Base64-encoded encrypted data from encrypt operation"
+                },
+                "key": {
+                  "type": "string",
+                  "title": "Encryption Key",
+                  "x-ntx-summary": "Key",
+                  "description": "The same key used for encryption",
+                  "format": "password"
+                },
+                "iv": {
+                  "type": "string",
+                  "title": "Initialization Vector",
+                  "x-ntx-summary": "IV",
+                  "description": "Base64-encoded IV from encrypt operation"
+                },
+                "tag": {
+                  "type": "string",
+                  "title": "Authentication Tag",
+                  "x-ntx-summary": "Tag",
+                  "description": "Base64-encoded auth tag (required for GCM modes)"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm",
+                  "default": "aes-256-gcm",
+                  "enum": ["aes-256-gcm", "aes-256-cbc", "aes-128-gcm", "aes-128-cbc"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data decrypted successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "decrypted": {
+                  "type": "string",
+                  "title": "Decrypted Data",
+                  "description": "The original plaintext data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jwt/sign": {
+      "post": {
+        "operationId": "jwtSign",
+        "summary": "Generate JWT Token",
+        "x-ntx-summary": "Generate JWT",
+        "description": "Create a signed JSON Web Token (JWT) with custom payload and expiration.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["payload", "secret"],
+              "properties": {
+                "payload": {
+                  "type": "object",
+                  "title": "Token Payload",
+                  "x-ntx-summary": "Payload",
+                  "description": "JSON object containing claims to include in the token",
+                  "additionalProperties": true
+                },
+                "secret": {
+                  "type": "string",
+                  "title": "Signing Secret",
+                  "x-ntx-summary": "Secret",
+                  "description": "Secret key used to sign the token",
+                  "format": "password"
+                },
+                "expiresIn": {
+                  "type": "string",
+                  "title": "Expiration",
+                  "x-ntx-summary": "Expires In",
+                  "description": "Token validity duration (e.g., '1h', '7d', '30m')",
+                  "default": "1h"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm",
+                  "default": "HS256",
+                  "enum": ["HS256", "HS384", "HS512"]
+                },
+                "issuer": {
+                  "type": "string",
+                  "title": "Issuer",
+                  "x-ntx-summary": "Issuer",
+                  "description": "Token issuer (iss claim)"
+                },
+                "audience": {
+                  "type": "string",
+                  "title": "Audience",
+                  "description": "Intended audience (aud claim)"
+                },
+                "subject": {
+                  "type": "string",
+                  "title": "Subject",
+                  "description": "Token subject (sub claim)"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JWT created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "JWT Token",
+                  "description": "The signed JWT token"
+                },
+                "expiresAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Expires At",
+                  "description": "Token expiration timestamp"
+                },
+                "issuedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "Issued At",
+                  "description": "Token creation timestamp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jwt/verify": {
+      "post": {
+        "operationId": "jwtVerify",
+        "summary": "Verify JWT Token",
+        "x-ntx-summary": "Verify JWT",
+        "description": "Verify a JWT token's signature and decode its payload. Returns the payload if valid.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["token", "secret"],
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "JWT Token",
+                  "x-ntx-summary": "Token",
+                  "description": "The JWT token to verify"
+                },
+                "secret": {
+                  "type": "string",
+                  "title": "Signing Secret",
+                  "x-ntx-summary": "Secret",
+                  "description": "Secret key used to sign the token",
+                  "format": "password"
+                },
+                "issuer": {
+                  "type": "string",
+                  "title": "Expected Issuer",
+                  "description": "Verify the token was issued by this issuer"
+                },
+                "audience": {
+                  "type": "string",
+                  "title": "Expected Audience",
+                  "description": "Verify the token is intended for this audience"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token verification result",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "valid": {
+                  "type": "boolean",
+                  "title": "Is Valid",
+                  "description": "Whether the token is valid"
+                },
+                "payload": {
+                  "type": "object",
+                  "title": "Payload",
+                  "description": "Decoded token payload (if valid)",
+                  "additionalProperties": true
+                },
+                "error": {
+                  "type": "string",
+                  "title": "Error",
+                  "description": "Error message (if invalid)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jwt/decode": {
+      "post": {
+        "operationId": "jwtDecode",
+        "summary": "Decode JWT Token",
+        "x-ntx-summary": "Decode JWT (No Verification)",
+        "description": "Decode a JWT token WITHOUT verifying its signature. Use for inspection only.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["token"],
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "JWT Token",
+                  "x-ntx-summary": "Token",
+                  "description": "The JWT token to decode"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token decoded",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "header": {
+                  "type": "object",
+                  "title": "Header",
+                  "description": "JWT header",
+                  "additionalProperties": true
+                },
+                "payload": {
+                  "type": "object",
+                  "title": "Payload",
+                  "description": "JWT payload (claims)",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hmac/sign": {
+      "post": {
+        "operationId": "hmacSign",
+        "summary": "Create HMAC Signature",
+        "x-ntx-summary": "HMAC Sign",
+        "description": "Create an HMAC signature for data integrity verification.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data", "key"],
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "title": "Data to Sign",
+                  "x-ntx-summary": "Data",
+                  "description": "The data to create a signature for"
+                },
+                "key": {
+                  "type": "string",
+                  "title": "HMAC Key",
+                  "x-ntx-summary": "Key",
+                  "description": "Secret key for HMAC",
+                  "format": "password"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm",
+                  "default": "sha256",
+                  "enum": ["sha256", "sha512", "sha1"]
+                },
+                "encoding": {
+                  "type": "string",
+                  "title": "Output Encoding",
+                  "default": "hex",
+                  "enum": ["hex", "base64"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HMAC signature created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "signature": {
+                  "type": "string",
+                  "title": "Signature",
+                  "description": "The HMAC signature"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hmac/verify": {
+      "post": {
+        "operationId": "hmacVerify",
+        "summary": "Verify HMAC Signature",
+        "x-ntx-summary": "HMAC Verify",
+        "description": "Verify an HMAC signature using timing-safe comparison.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data", "signature", "key"],
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "title": "Original Data",
+                  "x-ntx-summary": "Data",
+                  "description": "The original data that was signed"
+                },
+                "signature": {
+                  "type": "string",
+                  "title": "Signature",
+                  "x-ntx-summary": "Signature",
+                  "description": "The HMAC signature to verify"
+                },
+                "key": {
+                  "type": "string",
+                  "title": "HMAC Key",
+                  "x-ntx-summary": "Key",
+                  "description": "The same key used to create the signature",
+                  "format": "password"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm",
+                  "default": "sha256"
+                },
+                "encoding": {
+                  "type": "string",
+                  "title": "Encoding",
+                  "default": "hex"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification result",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "valid": {
+                  "type": "boolean",
+                  "title": "Is Valid",
+                  "description": "Whether the signature is valid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/base64/encode": {
+      "post": {
+        "operationId": "base64Encode",
+        "summary": "Base64 Encode",
+        "x-ntx-summary": "Base64 Encode",
+        "description": "Encode a string to Base64 format.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data"],
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "title": "Data to Encode",
+                  "x-ntx-summary": "Data",
+                  "description": "The string to encode"
+                },
+                "urlSafe": {
+                  "type": "boolean",
+                  "title": "URL Safe",
+                  "x-ntx-summary": "URL Safe",
+                  "description": "Use URL-safe Base64 encoding",
+                  "default": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data encoded",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "encoded": {
+                  "type": "string",
+                  "title": "Encoded Data",
+                  "description": "Base64 encoded string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/base64/decode": {
+      "post": {
+        "operationId": "base64Decode",
+        "summary": "Base64 Decode",
+        "x-ntx-summary": "Base64 Decode",
+        "description": "Decode a Base64 encoded string.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data"],
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "title": "Data to Decode",
+                  "x-ntx-summary": "Data",
+                  "description": "The Base64 string to decode"
+                },
+                "urlSafe": {
+                  "type": "boolean",
+                  "title": "URL Safe",
+                  "description": "Data is URL-safe Base64 encoded",
+                  "default": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data decoded",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "decoded": {
+                  "type": "string",
+                  "title": "Decoded Data",
+                  "description": "The decoded string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/uuid": {
+      "post": {
+        "operationId": "generateUuid",
+        "summary": "Generate UUID",
+        "x-ntx-summary": "Generate UUID",
+        "description": "Generate a cryptographically random UUID v4.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UUID generated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "uuid": {
+                  "type": "string",
+                  "title": "UUID",
+                  "description": "Generated UUID v4"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/random": {
+      "post": {
+        "operationId": "randomBytes",
+        "summary": "Generate Random Bytes",
+        "x-ntx-summary": "Random Bytes",
+        "description": "Generate cryptographically secure random bytes.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "length": {
+                  "type": "integer",
+                  "title": "Length",
+                  "x-ntx-summary": "Bytes",
+                  "description": "Number of random bytes to generate",
+                  "default": 32,
+                  "minimum": 1,
+                  "maximum": 1024
+                },
+                "encoding": {
+                  "type": "string",
+                  "title": "Output Encoding",
+                  "default": "hex",
+                  "enum": ["hex", "base64"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Random bytes generated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "bytes": {
+                  "type": "string",
+                  "title": "Random Bytes",
+                  "description": "Random bytes in specified encoding"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/hash": {
+      "post": {
+        "operationId": "hashPassword",
+        "summary": "Hash Password",
+        "x-ntx-summary": "Hash Password",
+        "description": "Securely hash a password using scrypt with automatic salt generation.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["password"],
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "title": "Password",
+                  "x-ntx-summary": "Password",
+                  "description": "The password to hash",
+                  "format": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password hashed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hash": {
+                  "type": "string",
+                  "title": "Password Hash",
+                  "description": "Encoded hash string (includes salt) - store this value"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/verify": {
+      "post": {
+        "operationId": "verifyPassword",
+        "summary": "Verify Password",
+        "x-ntx-summary": "Verify Password",
+        "description": "Verify a password against a stored hash.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["password", "hash"],
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "title": "Password",
+                  "x-ntx-summary": "Password",
+                  "description": "The password to verify",
+                  "format": "password"
+                },
+                "hash": {
+                  "type": "string",
+                  "title": "Stored Hash",
+                  "x-ntx-summary": "Hash",
+                  "description": "The hash from Hash Password operation"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification result",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "valid": {
+                  "type": "boolean",
+                  "title": "Is Valid",
+                  "description": "Whether the password matches"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password/generate": {
+      "post": {
+        "operationId": "generatePassword",
+        "summary": "Generate Password",
+        "x-ntx-summary": "Generate Password",
+        "description": "Generate a cryptographically secure random password.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "length": {
+                  "type": "integer",
+                  "title": "Length",
+                  "x-ntx-summary": "Length",
+                  "description": "Password length",
+                  "default": 16,
+                  "minimum": 8,
+                  "maximum": 128
+                },
+                "uppercase": {
+                  "type": "boolean",
+                  "title": "Include Uppercase",
+                  "description": "Include uppercase letters (A-Z)",
+                  "default": true
+                },
+                "lowercase": {
+                  "type": "boolean",
+                  "title": "Include Lowercase",
+                  "description": "Include lowercase letters (a-z)",
+                  "default": true
+                },
+                "numbers": {
+                  "type": "boolean",
+                  "title": "Include Numbers",
+                  "description": "Include digits (0-9)",
+                  "default": true
+                },
+                "symbols": {
+                  "type": "boolean",
+                  "title": "Include Symbols",
+                  "description": "Include special characters (!@#$%...)",
+                  "default": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password generated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "title": "Generated Password",
+                  "description": "The randomly generated password"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/crc32": {
+      "post": {
+        "operationId": "crc32",
+        "summary": "Calculate CRC32",
+        "x-ntx-summary": "CRC32 Checksum",
+        "description": "Calculate CRC32 checksum for data integrity verification.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data"],
+              "properties": {
+                "data": {
+                  "type": "string",
+                  "title": "Data",
+                  "x-ntx-summary": "Data",
+                  "description": "The data to calculate checksum for"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Checksum calculated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "checksum": {
+                  "type": "string",
+                  "title": "CRC32 Checksum",
+                  "description": "The CRC32 checksum value"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "healthCheck",
+        "summary": "Health Check",
+        "x-ntx-visibility": "internal",
+        "description": "Check if the Crypto Service is healthy",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  ],
-  "paths": {},
+  },
   "definitions": {}
 }

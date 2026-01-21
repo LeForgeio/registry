@@ -1,38 +1,682 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "FlowForge formula-engine",
-    "description": "FlowForge plugin",
-    "version": "1.0.0",
+    "title": "FlowForge Math & Formula Engine",
+    "description": "Advanced mathematical operations including expression evaluation, statistics (mean, median, standard deviation), matrix operations, equation solving, derivatives, and integrals. Perfect for complex calculations in workflow automation.",
+    "version": "1.1.0",
     "contact": {
       "name": "FlowForge Support",
-      "url": "https://flowforge.io"
-    }
+      "url": "https://flowforge.dev"
+    },
+    "x-ntx-render-version": 2
   },
-  "host": "{{HOST}}",
-  "basePath": "/api/v1",
-  "schemes": [
-    "https"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "host": "{{FLOWFORGE_HOST}}",
+  "basePath": "/api/v1/math",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "securityDefinitions": {
-    "api_key": {
+    "apiKey": {
       "type": "apiKey",
       "in": "header",
       "name": "X-API-Key",
-      "description": "FlowForge API Key"
+      "description": "FlowForge API Key for authentication"
     }
   },
-  "security": [
-    {
-      "api_key": []
+  "security": [{ "apiKey": [] }],
+  "paths": {
+    "/calculate": {
+      "post": {
+        "operationId": "evaluateExpression",
+        "summary": "Evaluate Expression",
+        "x-ntx-summary": "Calculate",
+        "description": "Evaluate mathematical expressions with support for variables. Supports: +, -, *, /, ^, sqrt, sin, cos, tan, log, ln, abs, round, floor, ceil, and more.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["expression"],
+              "properties": {
+                "expression": {
+                  "type": "string",
+                  "title": "Expression",
+                  "x-ntx-summary": "Expression",
+                  "description": "Mathematical expression to evaluate (e.g., '2 + 2 * 3', 'sqrt(x^2 + y^2)', 'sin(pi/4)')"
+                },
+                "variables": {
+                  "type": "object",
+                  "title": "Variables",
+                  "x-ntx-summary": "Variables",
+                  "description": "JSON object with variable values (e.g., {\"x\": 5, \"y\": 10})",
+                  "additionalProperties": {
+                    "type": "number"
+                  }
+                },
+                "precision": {
+                  "type": "integer",
+                  "title": "Decimal Precision",
+                  "description": "Number of decimal places in result",
+                  "default": 10,
+                  "minimum": 0,
+                  "maximum": 20
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expression evaluated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "number",
+                  "title": "Result",
+                  "description": "The calculated result"
+                },
+                "expression": {
+                  "type": "string",
+                  "title": "Expression",
+                  "description": "The evaluated expression"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/statistics": {
+      "post": {
+        "operationId": "calculateStatistics",
+        "summary": "Calculate Statistics",
+        "x-ntx-summary": "Statistics",
+        "description": "Calculate statistical measures for a dataset: mean, median, mode, standard deviation, variance, min, max, sum, count, range, and percentiles.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["data"],
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "title": "Data",
+                  "x-ntx-summary": "Numbers",
+                  "description": "Array of numbers to analyze",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "operations": {
+                  "type": "array",
+                  "title": "Operations",
+                  "x-ntx-summary": "Metrics",
+                  "description": "Which statistics to calculate (default: all)",
+                  "items": {
+                    "type": "string",
+                    "enum": ["mean", "median", "mode", "std", "variance", "min", "max", "sum", "count", "range"]
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statistics calculated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mean": {
+                  "type": "number",
+                  "title": "Mean",
+                  "description": "Arithmetic mean (average)"
+                },
+                "median": {
+                  "type": "number",
+                  "title": "Median",
+                  "description": "Middle value"
+                },
+                "mode": {
+                  "type": "array",
+                  "title": "Mode",
+                  "description": "Most frequent value(s)",
+                  "items": { "type": "number" }
+                },
+                "std": {
+                  "type": "number",
+                  "title": "Standard Deviation",
+                  "description": "Population standard deviation"
+                },
+                "variance": {
+                  "type": "number",
+                  "title": "Variance",
+                  "description": "Population variance"
+                },
+                "min": {
+                  "type": "number",
+                  "title": "Minimum"
+                },
+                "max": {
+                  "type": "number",
+                  "title": "Maximum"
+                },
+                "sum": {
+                  "type": "number",
+                  "title": "Sum"
+                },
+                "count": {
+                  "type": "integer",
+                  "title": "Count"
+                },
+                "range": {
+                  "type": "number",
+                  "title": "Range",
+                  "description": "Difference between max and min"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matrix": {
+      "post": {
+        "operationId": "matrixOperation",
+        "summary": "Matrix Operation",
+        "x-ntx-summary": "Matrix Math",
+        "description": "Perform matrix operations: multiply, add, subtract, transpose, inverse, determinant, eigenvalues.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["operation", "matrix_a"],
+              "properties": {
+                "operation": {
+                  "type": "string",
+                  "title": "Operation",
+                  "x-ntx-summary": "Operation",
+                  "description": "Matrix operation to perform",
+                  "enum": ["multiply", "add", "subtract", "transpose", "inverse", "determinant", "eigenvalues", "trace"]
+                },
+                "matrix_a": {
+                  "type": "array",
+                  "title": "Matrix A",
+                  "x-ntx-summary": "Matrix A",
+                  "description": "First matrix as 2D array (e.g., [[1,2],[3,4]])",
+                  "items": {
+                    "type": "array",
+                    "items": { "type": "number" }
+                  }
+                },
+                "matrix_b": {
+                  "type": "array",
+                  "title": "Matrix B",
+                  "x-ntx-summary": "Matrix B",
+                  "description": "Second matrix (required for multiply, add, subtract)",
+                  "items": {
+                    "type": "array",
+                    "items": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation completed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "title": "Result",
+                  "description": "Result of the operation (matrix, number, or array)"
+                },
+                "operation": {
+                  "type": "string",
+                  "title": "Operation Performed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solve": {
+      "post": {
+        "operationId": "solveEquations",
+        "summary": "Solve Equations",
+        "x-ntx-summary": "Solve Equations",
+        "description": "Solve single equations or systems of linear equations. Supports variables and basic algebraic expressions.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["equations"],
+              "properties": {
+                "equations": {
+                  "type": "array",
+                  "title": "Equations",
+                  "x-ntx-summary": "Equations",
+                  "description": "Array of equations to solve (e.g., [\"x + y = 10\", \"2x - y = 5\"])",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "variables": {
+                  "type": "array",
+                  "title": "Variables",
+                  "description": "Optional: specify which variables to solve for",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Equations solved",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "solutions": {
+                  "type": "object",
+                  "title": "Solutions",
+                  "description": "Variable values that satisfy the equations",
+                  "additionalProperties": {
+                    "type": "number"
+                  }
+                },
+                "solvable": {
+                  "type": "boolean",
+                  "title": "Solvable",
+                  "description": "Whether a solution exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/derivative": {
+      "post": {
+        "operationId": "calculateDerivative",
+        "summary": "Calculate Derivative",
+        "x-ntx-summary": "Derivative",
+        "description": "Calculate the symbolic derivative of a mathematical expression.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["expression"],
+              "properties": {
+                "expression": {
+                  "type": "string",
+                  "title": "Expression",
+                  "x-ntx-summary": "Function",
+                  "description": "Mathematical expression to differentiate (e.g., 'x^2 + 3*x + 2')"
+                },
+                "variable": {
+                  "type": "string",
+                  "title": "Variable",
+                  "x-ntx-summary": "Variable",
+                  "description": "Variable to differentiate with respect to",
+                  "default": "x"
+                },
+                "order": {
+                  "type": "integer",
+                  "title": "Order",
+                  "description": "Order of derivative (1 = first derivative, 2 = second, etc.)",
+                  "default": 1,
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                "evaluateAt": {
+                  "type": "number",
+                  "title": "Evaluate At",
+                  "description": "Optional: evaluate derivative at this point"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Derivative calculated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "derivative": {
+                  "type": "string",
+                  "title": "Derivative",
+                  "description": "Symbolic derivative expression"
+                },
+                "simplified": {
+                  "type": "string",
+                  "title": "Simplified",
+                  "description": "Simplified form of derivative"
+                },
+                "value": {
+                  "type": "number",
+                  "title": "Value",
+                  "description": "Numerical value (if evaluateAt provided)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/integral": {
+      "post": {
+        "operationId": "calculateIntegral",
+        "summary": "Calculate Integral",
+        "x-ntx-summary": "Integral",
+        "description": "Calculate definite or indefinite integrals of mathematical expressions.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["expression"],
+              "properties": {
+                "expression": {
+                  "type": "string",
+                  "title": "Expression",
+                  "x-ntx-summary": "Function",
+                  "description": "Mathematical expression to integrate (e.g., 'x^2')"
+                },
+                "variable": {
+                  "type": "string",
+                  "title": "Variable",
+                  "x-ntx-summary": "Variable",
+                  "description": "Variable of integration",
+                  "default": "x"
+                },
+                "lowerBound": {
+                  "type": "number",
+                  "title": "Lower Bound",
+                  "x-ntx-summary": "Lower",
+                  "description": "Lower limit for definite integral"
+                },
+                "upperBound": {
+                  "type": "number",
+                  "title": "Upper Bound",
+                  "x-ntx-summary": "Upper",
+                  "description": "Upper limit for definite integral"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Integral calculated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "integral": {
+                  "type": "string",
+                  "title": "Integral",
+                  "description": "Symbolic integral (indefinite)"
+                },
+                "value": {
+                  "type": "number",
+                  "title": "Value",
+                  "description": "Numerical result (for definite integral)"
+                },
+                "definite": {
+                  "type": "boolean",
+                  "title": "Is Definite",
+                  "description": "Whether this was a definite integral"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/round": {
+      "post": {
+        "operationId": "roundNumber",
+        "summary": "Round Number",
+        "x-ntx-summary": "Round",
+        "description": "Round a number using various methods: round, floor, ceil, truncate, or to significant figures.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["value"],
+              "properties": {
+                "value": {
+                  "type": "number",
+                  "title": "Value",
+                  "x-ntx-summary": "Number",
+                  "description": "Number to round"
+                },
+                "method": {
+                  "type": "string",
+                  "title": "Method",
+                  "x-ntx-summary": "Method",
+                  "description": "Rounding method",
+                  "default": "round",
+                  "enum": ["round", "floor", "ceil", "truncate"]
+                },
+                "decimals": {
+                  "type": "integer",
+                  "title": "Decimal Places",
+                  "x-ntx-summary": "Decimals",
+                  "description": "Number of decimal places",
+                  "default": 0,
+                  "minimum": 0,
+                  "maximum": 20
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Number rounded",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "number",
+                  "title": "Result",
+                  "description": "Rounded number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/percentage": {
+      "post": {
+        "operationId": "calculatePercentage",
+        "summary": "Calculate Percentage",
+        "x-ntx-summary": "Percentage",
+        "description": "Calculate percentage, percentage change, or percentage of a value.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["operation"],
+              "properties": {
+                "operation": {
+                  "type": "string",
+                  "title": "Operation",
+                  "x-ntx-summary": "Operation",
+                  "description": "Type of percentage calculation",
+                  "enum": ["of", "change", "what_percent", "increase", "decrease"]
+                },
+                "value": {
+                  "type": "number",
+                  "title": "Value",
+                  "x-ntx-summary": "Value",
+                  "description": "Primary value"
+                },
+                "percent": {
+                  "type": "number",
+                  "title": "Percent",
+                  "x-ntx-summary": "Percent",
+                  "description": "Percentage value (for 'of', 'increase', 'decrease')"
+                },
+                "total": {
+                  "type": "number",
+                  "title": "Total",
+                  "x-ntx-summary": "Total",
+                  "description": "Total/base value (for 'what_percent')"
+                },
+                "oldValue": {
+                  "type": "number",
+                  "title": "Old Value",
+                  "description": "Original value (for 'change')"
+                },
+                "newValue": {
+                  "type": "number",
+                  "title": "New Value",
+                  "description": "New value (for 'change')"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calculation complete",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "number",
+                  "title": "Result",
+                  "description": "Calculated result"
+                },
+                "operation": {
+                  "type": "string",
+                  "title": "Operation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/convert": {
+      "post": {
+        "operationId": "convertUnits",
+        "summary": "Convert Units",
+        "x-ntx-summary": "Unit Convert",
+        "description": "Convert between units of measurement: length, weight, temperature, volume, time, and more.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["value", "from", "to"],
+              "properties": {
+                "value": {
+                  "type": "number",
+                  "title": "Value",
+                  "x-ntx-summary": "Value",
+                  "description": "Value to convert"
+                },
+                "from": {
+                  "type": "string",
+                  "title": "From Unit",
+                  "x-ntx-summary": "From",
+                  "description": "Source unit (e.g., 'km', 'lb', 'celsius')"
+                },
+                "to": {
+                  "type": "string",
+                  "title": "To Unit",
+                  "x-ntx-summary": "To",
+                  "description": "Target unit (e.g., 'miles', 'kg', 'fahrenheit')"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conversion complete",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "number",
+                  "title": "Result",
+                  "description": "Converted value"
+                },
+                "from": {
+                  "type": "string",
+                  "title": "From"
+                },
+                "to": {
+                  "type": "string",
+                  "title": "To"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "healthCheck",
+        "summary": "Health Check",
+        "x-ntx-visibility": "internal",
+        "description": "Check if the Math Service is healthy",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  ],
-  "paths": {},
+  },
   "definitions": {}
 }
