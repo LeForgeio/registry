@@ -1,0 +1,248 @@
+{
+  "$schema": "../forgehook-schema.json",
+  "id": "foundry-local",
+  "name": "Azure Foundry Local",
+  "version": "1.0.0",
+  "description": "On-device AI inference using Azure Foundry Local. Provides access to local language models without cloud dependencies.",
+  "author": "FlowForge",
+  "license": "MIT",
+  "category": "ai",
+  "runtime": "gateway",
+  "gateway": {
+    "baseUrl": "${FOUNDRY_LOCAL_URL:-http://localhost:5272}",
+    "healthCheck": "/health",
+    "timeout": 120000,
+    "retries": 1,
+    "discovery": "foundry-local",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "basePath": "/v1",
+  "endpoints": [
+    {
+      "path": "/chat/completions",
+      "method": "POST",
+      "description": "Generate chat completions using local AI models",
+      "input": {
+        "type": "object",
+        "required": ["messages"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model identifier (e.g., phi-3-mini-4k)",
+            "default": "phi-3-mini-4k"
+          },
+          "messages": {
+            "type": "array",
+            "description": "Array of chat messages",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": ["system", "user", "assistant"]
+                },
+                "content": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Sampling temperature (0-2)",
+            "default": 0.7
+          },
+          "max_tokens": {
+            "type": "integer",
+            "description": "Maximum tokens to generate",
+            "default": 1024
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "Enable streaming responses",
+            "default": false
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "object": { "type": "string" },
+          "created": { "type": "integer" },
+          "model": { "type": "string" },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": { "type": "integer" },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "type": "string" },
+                    "content": { "type": "string" }
+                  }
+                },
+                "finish_reason": { "type": "string" }
+              }
+            }
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "prompt_tokens": { "type": "integer" },
+              "completion_tokens": { "type": "integer" },
+              "total_tokens": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "/completions",
+      "method": "POST",
+      "description": "Generate text completions",
+      "input": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model identifier"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Text prompt to complete"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 256
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      }
+    },
+    {
+      "path": "/embeddings",
+      "method": "POST",
+      "description": "Generate text embeddings for semantic search",
+      "input": {
+        "type": "object",
+        "required": ["input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Embedding model identifier"
+          },
+          "input": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "Text(s) to embed"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "object": { "type": "string" },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object": { "type": "string" },
+                "embedding": {
+                  "type": "array",
+                  "items": { "type": "number" }
+                },
+                "index": { "type": "integer" }
+              }
+            }
+          },
+          "model": { "type": "string" },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "prompt_tokens": { "type": "integer" },
+              "total_tokens": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "/models",
+      "method": "GET",
+      "description": "List available local models",
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "object": { "type": "string" },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "object": { "type": "string" },
+                "created": { "type": "integer" },
+                "owned_by": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "documentation": {
+    "overview": "Azure Foundry Local provides on-device AI inference without requiring cloud connectivity. This gateway plugin proxies requests to a locally running Foundry Local instance.",
+    "installation": "1. Install Azure Foundry Local from https://aka.ms/foundry-local\n2. Start the Foundry Local service\n3. Install this plugin - it will auto-detect the running service",
+    "authentication": "No authentication required - runs locally on your machine",
+    "examples": [
+      {
+        "title": "Chat Completion",
+        "description": "Generate a response from the local AI model",
+        "request": {
+          "method": "POST",
+          "path": "/v1/chat/completions",
+          "body": {
+            "model": "phi-3-mini-4k",
+            "messages": [
+              { "role": "system", "content": "You are a helpful assistant." },
+              { "role": "user", "content": "What is the capital of France?" }
+            ],
+            "temperature": 0.7
+          }
+        }
+      },
+      {
+        "title": "List Models",
+        "description": "Get available local models",
+        "request": {
+          "method": "GET",
+          "path": "/v1/models"
+        }
+      }
+    ]
+  },
+  "tags": ["ai", "llm", "local", "inference", "azure", "foundry"],
+  "links": {
+    "documentation": "https://aka.ms/foundry-local-docs",
+    "support": "https://github.com/microsoft/foundry-local/issues"
+  }
+}

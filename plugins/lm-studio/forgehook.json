@@ -1,0 +1,264 @@
+{
+  "$schema": "../forgehook-schema.json",
+  "id": "lm-studio",
+  "name": "LM Studio",
+  "version": "1.0.0",
+  "description": "Local AI inference using LM Studio. Provides an OpenAI-compatible API for running local models with a friendly GUI.",
+  "author": "FlowForge",
+  "license": "MIT",
+  "category": "ai",
+  "runtime": "gateway",
+  "gateway": {
+    "baseUrl": "${LM_STUDIO_URL:-http://localhost:1234}",
+    "healthCheck": "/v1/models",
+    "timeout": 120000,
+    "retries": 1,
+    "discovery": "lm-studio",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "basePath": "/v1",
+  "endpoints": [
+    {
+      "path": "/chat/completions",
+      "method": "POST",
+      "description": "Generate chat completions (OpenAI-compatible)",
+      "input": {
+        "type": "object",
+        "required": ["messages"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model identifier (use 'local-model' for auto-select)"
+          },
+          "messages": {
+            "type": "array",
+            "description": "Array of chat messages",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "enum": ["system", "user", "assistant"]
+                },
+                "content": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Sampling temperature",
+            "default": 0.7
+          },
+          "max_tokens": {
+            "type": "integer",
+            "description": "Maximum tokens to generate",
+            "default": -1
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "Enable streaming",
+            "default": false
+          },
+          "stop": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "Stop sequences"
+          },
+          "presence_penalty": {
+            "type": "number",
+            "default": 0
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "default": 0
+          },
+          "top_p": {
+            "type": "number",
+            "default": 1
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "object": { "type": "string" },
+          "created": { "type": "integer" },
+          "model": { "type": "string" },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": { "type": "integer" },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "role": { "type": "string" },
+                    "content": { "type": "string" }
+                  }
+                },
+                "finish_reason": { "type": "string" }
+              }
+            }
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "prompt_tokens": { "type": "integer" },
+              "completion_tokens": { "type": "integer" },
+              "total_tokens": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "/completions",
+      "method": "POST",
+      "description": "Generate text completions (OpenAI-compatible)",
+      "input": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Text to complete"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "default": 256
+          },
+          "temperature": {
+            "type": "number",
+            "default": 0.7
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      }
+    },
+    {
+      "path": "/embeddings",
+      "method": "POST",
+      "description": "Generate text embeddings",
+      "input": {
+        "type": "object",
+        "required": ["input"],
+        "properties": {
+          "model": {
+            "type": "string"
+          },
+          "input": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "Text(s) to embed"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "object": { "type": "string" },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "object": { "type": "string" },
+                "embedding": { "type": "array", "items": { "type": "number" } },
+                "index": { "type": "integer" }
+              }
+            }
+          },
+          "model": { "type": "string" },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "prompt_tokens": { "type": "integer" },
+              "total_tokens": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "/models",
+      "method": "GET",
+      "description": "List loaded models",
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "object": { "type": "string" },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "object": { "type": "string" },
+                "owned_by": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "documentation": {
+    "overview": "LM Studio provides an easy-to-use GUI for running local language models with an OpenAI-compatible API. This gateway plugin connects FlowForge to LM Studio's local server.",
+    "installation": "1. Download LM Studio from https://lmstudio.ai\n2. Download and load a model in LM Studio\n3. Start the local server (⌘/Ctrl+L)\n4. Install this plugin",
+    "authentication": "No authentication required - runs locally",
+    "examples": [
+      {
+        "title": "Chat Completion",
+        "description": "Chat with the loaded model",
+        "request": {
+          "method": "POST",
+          "path": "/v1/chat/completions",
+          "body": {
+            "messages": [
+              { "role": "system", "content": "You are a helpful assistant." },
+              { "role": "user", "content": "What is machine learning?" }
+            ],
+            "temperature": 0.7,
+            "max_tokens": 500
+          }
+        }
+      },
+      {
+        "title": "Check Models",
+        "description": "List loaded models",
+        "request": {
+          "method": "GET",
+          "path": "/v1/models"
+        }
+      }
+    ]
+  },
+  "tags": ["ai", "llm", "local", "lm-studio", "openai-compatible"],
+  "links": {
+    "documentation": "https://lmstudio.ai/docs",
+    "support": "https://discord.gg/lmstudio"
+  }
+}

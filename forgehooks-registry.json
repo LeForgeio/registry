@@ -1,1132 +1,1665 @@
 {
-  "version": "1.1.0",
-  "registry": {
-    "name": "FlowForge Official Registry",
-    "description": "Official ForgeHook plugins maintained by the FlowForge team",
-    "url": "https://github.com/danstoll/forgehooks-registry",
-    "maintainer": "FlowForge Team"
-  },
-  "lastUpdated": "2026-01-19T18:00:00Z",
-  "packages": {
-    "crypto-service": {
-      "version": "1.0.0",
-      "file": "packages/crypto-service-1.0.0.fhk",
-      "size": "200MB"
-    },
-    "math-service": {
-      "version": "1.0.0",
-      "file": "packages/math-service-1.0.0.fhk",
-      "size": "282MB"
-    },
-    "llm-service": {
-      "version": "1.0.0",
-      "file": "packages/llm-service-1.0.0.fhk",
-      "size": "4.2GB"
-    },
-    "vector-service": {
-      "version": "1.0.0",
-      "file": "packages/vector-service-1.0.0.fhk",
-      "size": "4.2GB"
-    },
-    "string-utils": {
-      "version": "1.0.0",
-      "file": "packages/string-utils-1.0.0.fhk",
-      "size": "15KB",
-      "runtime": "embedded"
-    },
-    "date-utils": {
-      "version": "1.0.0",
-      "file": "packages/date-utils-1.0.0.fhk",
-      "size": "12KB",
-      "runtime": "embedded"
-    },
-    "formula-engine": {
-      "version": "1.0.0",
-      "file": "packages/formula-engine-1.0.0.fhk",
-      "size": "45KB",
-      "runtime": "embedded"
-    },
-    "streaming-file-service": {
-      "version": "1.0.0",
-      "file": "packages/streaming-file-service-1.0.0.fhk",
-      "size": "350MB"
-    }
-  },
-  "plugins": [
-    {
-      "id": "string-utils",
-      "verified": true,
-      "featured": true,
-      "downloads": 2100,
-      "rating": 4.9,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/string-utils",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "string-utils",
-        "name": "String Utilities",
-        "version": "1.0.0",
-        "description": "Lightweight string manipulation utilities including slugify, camelCase, truncate, sanitize HTML, and more. Runs embedded without Docker overhead.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "type",
-        "category": "utility",
-        "tags": ["string", "text", "utility", "slugify", "camelcase", "sanitize", "embedded", "lightweight"],
-        "runtime": "embedded",
-        "embedded": {
-          "entrypoint": "index.js",
-          "exports": ["slugify", "camelCase", "pascalCase", "snakeCase", "kebabCase", "truncate", "sanitizeHtml", "escapeHtml", "unescapeHtml", "capitalize", "titleCase", "wordCount", "reverse", "padLeft", "padRight", "removeWhitespace", "normalizeWhitespace"],
-          "timeout": 1000,
-          "memoryLimit": 32
-        },
-        "endpoints": [
-          { "method": "POST", "path": "/slugify", "description": "Convert string to URL-friendly slug" },
-          { "method": "POST", "path": "/camelCase", "description": "Convert string to camelCase" },
-          { "method": "POST", "path": "/pascalCase", "description": "Convert string to PascalCase" },
-          { "method": "POST", "path": "/snakeCase", "description": "Convert string to snake_case" },
-          { "method": "POST", "path": "/kebabCase", "description": "Convert string to kebab-case" },
-          { "method": "POST", "path": "/truncate", "description": "Truncate string to specified length" },
-          { "method": "POST", "path": "/sanitizeHtml", "description": "Remove HTML tags from string" },
-          { "method": "POST", "path": "/escapeHtml", "description": "Escape HTML special characters" },
-          { "method": "POST", "path": "/capitalize", "description": "Capitalize first letter" },
-          { "method": "POST", "path": "/titleCase", "description": "Convert to Title Case" },
-          { "method": "POST", "path": "/wordCount", "description": "Count words in string" }
-        ],
-        "config": {
-          "schema": {
-            "type": "object",
-            "properties": {
-              "defaultTruncateLength": { "type": "number", "default": 100 },
-              "truncateSuffix": { "type": "string", "default": "..." }
-            }
-          },
-          "defaults": { "defaultTruncateLength": 100, "truncateSuffix": "..." }
-        },
-        "resources": { "memory": "32Mi", "cpu": "0.1" }
-      }
-    },
-    {
-      "id": "date-utils",
-      "verified": true,
-      "featured": true,
-      "downloads": 1850,
-      "rating": 4.8,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/date-utils",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "date-utils",
-        "name": "Date Utilities",
-        "version": "1.0.0",
-        "description": "Lightweight date and time manipulation utilities including formatting, parsing, relative time, and date math. Runs embedded without Docker overhead.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "calendar",
-        "category": "utility",
-        "tags": ["date", "time", "datetime", "format", "parse", "utility", "embedded", "lightweight"],
-        "runtime": "embedded",
-        "embedded": {
-          "entrypoint": "index.js",
-          "exports": ["format", "parse", "now", "toISO", "toUnix", "fromUnix", "relativeTime", "addDays", "addHours", "addMinutes", "addMonths", "addYears", "diff", "startOf", "endOf", "isValid", "isBefore", "isAfter", "isBetween", "getWeekday", "getDaysInMonth"],
-          "timeout": 1000,
-          "memoryLimit": 32
-        },
-        "endpoints": [
-          { "method": "POST", "path": "/format", "description": "Format a date to string" },
-          { "method": "POST", "path": "/parse", "description": "Parse a date string" },
-          { "method": "GET", "path": "/now", "description": "Get current date/time" },
-          { "method": "POST", "path": "/relativeTime", "description": "Get human-readable relative time" },
-          { "method": "POST", "path": "/addDays", "description": "Add days to a date" },
-          { "method": "POST", "path": "/diff", "description": "Calculate difference between dates" },
-          { "method": "POST", "path": "/startOf", "description": "Get start of day/week/month/year" },
-          { "method": "POST", "path": "/endOf", "description": "Get end of day/week/month/year" }
-        ],
-        "config": {
-          "schema": {
-            "type": "object",
-            "properties": {
-              "defaultFormat": { "type": "string", "default": "YYYY-MM-DD HH:mm:ss" },
-              "defaultTimezone": { "type": "string", "default": "UTC" }
-            }
-          },
-          "defaults": { "defaultFormat": "YYYY-MM-DD HH:mm:ss", "defaultTimezone": "UTC" }
-        },
-        "resources": { "memory": "32Mi", "cpu": "0.1" }
-      }
-    },
-    {
-      "id": "crypto-service",
-      "verified": true,
-      "downloads": 1250,
-      "rating": 4.8,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/crypto-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "crypto-service",
-        "name": "Crypto Service",
-        "version": "1.0.0",
-        "description": "Cryptographic operations including hashing, encryption, and JWT token management. Supports SHA, bcrypt, argon2, AES-256-GCM encryption.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "lock",
-        "category": "security",
-        "tags": ["encryption", "hashing", "jwt", "bcrypt", "security", "cryptography", "aes"],
-        "image": {
-          "repository": "flowforge/crypto-service",
-          "tag": "latest"
-        },
-        "port": 3001,
-        "basePath": "/api/v1/crypto",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/hash",
-            "description": "Hash data using SHA, bcrypt, or argon2",
-            "requestBody": {
-              "data": "string to hash",
-              "algorithm": "sha256"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/encrypt",
-            "description": "Encrypt data using AES-256-GCM",
-            "requestBody": {
-              "data": "string to encrypt",
-              "key": "encryption key"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/decrypt",
-            "description": "Decrypt AES encrypted data",
-            "requestBody": {
-              "encryptedData": "encrypted string",
-              "key": "encryption key"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/jwt/generate",
-            "description": "Generate JWT token",
-            "requestBody": {
-              "payload": {},
-              "secret": "jwt secret",
-              "expiresIn": "1h"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/jwt/verify",
-            "description": "Verify JWT token",
-            "requestBody": {
-              "token": "jwt token",
-              "secret": "jwt secret"
-            }
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          }
-        ],
-        "resources": {
-          "memory": "256m",
-          "cpu": "0.5"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis"]
-        }
-      }
-    },
-    {
-      "id": "math-service",
-      "verified": true,
-      "downloads": 980,
-      "rating": 4.7,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/math-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "math-service",
-        "name": "Math Service",
-        "version": "1.0.0",
-        "description": "Advanced mathematical operations including arithmetic, statistics, matrix operations, equation solving, and numerical analysis.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "calculator",
-        "category": "data",
-        "tags": ["math", "statistics", "matrix", "algebra", "numerical", "calculations"],
-        "image": {
-          "repository": "flowforge/math-service",
-          "tag": "latest"
-        },
-        "port": 3002,
-        "basePath": "/api/v1/math",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/calculate",
-            "description": "Evaluate mathematical expressions",
-            "requestBody": {
-              "expression": "2 + 2 * 3",
-              "variables": { "x": 5 }
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/statistics",
-            "description": "Calculate statistics (mean, median, std, variance, etc.)",
-            "requestBody": {
-              "data": [1, 2, 3, 4, 5],
-              "operations": ["mean", "std", "median"]
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/matrix",
-            "description": "Matrix operations (multiply, inverse, determinant, etc.)",
-            "requestBody": {
-              "operation": "multiply",
-              "matrix_a": [[1, 2], [3, 4]],
-              "matrix_b": [[5, 6], [7, 8]]
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/solve",
-            "description": "Solve equations and systems of equations",
-            "requestBody": {
-              "equations": ["x + y = 10", "2x - y = 5"]
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/derivative",
-            "description": "Calculate symbolic derivatives",
-            "requestBody": {
-              "expression": "x^2 + 3*x + 2",
-              "variable": "x"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/integral",
-            "description": "Calculate definite or indefinite integrals",
-            "requestBody": {
-              "expression": "x^2",
-              "variable": "x",
-              "bounds": [0, 1]
-            }
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          },
-          {
-            "name": "MAX_COMPUTATION_TIME",
-            "description": "Maximum computation time in seconds",
-            "required": false,
-            "default": "30"
-          }
-        ],
-        "resources": {
-          "memory": "512m",
-          "cpu": "1.0"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis"]
-        }
-      }
-    },
-    {
-      "id": "pdf-service",
-      "verified": true,
-      "downloads": 1100,
-      "rating": 4.6,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/pdf-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "pdf-service",
-        "name": "PDF Service",
-        "version": "1.0.0",
-        "description": "PDF generation from HTML, merging, splitting, text extraction, and watermarking.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "file-text",
-        "category": "media",
-        "tags": ["pdf", "documents", "generation", "html-to-pdf", "merge", "split"],
-        "image": {
-          "repository": "flowforge/pdf-service",
-          "tag": "latest"
-        },
-        "port": 3003,
-        "basePath": "/api/v1/pdf",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/generate",
-            "description": "Generate PDF from HTML",
-            "requestBody": {
-              "html": "<h1>Hello World</h1>",
-              "options": {
-                "format": "A4",
-                "margin": "1cm"
-              }
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/merge",
-            "description": "Merge multiple PDFs"
-          },
-          {
-            "method": "POST",
-            "path": "/split",
-            "description": "Split PDF into pages",
-            "requestBody": {
-              "pages": [1, 2, 3]
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/extract-text",
-            "description": "Extract text from PDF"
-          },
-          {
-            "method": "POST",
-            "path": "/watermark",
-            "description": "Add watermark to PDF",
-            "requestBody": {
-              "text": "CONFIDENTIAL",
-              "opacity": 0.5
-            }
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          },
-          {
-            "name": "MAX_FILE_SIZE_MB",
-            "description": "Maximum file size in MB",
-            "required": false,
-            "default": "50"
-          }
-        ],
-        "resources": {
-          "memory": "1g",
-          "cpu": "1.0"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis"]
-        }
-      }
-    },
-    {
-      "id": "ocr-service",
-      "verified": true,
-      "downloads": 750,
-      "rating": 4.5,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/ocr-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "ocr-service",
-        "name": "OCR Service",
-        "version": "1.0.0",
-        "description": "Optical character recognition for extracting text from images. Supports multiple languages and document layouts.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "scan",
-        "category": "ai",
-        "tags": ["ocr", "text-extraction", "image-processing", "ai", "tesseract"],
-        "image": {
-          "repository": "flowforge/ocr-service",
-          "tag": "latest"
-        },
-        "port": 3004,
-        "basePath": "/api/v1/ocr",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/extract",
-            "description": "Extract text from image",
-            "requestBody": {
-              "language": "eng"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/extract-structured",
-            "description": "Extract text with bounding boxes and confidence scores"
-          },
-          {
-            "method": "GET",
-            "path": "/languages",
-            "description": "List supported languages"
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          },
-          {
-            "name": "DEFAULT_LANGUAGE",
-            "description": "Default OCR language",
-            "required": false,
-            "default": "eng"
-          }
-        ],
-        "resources": {
-          "memory": "2g",
-          "cpu": "2.0"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis"]
-        }
-      }
-    },
-    {
-      "id": "image-service",
-      "verified": true,
-      "downloads": 890,
-      "rating": 4.7,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/image-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "image-service",
-        "name": "Image Service",
-        "version": "1.0.0",
-        "description": "Image processing including resize, convert, optimize, crop, and format transformations using Sharp.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "image",
-        "category": "media",
-        "tags": ["image", "resize", "optimization", "conversion", "sharp", "webp"],
-        "image": {
-          "repository": "flowforge/image-service",
-          "tag": "latest"
-        },
-        "port": 3005,
-        "basePath": "/api/v1/image",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/resize",
-            "description": "Resize image",
-            "requestBody": {
-              "width": 800,
-              "height": 600,
-              "fit": "cover"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/convert",
-            "description": "Convert image format",
-            "requestBody": {
-              "format": "webp",
-              "quality": 80
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/optimize",
-            "description": "Optimize image for web",
-            "requestBody": {
-              "quality": 80
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/crop",
-            "description": "Crop image",
-            "requestBody": {
-              "x": 0,
-              "y": 0,
-              "width": 200,
-              "height": 200
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/thumbnail",
-            "description": "Generate thumbnail"
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          },
-          {
-            "name": "MAX_FILE_SIZE_MB",
-            "description": "Maximum file size in MB",
-            "required": false,
-            "default": "25"
-          }
-        ],
-        "resources": {
-          "memory": "512m",
-          "cpu": "1.0"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis"]
-        }
-      }
-    },
-    {
-      "id": "llm-service",
-      "verified": true,
-      "downloads": 1500,
-      "rating": 4.9,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/llm-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "llm-service",
-        "name": "LLM Service",
-        "version": "1.0.0",
-        "description": "AI text generation and chat completions. Compatible with OpenAI API, Anthropic, and local models via Ollama/vLLM.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "brain",
-        "category": "ai",
-        "tags": ["ai", "llm", "chat", "text-generation", "openai", "gpt", "anthropic"],
-        "image": {
-          "repository": "flowforge/llm-service",
-          "tag": "latest"
-        },
-        "port": 3006,
-        "basePath": "/api/v1/llm",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/chat",
-            "description": "Chat completion",
-            "requestBody": {
-              "messages": [
-                { "role": "user", "content": "Hello" }
-              ],
-              "model": "gpt-4"
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/generate",
-            "description": "Text generation",
-            "requestBody": {
-              "prompt": "Once upon a time",
-              "maxTokens": 100
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/embeddings",
-            "description": "Generate embeddings",
-            "requestBody": {
-              "input": "text to embed",
-              "model": "text-embedding-3-small"
-            }
-          },
-          {
-            "method": "GET",
-            "path": "/models",
-            "description": "List available models"
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "OPENAI_API_KEY",
-            "description": "OpenAI API key",
-            "required": false,
-            "secret": true
-          },
-          {
-            "name": "ANTHROPIC_API_KEY",
-            "description": "Anthropic API key",
-            "required": false,
-            "secret": true
-          },
-          {
-            "name": "OPENAI_API_BASE",
-            "description": "Custom OpenAI API base URL (for Ollama, vLLM, etc.)",
-            "required": false
-          },
-          {
-            "name": "DEFAULT_MODEL",
-            "description": "Default model to use",
-            "required": false,
-            "default": "gpt-4o-mini"
-          },
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          }
-        ],
-        "resources": {
-          "memory": "1g",
-          "cpu": "1.0"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis"]
-        }
-      }
-    },
-    {
-      "id": "vector-service",
-      "verified": true,
-      "downloads": 680,
-      "rating": 4.6,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/vector-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "vector-service",
-        "name": "Vector Service",
-        "version": "1.0.0",
-        "description": "Vector database operations for semantic search, RAG, and embeddings storage using Qdrant.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "database",
-        "category": "data",
-        "tags": ["vectors", "embeddings", "semantic-search", "qdrant", "rag"],
-        "image": {
-          "repository": "flowforge/vector-service",
-          "tag": "latest"
-        },
-        "port": 3007,
-        "basePath": "/api/v1/vector",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/collections",
-            "description": "Create collection",
-            "requestBody": {
-              "name": "my-collection",
-              "dimension": 1536
-            }
-          },
-          {
-            "method": "GET",
-            "path": "/collections",
-            "description": "List collections"
-          },
-          {
-            "method": "DELETE",
-            "path": "/collections/{name}",
-            "description": "Delete collection"
-          },
-          {
-            "method": "POST",
-            "path": "/upsert",
-            "description": "Upsert vectors",
-            "requestBody": {
-              "collection": "my-collection",
-              "points": []
-            }
-          },
-          {
-            "method": "POST",
-            "path": "/search",
-            "description": "Search vectors",
-            "requestBody": {
-              "collection": "my-collection",
-              "vector": [],
-              "limit": 10
-            }
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "QDRANT_URL",
-            "description": "Qdrant server URL",
-            "required": false,
-            "default": "http://qdrant:6333"
-          },
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          }
-        ],
-        "resources": {
-          "memory": "512m",
-          "cpu": "1.0"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis", "qdrant"]
-        }
-      }
-    },
-    {
-      "id": "data-transform-service",
-      "verified": true,
-      "downloads": 720,
-      "rating": 4.5,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/data-transform-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "data-transform-service",
-        "name": "Data Transform Service",
-        "version": "1.0.0",
-        "description": "Data format conversions between JSON, CSV, XML, YAML, and more. Supports JSONPath queries and data validation.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "repeat",
-        "category": "data",
-        "tags": ["data", "transform", "json", "csv", "xml", "yaml", "conversion"],
-        "image": {
-          "repository": "flowforge/data-transform-service",
-          "tag": "latest"
-        },
-        "port": 3008,
-        "basePath": "/api/v1/transform",
-        "endpoints": [
-          {
-            "method": "POST",
-            "path": "/json-to-csv",
-            "description": "Convert JSON to CSV"
-          },
-          {
-            "method": "POST",
-            "path": "/csv-to-json",
-            "description": "Convert CSV to JSON"
-          },
-          {
-            "method": "POST",
-            "path": "/xml-to-json",
-            "description": "Convert XML to JSON"
-          },
-          {
-            "method": "POST",
-            "path": "/json-to-xml",
-            "description": "Convert JSON to XML"
-          },
-          {
-            "method": "POST",
-            "path": "/yaml-to-json",
-            "description": "Convert YAML to JSON"
-          },
-          {
-            "method": "POST",
-            "path": "/json-to-yaml",
-            "description": "Convert JSON to YAML"
-          },
-          {
-            "method": "POST",
-            "path": "/jsonpath",
-            "description": "Query JSON with JSONPath",
-            "requestBody": {
-              "data": {},
-              "query": "$.store.book[*].author"
-            }
-          },
-          {
-            "method": "GET",
-            "path": "/health",
-            "description": "Health check endpoint",
-            "authentication": false
-          }
-        ],
-        "environment": [
-          {
-            "name": "LOG_LEVEL",
-            "description": "Logging verbosity level",
-            "required": false,
-            "default": "info"
-          },
-          {
-            "name": "MAX_PAYLOAD_SIZE_MB",
-            "description": "Maximum payload size in MB",
-            "required": false,
-            "default": "10"
-          }
-        ],
-        "resources": {
-          "memory": "256m",
-          "cpu": "0.5"
-        },
-        "healthCheck": {
-          "path": "/health",
-          "interval": 30,
-          "timeout": 10,
-          "retries": 3
-        },
-        "dependencies": {
-          "services": ["redis"]
-        }
-      }
-    },
-    {
-      "id": "formula-engine",
-      "verified": true,
-      "featured": true,
-      "downloads": 0,
-      "rating": 5.0,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/formula-engine",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "formula-engine",
-        "name": "Formula Engine",
-        "version": "1.0.0",
-        "description": "Comprehensive Excel-compatible formula engine with 150+ functions spanning Math/Statistics, Logical, Text, Date/Time, Financial, and Lookup categories. Pure JavaScript implementation - zero external dependencies.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "table",
-        "category": "data",
-        "tags": ["excel", "formulas", "spreadsheet", "functions", "math", "financial", "lookup", "vlookup", "calculations"],
-        "runtime": "embedded",
-        "embedded": {
-          "entrypoint": "index.js",
-          "exports": [
-            "SUM", "AVERAGE", "COUNT", "COUNTA", "COUNTBLANK", "COUNTIF", "COUNTIFS",
-            "MAX", "MIN", "MEDIAN", "MODE", "STDEV", "STDEVP", "VAR", "VARP",
-            "SUMIF", "SUMIFS", "AVERAGEIF",
-            "ROUND", "ROUNDUP", "ROUNDDOWN", "CEILING", "FLOOR", "TRUNC", "INT",
-            "ABS", "SIGN", "SQRT", "POWER", "EXP", "LN", "LOG", "LOG10",
-            "MOD", "QUOTIENT", "PRODUCT", "SUMPRODUCT", "GCD", "LCM", "FACT", "COMBIN", "PERMUT",
-            "RAND", "RANDBETWEEN", "PI", "SIN", "COS", "TAN", "ASIN", "ACOS", "ATAN", "ATAN2",
-            "DEGREES", "RADIANS", "LARGE", "SMALL", "RANK", "PERCENTILE", "QUARTILE",
-            "IF", "IFS", "SWITCH", "AND", "OR", "NOT", "XOR", "IFERROR", "IFNA",
-            "ISBLANK", "ISNUMBER", "ISTEXT", "ISLOGICAL", "ISERROR", "ISEVEN", "ISODD", "TRUE", "FALSE",
-            "LEFT", "RIGHT", "MID", "LEN", "FIND", "SEARCH",
-            "CONCAT", "CONCATENATE", "TEXTJOIN", "TRIM", "CLEAN", "UPPER", "LOWER", "PROPER",
-            "SUBSTITUTE", "REPLACE", "REPT", "TEXT", "VALUE", "FIXED", "DOLLAR",
-            "CHAR", "CODE", "EXACT", "TEXTSPLIT", "TEXTBEFORE", "TEXTAFTER",
-            "TODAY", "NOW", "DATE", "DATEVALUE", "TIME", "TIMEVALUE",
-            "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "SECOND",
-            "WEEKDAY", "WEEKNUM", "ISOWEEKNUM", "DATEDIF", "DAYS", "DAYS360",
-            "EDATE", "EOMONTH", "WORKDAY", "NETWORKDAYS", "YEARFRAC",
-            "PMT", "PPMT", "IPMT", "CUMIPMT", "CUMPRINC", "PV", "FV", "NPV", "XNPV",
-            "IRR", "XIRR", "MIRR", "RATE", "NPER", "EFFECT", "NOMINAL",
-            "SLN", "SYD", "DB", "DDB",
-            "VLOOKUP", "HLOOKUP", "XLOOKUP", "INDEX", "MATCH", "XMATCH",
-            "CHOOSE", "LOOKUP", "OFFSET", "ROW", "COLUMN", "ROWS", "COLUMNS",
-            "TRANSPOSE", "SORT", "FILTER", "UNIQUE"
-          ],
-          "timeout": 5000,
-          "memoryLimit": 64
-        },
-        "config": {
-          "schema": {
-            "type": "object",
-            "properties": {
-              "dateFormat": { "type": "string", "default": "ISO", "enum": ["ISO", "US", "EU"] },
-              "decimalSeparator": { "type": "string", "default": "." },
-              "thousandsSeparator": { "type": "string", "default": "," },
-              "currencySymbol": { "type": "string", "default": "$" },
-              "weekStartsOn": { "type": "integer", "default": 0 }
-            }
-          },
-          "defaults": {
-            "dateFormat": "ISO",
-            "decimalSeparator": ".",
-            "thousandsSeparator": ",",
-            "currencySymbol": "$",
-            "weekStartsOn": 0
-          }
-        },
-        "resources": { "memory": "64Mi", "cpu": "0.2" }
-      }
-    },
-    {
-      "id": "streaming-file-service",
-      "verified": true,
-      "featured": true,
-      "downloads": 0,
-      "rating": 5.0,
-      "repository": "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/streaming-file-service",
-      "manifest": {
-        "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
-        "id": "streaming-file-service",
-        "name": "Streaming File Service",
-        "version": "1.0.0",
-        "description": "Enterprise-grade large file handling with chunked uploads/downloads, resumable transfers, multi-cloud storage streaming (S3, Azure Blob, GCS), and file transformations. Handles files of any size - addresses the 20-40MB limit in platforms like Power Automate.",
-        "author": {
-          "name": "FlowForge Team",
-          "url": "https://flowforge.dev"
-        },
-        "license": "MIT",
-        "repository": "https://github.com/danstoll/forgehooks-registry",
-        "icon": "cloud-upload",
-        "category": "data",
-        "tags": ["files", "streaming", "upload", "download", "s3", "azure", "gcs", "chunked", "resumable", "large-files", "transcoding", "pdf"],
-        "runtime": "container",
-        "image": {
-          "repository": "flowforge/streaming-file-service",
-          "tag": "latest"
-        },
-        "port": 3020,
-        "basePath": "/api/v1/files",
-        "endpoints": [
-          { "method": "POST", "path": "/upload/init", "description": "Initialize chunked upload session" },
-          { "method": "PUT", "path": "/upload/{uploadId}/chunk/{chunkIndex}", "description": "Upload a single chunk" },
-          { "method": "POST", "path": "/upload/{uploadId}/complete", "description": "Complete chunked upload" },
-          { "method": "GET", "path": "/upload/{uploadId}/status", "description": "Get upload progress" },
-          { "method": "GET", "path": "/download/{fileId}", "description": "Stream download with Range support" },
-          { "method": "POST", "path": "/cloud/upload", "description": "Stream to cloud storage (S3/Azure/GCS)" },
-          { "method": "POST", "path": "/cloud/presigned-url", "description": "Generate presigned URLs" },
-          { "method": "POST", "path": "/transform/split-pdf", "description": "Split PDF into smaller files" },
-          { "method": "POST", "path": "/transform/merge-pdf", "description": "Merge multiple PDFs" },
-          { "method": "POST", "path": "/transform/transcode", "description": "Transcode video/audio files" },
-          { "method": "POST", "path": "/transform/compress", "description": "Create zip/tar archives" },
-          { "method": "GET", "path": "/health", "description": "Health check" }
-        ],
-        "environment": [
-          { "name": "STORAGE_PATH", "description": "Local file storage path", "default": "/data/files" },
-          { "name": "MAX_FILE_SIZE_GB", "description": "Max file size (0=unlimited)", "default": "0" },
-          { "name": "AWS_ACCESS_KEY_ID", "description": "AWS access key", "secret": true },
-          { "name": "AWS_SECRET_ACCESS_KEY", "description": "AWS secret key", "secret": true },
-          { "name": "AZURE_STORAGE_CONNECTION_STRING", "description": "Azure connection string", "secret": true },
-          { "name": "GCS_CREDENTIALS_JSON", "description": "GCS service account JSON", "secret": true }
-        ],
-        "resources": { "memory": "2g", "cpu": "2.0" },
-        "volumes": [{ "name": "file-storage", "path": "/data/files" }],
-        "healthCheck": { "path": "/health", "interval": 30, "timeout": 10 },
-        "dependencies": { "services": ["redis"] }
-      }
-    }
-  ]
+    "version":  "1.1.0",
+    "registry":  {
+                     "name":  "FlowForge Official Registry",
+                     "description":  "Official ForgeHook plugins maintained by the FlowForge team",
+                     "url":  "https://github.com/danstoll/forgehooks-registry",
+                     "maintainer":  "FlowForge Team"
+                 },
+    "lastUpdated":  "2026-01-19T18:00:00Z",
+    "packages":  {
+                     "crypto-service":  {
+                                            "version":  "1.0.0",
+                                            "file":  "packages/crypto-service-1.0.0.fhk",
+                                            "size":  "200MB"
+                                        },
+                     "math-service":  {
+                                          "version":  "1.0.0",
+                                          "file":  "packages/math-service-1.0.0.fhk",
+                                          "size":  "282MB"
+                                      },
+                     "llm-service":  {
+                                         "version":  "1.0.0",
+                                         "file":  "packages/llm-service-1.0.0.fhk",
+                                         "size":  "4.2GB"
+                                     },
+                     "vector-service":  {
+                                            "version":  "1.0.0",
+                                            "file":  "packages/vector-service-1.0.0.fhk",
+                                            "size":  "4.2GB"
+                                        },
+                     "string-utils":  {
+                                          "version":  "1.0.0",
+                                          "file":  "packages/string-utils-1.0.0.fhk",
+                                          "size":  "15KB",
+                                          "runtime":  "embedded"
+                                      },
+                     "date-utils":  {
+                                        "version":  "1.0.0",
+                                        "file":  "packages/date-utils-1.0.0.fhk",
+                                        "size":  "12KB",
+                                        "runtime":  "embedded"
+                                    },
+                     "formula-engine":  {
+                                            "version":  "1.0.0",
+                                            "file":  "packages/formula-engine-1.0.0.fhk",
+                                            "size":  "45KB",
+                                            "runtime":  "embedded"
+                                        },
+                     "streaming-file-service":  {
+                                                    "version":  "1.0.0",
+                                                    "file":  "packages/streaming-file-service-1.0.0.fhk",
+                                                    "size":  "350MB"
+                                                }
+                 },
+    "plugins":  [
+                    {
+                        "id":  "string-utils",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/string-utils",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "string-utils",
+                                         "name":  "String Utilities",
+                                         "version":  "1.0.0",
+                                         "description":  "Lightweight string manipulation utilities including slugify, camelCase, truncate, sanitize HTML, and more. Runs embedded without Docker overhead.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "type",
+                                         "category":  "utility",
+                                         "tags":  [
+                                                      "string",
+                                                      "text",
+                                                      "utility",
+                                                      "slugify",
+                                                      "camelcase",
+                                                      "sanitize",
+                                                      "embedded",
+                                                      "lightweight"
+                                                  ],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  [
+                                                                          "slugify",
+                                                                          "camelCase",
+                                                                          "pascalCase",
+                                                                          "snakeCase",
+                                                                          "kebabCase",
+                                                                          "truncate",
+                                                                          "sanitizeHtml",
+                                                                          "escapeHtml",
+                                                                          "unescapeHtml",
+                                                                          "capitalize",
+                                                                          "titleCase",
+                                                                          "wordCount",
+                                                                          "reverse",
+                                                                          "padLeft",
+                                                                          "padRight",
+                                                                          "removeWhitespace",
+                                                                          "normalizeWhitespace"
+                                                                      ],
+                                                          "timeout":  1000,
+                                                          "memoryLimit":  32
+                                                      },
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/slugify",
+                                                               "description":  "Convert string to URL-friendly slug"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/camelCase",
+                                                               "description":  "Convert string to camelCase"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/pascalCase",
+                                                               "description":  "Convert string to PascalCase"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/snakeCase",
+                                                               "description":  "Convert string to snake_case"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/kebabCase",
+                                                               "description":  "Convert string to kebab-case"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/truncate",
+                                                               "description":  "Truncate string to specified length"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/sanitizeHtml",
+                                                               "description":  "Remove HTML tags from string"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/escapeHtml",
+                                                               "description":  "Escape HTML special characters"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/capitalize",
+                                                               "description":  "Capitalize first letter"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/titleCase",
+                                                               "description":  "Convert to Title Case"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/wordCount",
+                                                               "description":  "Count words in string"
+                                                           }
+                                                       ],
+                                         "config":  {
+                                                        "schema":  {
+                                                                       "type":  "object",
+                                                                       "properties":  {
+                                                                                          "defaultTruncateLength":  {
+                                                                                                                        "type":  "number",
+                                                                                                                        "default":  100
+                                                                                                                    },
+                                                                                          "truncateSuffix":  {
+                                                                                                                 "type":  "string",
+                                                                                                                 "default":  "..."
+                                                                                                             }
+                                                                                      }
+                                                                   },
+                                                        "defaults":  {
+                                                                         "defaultTruncateLength":  100,
+                                                                         "truncateSuffix":  "..."
+                                                                     }
+                                                    },
+                                         "resources":  {
+                                                           "memory":  "32Mi",
+                                                           "cpu":  "0.1"
+                                                       }
+                                     }
+                    },
+                    {
+                        "id":  "date-utils",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/date-utils",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "date-utils",
+                                         "name":  "Date Utilities",
+                                         "version":  "1.0.0",
+                                         "description":  "Lightweight date and time manipulation utilities including formatting, parsing, relative time, and date math. Runs embedded without Docker overhead.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "calendar",
+                                         "category":  "utility",
+                                         "tags":  [
+                                                      "date",
+                                                      "time",
+                                                      "datetime",
+                                                      "format",
+                                                      "parse",
+                                                      "utility",
+                                                      "embedded",
+                                                      "lightweight"
+                                                  ],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  [
+                                                                          "format",
+                                                                          "parse",
+                                                                          "now",
+                                                                          "toISO",
+                                                                          "toUnix",
+                                                                          "fromUnix",
+                                                                          "relativeTime",
+                                                                          "addDays",
+                                                                          "addHours",
+                                                                          "addMinutes",
+                                                                          "addMonths",
+                                                                          "addYears",
+                                                                          "diff",
+                                                                          "startOf",
+                                                                          "endOf",
+                                                                          "isValid",
+                                                                          "isBefore",
+                                                                          "isAfter",
+                                                                          "isBetween",
+                                                                          "getWeekday",
+                                                                          "getDaysInMonth"
+                                                                      ],
+                                                          "timeout":  1000,
+                                                          "memoryLimit":  32
+                                                      },
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/format",
+                                                               "description":  "Format a date to string"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/parse",
+                                                               "description":  "Parse a date string"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/now",
+                                                               "description":  "Get current date/time"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/relativeTime",
+                                                               "description":  "Get human-readable relative time"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/addDays",
+                                                               "description":  "Add days to a date"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/diff",
+                                                               "description":  "Calculate difference between dates"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/startOf",
+                                                               "description":  "Get start of day/week/month/year"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/endOf",
+                                                               "description":  "Get end of day/week/month/year"
+                                                           }
+                                                       ],
+                                         "config":  {
+                                                        "schema":  {
+                                                                       "type":  "object",
+                                                                       "properties":  {
+                                                                                          "defaultFormat":  {
+                                                                                                                "type":  "string",
+                                                                                                                "default":  "YYYY-MM-DD HH:mm:ss"
+                                                                                                            },
+                                                                                          "defaultTimezone":  {
+                                                                                                                  "type":  "string",
+                                                                                                                  "default":  "UTC"
+                                                                                                              }
+                                                                                      }
+                                                                   },
+                                                        "defaults":  {
+                                                                         "defaultFormat":  "YYYY-MM-DD HH:mm:ss",
+                                                                         "defaultTimezone":  "UTC"
+                                                                     }
+                                                    },
+                                         "resources":  {
+                                                           "memory":  "32Mi",
+                                                           "cpu":  "0.1"
+                                                       }
+                                     }
+                    },
+                    {
+                        "id":  "crypto-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/crypto-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "crypto-service",
+                                         "name":  "Crypto Service",
+                                         "version":  "1.0.0",
+                                         "description":  "Cryptographic operations including hashing, encryption, and JWT token management. Supports SHA, bcrypt, argon2, AES-256-GCM encryption.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "lock",
+                                         "category":  "security",
+                                         "tags":  [
+                                                      "encryption",
+                                                      "hashing",
+                                                      "jwt",
+                                                      "bcrypt",
+                                                      "security",
+                                                      "cryptography",
+                                                      "aes"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/crypto-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3001,
+                                         "basePath":  "/api/v1/crypto",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/hash",
+                                                               "description":  "Hash data using SHA, bcrypt, or argon2",
+                                                               "requestBody":  {
+                                                                                   "data":  "string to hash",
+                                                                                   "algorithm":  "sha256"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/encrypt",
+                                                               "description":  "Encrypt data using AES-256-GCM",
+                                                               "requestBody":  {
+                                                                                   "data":  "string to encrypt",
+                                                                                   "key":  "encryption key"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/decrypt",
+                                                               "description":  "Decrypt AES encrypted data",
+                                                               "requestBody":  {
+                                                                                   "encryptedData":  "encrypted string",
+                                                                                   "key":  "encryption key"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/jwt/generate",
+                                                               "description":  "Generate JWT token",
+                                                               "requestBody":  {
+                                                                                   "payload":  {
+
+                                                                                               },
+                                                                                   "secret":  "jwt secret",
+                                                                                   "expiresIn":  "1h"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/jwt/verify",
+                                                               "description":  "Verify JWT token",
+                                                               "requestBody":  {
+                                                                                   "token":  "jwt token",
+                                                                                   "secret":  "jwt secret"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "256m",
+                                                           "cpu":  "0.5"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "math-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/math-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "math-service",
+                                         "name":  "Math Service",
+                                         "version":  "1.0.0",
+                                         "description":  "Advanced mathematical operations including arithmetic, statistics, matrix operations, equation solving, and numerical analysis.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "calculator",
+                                         "category":  "data",
+                                         "tags":  [
+                                                      "math",
+                                                      "statistics",
+                                                      "matrix",
+                                                      "algebra",
+                                                      "numerical",
+                                                      "calculations"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/math-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3002,
+                                         "basePath":  "/api/v1/math",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/calculate",
+                                                               "description":  "Evaluate mathematical expressions",
+                                                               "requestBody":  {
+                                                                                   "expression":  "2 + 2 * 3",
+                                                                                   "variables":  {
+                                                                                                     "x":  5
+                                                                                                 }
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/statistics",
+                                                               "description":  "Calculate statistics (mean, median, std, variance, etc.)",
+                                                               "requestBody":  {
+                                                                                   "data":  [
+                                                                                                1,
+                                                                                                2,
+                                                                                                3,
+                                                                                                4,
+                                                                                                5
+                                                                                            ],
+                                                                                   "operations":  [
+                                                                                                      "mean",
+                                                                                                      "std",
+                                                                                                      "median"
+                                                                                                  ]
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/matrix",
+                                                               "description":  "Matrix operations (multiply, inverse, determinant, etc.)",
+                                                               "requestBody":  {
+                                                                                   "operation":  "multiply",
+                                                                                   "matrix_a":  [
+                                                                                                    [
+                                                                                                        1,
+                                                                                                        2
+                                                                                                    ],
+                                                                                                    [
+                                                                                                        3,
+                                                                                                        4
+                                                                                                    ]
+                                                                                                ],
+                                                                                   "matrix_b":  [
+                                                                                                    [
+                                                                                                        5,
+                                                                                                        6
+                                                                                                    ],
+                                                                                                    [
+                                                                                                        7,
+                                                                                                        8
+                                                                                                    ]
+                                                                                                ]
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/solve",
+                                                               "description":  "Solve equations and systems of equations",
+                                                               "requestBody":  {
+                                                                                   "equations":  [
+                                                                                                     "x + y = 10",
+                                                                                                     "2x - y = 5"
+                                                                                                 ]
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/derivative",
+                                                               "description":  "Calculate symbolic derivatives",
+                                                               "requestBody":  {
+                                                                                   "expression":  "x^2 + 3*x + 2",
+                                                                                   "variable":  "x"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/integral",
+                                                               "description":  "Calculate definite or indefinite integrals",
+                                                               "requestBody":  {
+                                                                                   "expression":  "x^2",
+                                                                                   "variable":  "x",
+                                                                                   "bounds":  [
+                                                                                                  0,
+                                                                                                  1
+                                                                                              ]
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             },
+                                                             {
+                                                                 "name":  "MAX_COMPUTATION_TIME",
+                                                                 "description":  "Maximum computation time in seconds",
+                                                                 "required":  false,
+                                                                 "default":  "30"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "512m",
+                                                           "cpu":  "1.0"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "pdf-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/pdf-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "pdf-service",
+                                         "name":  "PDF Service",
+                                         "version":  "1.0.0",
+                                         "description":  "PDF generation from HTML, merging, splitting, text extraction, and watermarking.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "file-text",
+                                         "category":  "media",
+                                         "tags":  [
+                                                      "pdf",
+                                                      "documents",
+                                                      "generation",
+                                                      "html-to-pdf",
+                                                      "merge",
+                                                      "split"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/pdf-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3003,
+                                         "basePath":  "/api/v1/pdf",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/generate",
+                                                               "description":  "Generate PDF from HTML",
+                                                               "requestBody":  {
+                                                                                   "html":  "\u003ch1\u003eHello World\u003c/h1\u003e",
+                                                                                   "options":  {
+                                                                                                   "format":  "A4",
+                                                                                                   "margin":  "1cm"
+                                                                                               }
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/merge",
+                                                               "description":  "Merge multiple PDFs"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/split",
+                                                               "description":  "Split PDF into pages",
+                                                               "requestBody":  {
+                                                                                   "pages":  [
+                                                                                                 1,
+                                                                                                 2,
+                                                                                                 3
+                                                                                             ]
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/extract-text",
+                                                               "description":  "Extract text from PDF"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/watermark",
+                                                               "description":  "Add watermark to PDF",
+                                                               "requestBody":  {
+                                                                                   "text":  "CONFIDENTIAL",
+                                                                                   "opacity":  0.5
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             },
+                                                             {
+                                                                 "name":  "MAX_FILE_SIZE_MB",
+                                                                 "description":  "Maximum file size in MB",
+                                                                 "required":  false,
+                                                                 "default":  "50"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "1g",
+                                                           "cpu":  "1.0"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "ocr-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/ocr-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "ocr-service",
+                                         "name":  "OCR Service",
+                                         "version":  "1.0.0",
+                                         "description":  "Optical character recognition for extracting text from images. Supports multiple languages and document layouts.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "scan",
+                                         "category":  "ai",
+                                         "tags":  [
+                                                      "ocr",
+                                                      "text-extraction",
+                                                      "image-processing",
+                                                      "ai",
+                                                      "tesseract"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/ocr-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3004,
+                                         "basePath":  "/api/v1/ocr",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/extract",
+                                                               "description":  "Extract text from image",
+                                                               "requestBody":  {
+                                                                                   "language":  "eng"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/extract-structured",
+                                                               "description":  "Extract text with bounding boxes and confidence scores"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/languages",
+                                                               "description":  "List supported languages"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             },
+                                                             {
+                                                                 "name":  "DEFAULT_LANGUAGE",
+                                                                 "description":  "Default OCR language",
+                                                                 "required":  false,
+                                                                 "default":  "eng"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "2g",
+                                                           "cpu":  "2.0"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "image-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/image-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "image-service",
+                                         "name":  "Image Service",
+                                         "version":  "1.0.0",
+                                         "description":  "Image processing including resize, convert, optimize, crop, and format transformations using Sharp.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "image",
+                                         "category":  "media",
+                                         "tags":  [
+                                                      "image",
+                                                      "resize",
+                                                      "optimization",
+                                                      "conversion",
+                                                      "sharp",
+                                                      "webp"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/image-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3005,
+                                         "basePath":  "/api/v1/image",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/resize",
+                                                               "description":  "Resize image",
+                                                               "requestBody":  {
+                                                                                   "width":  800,
+                                                                                   "height":  600,
+                                                                                   "fit":  "cover"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/convert",
+                                                               "description":  "Convert image format",
+                                                               "requestBody":  {
+                                                                                   "format":  "webp",
+                                                                                   "quality":  80
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/optimize",
+                                                               "description":  "Optimize image for web",
+                                                               "requestBody":  {
+                                                                                   "quality":  80
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/crop",
+                                                               "description":  "Crop image",
+                                                               "requestBody":  {
+                                                                                   "x":  0,
+                                                                                   "y":  0,
+                                                                                   "width":  200,
+                                                                                   "height":  200
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/thumbnail",
+                                                               "description":  "Generate thumbnail"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             },
+                                                             {
+                                                                 "name":  "MAX_FILE_SIZE_MB",
+                                                                 "description":  "Maximum file size in MB",
+                                                                 "required":  false,
+                                                                 "default":  "25"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "512m",
+                                                           "cpu":  "1.0"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "llm-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/llm-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "llm-service",
+                                         "name":  "LLM Service",
+                                         "version":  "1.0.0",
+                                         "description":  "AI text generation and chat completions. Compatible with OpenAI API, Anthropic, and local models via Ollama/vLLM.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "brain",
+                                         "category":  "ai",
+                                         "tags":  [
+                                                      "ai",
+                                                      "llm",
+                                                      "chat",
+                                                      "text-generation",
+                                                      "openai",
+                                                      "gpt",
+                                                      "anthropic"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/llm-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3006,
+                                         "basePath":  "/api/v1/llm",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/chat",
+                                                               "description":  "Chat completion",
+                                                               "requestBody":  {
+                                                                                   "messages":  [
+                                                                                                    {
+                                                                                                        "role":  "user",
+                                                                                                        "content":  "Hello"
+                                                                                                    }
+                                                                                                ],
+                                                                                   "model":  "gpt-4"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/generate",
+                                                               "description":  "Text generation",
+                                                               "requestBody":  {
+                                                                                   "prompt":  "Once upon a time",
+                                                                                   "maxTokens":  100
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/embeddings",
+                                                               "description":  "Generate embeddings",
+                                                               "requestBody":  {
+                                                                                   "input":  "text to embed",
+                                                                                   "model":  "text-embedding-3-small"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/models",
+                                                               "description":  "List available models"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "OPENAI_API_KEY",
+                                                                 "description":  "OpenAI API key",
+                                                                 "required":  false,
+                                                                 "secret":  true
+                                                             },
+                                                             {
+                                                                 "name":  "ANTHROPIC_API_KEY",
+                                                                 "description":  "Anthropic API key",
+                                                                 "required":  false,
+                                                                 "secret":  true
+                                                             },
+                                                             {
+                                                                 "name":  "OPENAI_API_BASE",
+                                                                 "description":  "Custom OpenAI API base URL (for Ollama, vLLM, etc.)",
+                                                                 "required":  false
+                                                             },
+                                                             {
+                                                                 "name":  "DEFAULT_MODEL",
+                                                                 "description":  "Default model to use",
+                                                                 "required":  false,
+                                                                 "default":  "gpt-4o-mini"
+                                                             },
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "1g",
+                                                           "cpu":  "1.0"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "vector-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/vector-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "vector-service",
+                                         "name":  "Vector Service",
+                                         "version":  "1.0.0",
+                                         "description":  "Vector database operations for semantic search, RAG, and embeddings storage using Qdrant.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "database",
+                                         "category":  "data",
+                                         "tags":  [
+                                                      "vectors",
+                                                      "embeddings",
+                                                      "semantic-search",
+                                                      "qdrant",
+                                                      "rag"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/vector-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3007,
+                                         "basePath":  "/api/v1/vector",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/collections",
+                                                               "description":  "Create collection",
+                                                               "requestBody":  {
+                                                                                   "name":  "my-collection",
+                                                                                   "dimension":  1536
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/collections",
+                                                               "description":  "List collections"
+                                                           },
+                                                           {
+                                                               "method":  "DELETE",
+                                                               "path":  "/collections/{name}",
+                                                               "description":  "Delete collection"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/upsert",
+                                                               "description":  "Upsert vectors",
+                                                               "requestBody":  {
+                                                                                   "collection":  "my-collection",
+                                                                                   "points":  [
+
+                                                                                              ]
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/search",
+                                                               "description":  "Search vectors",
+                                                               "requestBody":  {
+                                                                                   "collection":  "my-collection",
+                                                                                   "vector":  [
+
+                                                                                              ],
+                                                                                   "limit":  10
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "QDRANT_URL",
+                                                                 "description":  "Qdrant server URL",
+                                                                 "required":  false,
+                                                                 "default":  "http://qdrant:6333"
+                                                             },
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "512m",
+                                                           "cpu":  "1.0"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis",
+                                                                               "qdrant"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "data-transform-service",
+                        "verified":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/data-transform-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "data-transform-service",
+                                         "name":  "Data Transform Service",
+                                         "version":  "1.0.0",
+                                         "description":  "Data format conversions between JSON, CSV, XML, YAML, and more. Supports JSONPath queries and data validation.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "repeat",
+                                         "category":  "data",
+                                         "tags":  [
+                                                      "data",
+                                                      "transform",
+                                                      "json",
+                                                      "csv",
+                                                      "xml",
+                                                      "yaml",
+                                                      "conversion"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "flowforge/data-transform-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3008,
+                                         "basePath":  "/api/v1/transform",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/json-to-csv",
+                                                               "description":  "Convert JSON to CSV"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/csv-to-json",
+                                                               "description":  "Convert CSV to JSON"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/xml-to-json",
+                                                               "description":  "Convert XML to JSON"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/json-to-xml",
+                                                               "description":  "Convert JSON to XML"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/yaml-to-json",
+                                                               "description":  "Convert YAML to JSON"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/json-to-yaml",
+                                                               "description":  "Convert JSON to YAML"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/jsonpath",
+                                                               "description":  "Query JSON with JSONPath",
+                                                               "requestBody":  {
+                                                                                   "data":  {
+
+                                                                                            },
+                                                                                   "query":  "$.store.book[*].author"
+                                                                               }
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check endpoint",
+                                                               "authentication":  false
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "LOG_LEVEL",
+                                                                 "description":  "Logging verbosity level",
+                                                                 "required":  false,
+                                                                 "default":  "info"
+                                                             },
+                                                             {
+                                                                 "name":  "MAX_PAYLOAD_SIZE_MB",
+                                                                 "description":  "Maximum payload size in MB",
+                                                                 "required":  false,
+                                                                 "default":  "10"
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "256m",
+                                                           "cpu":  "0.5"
+                                                       },
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    },
+                    {
+                        "id":  "formula-engine",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/formula-engine",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "formula-engine",
+                                         "name":  "Formula Engine",
+                                         "version":  "1.0.0",
+                                         "description":  "Comprehensive Excel-compatible formula engine with 150+ functions spanning Math/Statistics, Logical, Text, Date/Time, Financial, and Lookup categories. Pure JavaScript implementation - zero external dependencies.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "table",
+                                         "category":  "data",
+                                         "tags":  [
+                                                      "excel",
+                                                      "formulas",
+                                                      "spreadsheet",
+                                                      "functions",
+                                                      "math",
+                                                      "financial",
+                                                      "lookup",
+                                                      "vlookup",
+                                                      "calculations"
+                                                  ],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  [
+                                                                          "SUM",
+                                                                          "AVERAGE",
+                                                                          "COUNT",
+                                                                          "COUNTA",
+                                                                          "COUNTBLANK",
+                                                                          "COUNTIF",
+                                                                          "COUNTIFS",
+                                                                          "MAX",
+                                                                          "MIN",
+                                                                          "MEDIAN",
+                                                                          "MODE",
+                                                                          "STDEV",
+                                                                          "STDEVP",
+                                                                          "VAR",
+                                                                          "VARP",
+                                                                          "SUMIF",
+                                                                          "SUMIFS",
+                                                                          "AVERAGEIF",
+                                                                          "ROUND",
+                                                                          "ROUNDUP",
+                                                                          "ROUNDDOWN",
+                                                                          "CEILING",
+                                                                          "FLOOR",
+                                                                          "TRUNC",
+                                                                          "INT",
+                                                                          "ABS",
+                                                                          "SIGN",
+                                                                          "SQRT",
+                                                                          "POWER",
+                                                                          "EXP",
+                                                                          "LN",
+                                                                          "LOG",
+                                                                          "LOG10",
+                                                                          "MOD",
+                                                                          "QUOTIENT",
+                                                                          "PRODUCT",
+                                                                          "SUMPRODUCT",
+                                                                          "GCD",
+                                                                          "LCM",
+                                                                          "FACT",
+                                                                          "COMBIN",
+                                                                          "PERMUT",
+                                                                          "RAND",
+                                                                          "RANDBETWEEN",
+                                                                          "PI",
+                                                                          "SIN",
+                                                                          "COS",
+                                                                          "TAN",
+                                                                          "ASIN",
+                                                                          "ACOS",
+                                                                          "ATAN",
+                                                                          "ATAN2",
+                                                                          "DEGREES",
+                                                                          "RADIANS",
+                                                                          "LARGE",
+                                                                          "SMALL",
+                                                                          "RANK",
+                                                                          "PERCENTILE",
+                                                                          "QUARTILE",
+                                                                          "IF",
+                                                                          "IFS",
+                                                                          "SWITCH",
+                                                                          "AND",
+                                                                          "OR",
+                                                                          "NOT",
+                                                                          "XOR",
+                                                                          "IFERROR",
+                                                                          "IFNA",
+                                                                          "ISBLANK",
+                                                                          "ISNUMBER",
+                                                                          "ISTEXT",
+                                                                          "ISLOGICAL",
+                                                                          "ISERROR",
+                                                                          "ISEVEN",
+                                                                          "ISODD",
+                                                                          "TRUE",
+                                                                          "FALSE",
+                                                                          "LEFT",
+                                                                          "RIGHT",
+                                                                          "MID",
+                                                                          "LEN",
+                                                                          "FIND",
+                                                                          "SEARCH",
+                                                                          "CONCAT",
+                                                                          "CONCATENATE",
+                                                                          "TEXTJOIN",
+                                                                          "TRIM",
+                                                                          "CLEAN",
+                                                                          "UPPER",
+                                                                          "LOWER",
+                                                                          "PROPER",
+                                                                          "SUBSTITUTE",
+                                                                          "REPLACE",
+                                                                          "REPT",
+                                                                          "TEXT",
+                                                                          "VALUE",
+                                                                          "FIXED",
+                                                                          "DOLLAR",
+                                                                          "CHAR",
+                                                                          "CODE",
+                                                                          "EXACT",
+                                                                          "TEXTSPLIT",
+                                                                          "TEXTBEFORE",
+                                                                          "TEXTAFTER",
+                                                                          "TODAY",
+                                                                          "NOW",
+                                                                          "DATE",
+                                                                          "DATEVALUE",
+                                                                          "TIME",
+                                                                          "TIMEVALUE",
+                                                                          "YEAR",
+                                                                          "MONTH",
+                                                                          "DAY",
+                                                                          "HOUR",
+                                                                          "MINUTE",
+                                                                          "SECOND",
+                                                                          "WEEKDAY",
+                                                                          "WEEKNUM",
+                                                                          "ISOWEEKNUM",
+                                                                          "DATEDIF",
+                                                                          "DAYS",
+                                                                          "DAYS360",
+                                                                          "EDATE",
+                                                                          "EOMONTH",
+                                                                          "WORKDAY",
+                                                                          "NETWORKDAYS",
+                                                                          "YEARFRAC",
+                                                                          "PMT",
+                                                                          "PPMT",
+                                                                          "IPMT",
+                                                                          "CUMIPMT",
+                                                                          "CUMPRINC",
+                                                                          "PV",
+                                                                          "FV",
+                                                                          "NPV",
+                                                                          "XNPV",
+                                                                          "IRR",
+                                                                          "XIRR",
+                                                                          "MIRR",
+                                                                          "RATE",
+                                                                          "NPER",
+                                                                          "EFFECT",
+                                                                          "NOMINAL",
+                                                                          "SLN",
+                                                                          "SYD",
+                                                                          "DB",
+                                                                          "DDB",
+                                                                          "VLOOKUP",
+                                                                          "HLOOKUP",
+                                                                          "XLOOKUP",
+                                                                          "INDEX",
+                                                                          "MATCH",
+                                                                          "XMATCH",
+                                                                          "CHOOSE",
+                                                                          "LOOKUP",
+                                                                          "OFFSET",
+                                                                          "ROW",
+                                                                          "COLUMN",
+                                                                          "ROWS",
+                                                                          "COLUMNS",
+                                                                          "TRANSPOSE",
+                                                                          "SORT",
+                                                                          "FILTER",
+                                                                          "UNIQUE"
+                                                                      ],
+                                                          "timeout":  5000,
+                                                          "memoryLimit":  64
+                                                      },
+                                         "config":  {
+                                                        "schema":  {
+                                                                       "type":  "object",
+                                                                       "properties":  {
+                                                                                          "dateFormat":  {
+                                                                                                             "type":  "string",
+                                                                                                             "default":  "ISO",
+                                                                                                             "enum":  [
+                                                                                                                          "ISO",
+                                                                                                                          "US",
+                                                                                                                          "EU"
+                                                                                                                      ]
+                                                                                                         },
+                                                                                          "decimalSeparator":  {
+                                                                                                                   "type":  "string",
+                                                                                                                   "default":  "."
+                                                                                                               },
+                                                                                          "thousandsSeparator":  {
+                                                                                                                     "type":  "string",
+                                                                                                                     "default":  ","
+                                                                                                                 },
+                                                                                          "currencySymbol":  {
+                                                                                                                 "type":  "string",
+                                                                                                                 "default":  "$"
+                                                                                                             },
+                                                                                          "weekStartsOn":  {
+                                                                                                               "type":  "integer",
+                                                                                                               "default":  0
+                                                                                                           }
+                                                                                      }
+                                                                   },
+                                                        "defaults":  {
+                                                                         "dateFormat":  "ISO",
+                                                                         "decimalSeparator":  ".",
+                                                                         "thousandsSeparator":  ",",
+                                                                         "currencySymbol":  "$",
+                                                                         "weekStartsOn":  0
+                                                                     }
+                                                    },
+                                         "resources":  {
+                                                           "memory":  "64Mi",
+                                                           "cpu":  "0.2"
+                                                       }
+                                     }
+                    },
+                    {
+                        "id":  "streaming-file-service",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/streaming-file-service",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "streaming-file-service",
+                                         "name":  "Streaming File Service",
+                                         "version":  "1.0.0",
+                                         "description":  "Enterprise-grade large file handling with chunked uploads/downloads, resumable transfers, multi-cloud storage streaming (S3, Azure Blob, GCS), and file transformations. Handles files of any size - addresses the 20-40MB limit in platforms like Power Automate.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "icon":  "cloud-upload",
+                                         "category":  "data",
+                                         "tags":  [
+                                                      "files",
+                                                      "streaming",
+                                                      "upload",
+                                                      "download",
+                                                      "s3",
+                                                      "azure",
+                                                      "gcs",
+                                                      "chunked",
+                                                      "resumable",
+                                                      "large-files",
+                                                      "transcoding",
+                                                      "pdf"
+                                                  ],
+                                         "runtime":  "container",
+                                         "image":  {
+                                                       "repository":  "flowforge/streaming-file-service",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  3020,
+                                         "basePath":  "/api/v1/files",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/upload/init",
+                                                               "description":  "Initialize chunked upload session"
+                                                           },
+                                                           {
+                                                               "method":  "PUT",
+                                                               "path":  "/upload/{uploadId}/chunk/{chunkIndex}",
+                                                               "description":  "Upload a single chunk"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/upload/{uploadId}/complete",
+                                                               "description":  "Complete chunked upload"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/upload/{uploadId}/status",
+                                                               "description":  "Get upload progress"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/download/{fileId}",
+                                                               "description":  "Stream download with Range support"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/cloud/upload",
+                                                               "description":  "Stream to cloud storage (S3/Azure/GCS)"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/cloud/presigned-url",
+                                                               "description":  "Generate presigned URLs"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/transform/split-pdf",
+                                                               "description":  "Split PDF into smaller files"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/transform/merge-pdf",
+                                                               "description":  "Merge multiple PDFs"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/transform/transcode",
+                                                               "description":  "Transcode video/audio files"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/transform/compress",
+                                                               "description":  "Create zip/tar archives"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/health",
+                                                               "description":  "Health check"
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "STORAGE_PATH",
+                                                                 "description":  "Local file storage path",
+                                                                 "default":  "/data/files"
+                                                             },
+                                                             {
+                                                                 "name":  "MAX_FILE_SIZE_GB",
+                                                                 "description":  "Max file size (0=unlimited)",
+                                                                 "default":  "0"
+                                                             },
+                                                             {
+                                                                 "name":  "AWS_ACCESS_KEY_ID",
+                                                                 "description":  "AWS access key",
+                                                                 "secret":  true
+                                                             },
+                                                             {
+                                                                 "name":  "AWS_SECRET_ACCESS_KEY",
+                                                                 "description":  "AWS secret key",
+                                                                 "secret":  true
+                                                             },
+                                                             {
+                                                                 "name":  "AZURE_STORAGE_CONNECTION_STRING",
+                                                                 "description":  "Azure connection string",
+                                                                 "secret":  true
+                                                             },
+                                                             {
+                                                                 "name":  "GCS_CREDENTIALS_JSON",
+                                                                 "description":  "GCS service account JSON",
+                                                                 "secret":  true
+                                                             }
+                                                         ],
+                                         "resources":  {
+                                                           "memory":  "2g",
+                                                           "cpu":  "2.0"
+                                                       },
+                                         "volumes":  [
+                                                         {
+                                                             "name":  "file-storage",
+                                                             "path":  "/data/files"
+                                                         }
+                                                     ],
+                                         "healthCheck":  {
+                                                             "path":  "/health",
+                                                             "interval":  30,
+                                                             "timeout":  10
+                                                         },
+                                         "dependencies":  {
+                                                              "services":  [
+                                                                               "redis"
+                                                                           ]
+                                                          }
+                                     }
+                    }
+                ]
 }

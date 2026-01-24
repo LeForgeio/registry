@@ -1,0 +1,256 @@
+{
+  "$schema": "../forgehook-schema.json",
+  "id": "ollama-local",
+  "name": "Ollama",
+  "version": "1.0.0",
+  "description": "Local AI inference using Ollama. Run open-source LLMs like Llama, Mistral, and Code Llama on your machine.",
+  "author": "FlowForge",
+  "license": "MIT",
+  "category": "ai",
+  "runtime": "gateway",
+  "gateway": {
+    "baseUrl": "${OLLAMA_URL:-http://localhost:11434}",
+    "healthCheck": "/api/tags",
+    "timeout": 120000,
+    "retries": 1,
+    "discovery": "ollama",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "basePath": "/api",
+  "endpoints": [
+    {
+      "path": "/generate",
+      "method": "POST",
+      "description": "Generate text from a prompt using a local model",
+      "input": {
+        "type": "object",
+        "required": ["model", "prompt"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model name (e.g., llama2, mistral, codellama)"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Text prompt to generate from"
+          },
+          "system": {
+            "type": "string",
+            "description": "System prompt for context"
+          },
+          "template": {
+            "type": "string",
+            "description": "Custom prompt template"
+          },
+          "context": {
+            "type": "array",
+            "description": "Context from previous response for multi-turn",
+            "items": { "type": "integer" }
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "Stream the response",
+            "default": false
+          },
+          "options": {
+            "type": "object",
+            "description": "Model parameters",
+            "properties": {
+              "temperature": { "type": "number" },
+              "top_p": { "type": "number" },
+              "top_k": { "type": "integer" },
+              "num_predict": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "model": { "type": "string" },
+          "created_at": { "type": "string" },
+          "response": { "type": "string" },
+          "done": { "type": "boolean" },
+          "context": { "type": "array", "items": { "type": "integer" } },
+          "total_duration": { "type": "integer" },
+          "load_duration": { "type": "integer" },
+          "prompt_eval_duration": { "type": "integer" },
+          "eval_count": { "type": "integer" },
+          "eval_duration": { "type": "integer" }
+        }
+      }
+    },
+    {
+      "path": "/chat",
+      "method": "POST",
+      "description": "Chat with a local model using message format",
+      "input": {
+        "type": "object",
+        "required": ["model", "messages"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model name"
+          },
+          "messages": {
+            "type": "array",
+            "description": "Chat messages",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": { "type": "string", "enum": ["system", "user", "assistant"] },
+                "content": { "type": "string" }
+              }
+            }
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "options": {
+            "type": "object",
+            "properties": {
+              "temperature": { "type": "number" },
+              "num_predict": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "model": { "type": "string" },
+          "created_at": { "type": "string" },
+          "message": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string" },
+              "content": { "type": "string" }
+            }
+          },
+          "done": { "type": "boolean" }
+        }
+      }
+    },
+    {
+      "path": "/embeddings",
+      "method": "POST",
+      "description": "Generate embeddings for text",
+      "input": {
+        "type": "object",
+        "required": ["model", "prompt"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model name"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Text to embed"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "embedding": {
+            "type": "array",
+            "items": { "type": "number" }
+          }
+        }
+      }
+    },
+    {
+      "path": "/tags",
+      "method": "GET",
+      "description": "List locally available models",
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "models": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "modified_at": { "type": "string" },
+                "size": { "type": "integer" },
+                "digest": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "/pull",
+      "method": "POST",
+      "description": "Download a model from the Ollama library",
+      "input": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Model name to pull (e.g., llama2, mistral)"
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" }
+        }
+      }
+    }
+  ],
+  "documentation": {
+    "overview": "Ollama makes it easy to run open-source large language models locally. This gateway plugin connects FlowForge to your local Ollama instance.",
+    "installation": "1. Install Ollama from https://ollama.ai\n2. Pull a model: `ollama pull llama2`\n3. Ensure Ollama is running\n4. Install this plugin",
+    "authentication": "No authentication required - runs locally",
+    "examples": [
+      {
+        "title": "Generate Text",
+        "description": "Generate a response from Llama 2",
+        "request": {
+          "method": "POST",
+          "path": "/api/generate",
+          "body": {
+            "model": "llama2",
+            "prompt": "Why is the sky blue?",
+            "stream": false
+          }
+        }
+      },
+      {
+        "title": "Chat",
+        "description": "Have a conversation with Mistral",
+        "request": {
+          "method": "POST",
+          "path": "/api/chat",
+          "body": {
+            "model": "mistral",
+            "messages": [
+              { "role": "user", "content": "Hello, how are you?" }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "tags": ["ai", "llm", "local", "ollama", "open-source"],
+  "links": {
+    "documentation": "https://github.com/ollama/ollama/blob/main/docs/api.md",
+    "support": "https://github.com/ollama/ollama/issues"
+  }
+}
