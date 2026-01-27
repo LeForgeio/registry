@@ -1,15 +1,15 @@
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   "id": "validation-utils",
   "name": "Validation Utilities",
   "version": "1.0.0",
   "description": "Comprehensive format validation utilities for emails, phones, URLs, credit cards, IBANs, VAT numbers, and more. All validation runs locally with no external API calls.",
   "author": {
     "name": "FlowForge Team",
-    "url": "https://flowforge.dev"
+    "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "repository": "https://github.com/LeForgeio/registry",
   "icon": "check-circle",
   "category": "utility",
   "tags": [

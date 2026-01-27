@@ -55,7 +55,7 @@ export async function buildApp(): Promise<FastifyInstance> {
         version: config.serviceVersion,
         contact: {
           name: 'FlowForge',
-          url: 'https://flowforge.dev',
+          url: 'https://leforge.io',
         },
         license: {
           name: 'MIT',

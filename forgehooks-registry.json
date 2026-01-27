@@ -3,7 +3,7 @@
     "registry":  {
                      "name":  "FlowForge Official Registry",
                      "description":  "Official ForgeHook plugins maintained by the FlowForge team",
-                     "url":  "https://github.com/danstoll/forgehooks-registry",
+                     "url":  "https://github.com/LeForgeio/registry",
                      "maintainer":  "FlowForge Team"
                  },
     "lastUpdated":  "2026-01-26T12:00:00Z",
@@ -87,19 +87,19 @@
                         "id":  "qrcode-utils",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/flowforge",
+                        "repository":  "https://github.com/LeForgeio/leforge",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "qrcode-utils",
                                          "name":  "QR Code & Barcode Generator",
                                          "version":  "1.0.0",
                                          "description":  "Generate QR codes and barcodes (Code128, EAN-13, UPC-A) with multiple output formats (SVG, Base64 PNG, matrix). Pure TypeScript implementation - zero external dependencies. Built into FlowForge core.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/flowforge",
+                                         "repository":  "https://github.com/LeForgeio/leforge",
                                          "icon":  "qr-code",
                                          "category":  "utility",
                                          "tags":  [
@@ -156,19 +156,19 @@
                         "id":  "string-utils",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/string-utils",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/string-utils",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "string-utils",
                                          "name":  "String Utilities",
                                          "version":  "1.0.0",
                                          "description":  "Lightweight string manipulation utilities including slugify, camelCase, truncate, sanitize HTML, and more. Runs embedded without Docker overhead.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "type",
                                          "category":  "utility",
                                          "tags":  [
@@ -292,19 +292,19 @@
                         "id":  "date-utils",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/date-utils",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/date-utils",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "date-utils",
                                          "name":  "Date Utilities",
                                          "version":  "1.0.0",
                                          "description":  "Lightweight date and time manipulation utilities including formatting, parsing, relative time, and date math. Runs embedded without Docker overhead.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "calendar",
                                          "category":  "utility",
                                          "tags":  [
@@ -416,19 +416,19 @@
                     {
                         "id":  "crypto-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/crypto-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/crypto-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "crypto-service",
                                          "name":  "Crypto Service",
                                          "version":  "1.0.0",
                                          "description":  "Cryptographic operations including hashing, encryption, and JWT token management. Supports SHA, bcrypt, argon2, AES-256-GCM encryption.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "lock",
                                          "category":  "security",
                                          "tags":  [
@@ -530,19 +530,19 @@
                     {
                         "id":  "math-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/math-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/math-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "math-service",
                                          "name":  "Math Service",
                                          "version":  "1.0.0",
                                          "description":  "Advanced mathematical operations including arithmetic, statistics, matrix operations, equation solving, and numerical analysis.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "calculator",
                                          "category":  "data",
                                          "tags":  [
@@ -692,19 +692,19 @@
                     {
                         "id":  "pdf-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/pdf-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/pdf-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "pdf-service",
                                          "name":  "PDF Service",
                                          "version":  "1.0.0",
                                          "description":  "PDF generation from HTML, merging, splitting, text extraction, and watermarking.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "file-text",
                                          "category":  "media",
                                          "tags":  [
@@ -806,19 +806,19 @@
                     {
                         "id":  "ocr-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/ocr-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/ocr-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "ocr-service",
                                          "name":  "OCR Service",
                                          "version":  "1.0.0",
                                          "description":  "Optical character recognition for extracting text from images. Supports multiple languages and document layouts.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "scan",
                                          "category":  "ai",
                                          "tags":  [
@@ -894,19 +894,19 @@
                     {
                         "id":  "image-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/image-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/image-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "image-service",
                                          "name":  "Image Service",
                                          "version":  "1.0.0",
                                          "description":  "Image processing including resize, convert, optimize, crop, and format transformations using Sharp.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "image",
                                          "category":  "media",
                                          "tags":  [
@@ -1008,19 +1008,19 @@
                     {
                         "id":  "llm-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/llm-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/llm-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "llm-service",
                                          "name":  "LLM Service",
                                          "version":  "1.0.0",
                                          "description":  "AI text generation and chat completions. Compatible with OpenAI API, Anthropic, and local models via Ollama/vLLM.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "brain",
                                          "category":  "ai",
                                          "tags":  [
@@ -1134,19 +1134,19 @@
                     {
                         "id":  "vector-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/vector-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/vector-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "vector-service",
                                          "name":  "Vector Service",
                                          "version":  "1.0.0",
                                          "description":  "Vector database operations for semantic search, RAG, and embeddings storage using Qdrant.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "database",
                                          "category":  "data",
                                          "tags":  [
@@ -1247,19 +1247,19 @@
                     {
                         "id":  "data-transform-service",
                         "verified":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/data-transform-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/data-transform-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "data-transform-service",
                                          "name":  "Data Transform Service",
                                          "version":  "1.0.0",
                                          "description":  "Data format conversions between JSON, CSV, XML, YAML, and more. Supports JSONPath queries and data validation.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "repeat",
                                          "category":  "data",
                                          "tags":  [
@@ -1361,19 +1361,19 @@
                         "id":  "formula-engine",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/formula-engine",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/formula-engine",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "formula-engine",
                                          "name":  "Formula Engine",
                                          "version":  "1.0.0",
                                          "description":  "Comprehensive Excel-compatible formula engine with 150+ functions spanning Math/Statistics, Logical, Text, Date/Time, Financial, and Lookup categories. Pure JavaScript implementation - zero external dependencies.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "table",
                                          "category":  "data",
                                          "tags":  [
@@ -1608,19 +1608,19 @@
                         "id":  "streaming-file-service",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/streaming-file-service",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/streaming-file-service",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "streaming-file-service",
                                          "name":  "Streaming File Service",
                                          "version":  "1.0.0",
                                          "description":  "Enterprise-grade large file handling with chunked uploads/downloads, resumable transfers, multi-cloud storage streaming (S3, Azure Blob, GCS), and file transformations. Handles files of any size - addresses the 20-40MB limit in platforms like Power Automate.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
-                                         "repository":  "https://github.com/danstoll/forgehooks-registry",
+                                         "repository":  "https://github.com/LeForgeio/registry",
                                          "icon":  "cloud-upload",
                                          "category":  "data",
                                          "tags":  [
@@ -1764,16 +1764,16 @@
                         "id":  "validation-utils",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/validation-utils",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/validation-utils",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "validation-utils",
                                          "name":  "Validation Utilities",
                                          "version":  "1.0.0",
                                          "description":  "Comprehensive format validation utilities for emails, phones, URLs, credit cards, IBANs, VAT numbers, and more. All validation runs locally with no external API calls.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
                                          "icon":  "check-circle",
@@ -1796,16 +1796,16 @@
                         "id":  "uuid-utils",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/uuid-utils",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/uuid-utils",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "uuid-utils",
                                          "name":  "UUID Utilities",
                                          "version":  "1.0.0",
                                          "description":  "Generate unique identifiers: UUID v1/v4/v5/v7, ULID, NanoID, CUID, Snowflake IDs. All generation is local with cryptographically secure randomness.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
                                          "icon":  "hash",
@@ -1828,16 +1828,16 @@
                         "id":  "encoding-utils",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/encoding-utils",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/encoding-utils",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "encoding-utils",
                                          "name":  "Encoding Utilities",
                                          "version":  "1.0.0",
                                          "description":  "Data encoding and decoding: Base64, Base64URL, hex, URL encoding, HTML entities, JWT decoding (without verification). All operations run locally.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
                                          "icon":  "code",
@@ -1860,16 +1860,16 @@
                         "id":  "json-utils",
                         "verified":  true,
                         "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/json-utils",
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/json-utils",
                         "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
                                          "id":  "json-utils",
                                          "name":  "JSON Utilities",
                                          "version":  "1.0.0",
                                          "description":  "JSON manipulation: JSONPath queries, flatten/unflatten, deep merge, diff comparison, schema validation, and safe parsing. All operations run locally.",
                                          "author":  {
                                                         "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
+                                                        "url":  "https://leforge.io"
                                                     },
                                          "license":  "MIT",
                                          "icon":  "braces",

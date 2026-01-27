@@ -52,7 +52,7 @@ Every ForgeHook requires a `forgehook.json` manifest file. This declares the plu
 
 ```json
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   
   // === REQUIRED FIELDS ===
   "id": "my-service",           // Unique identifier (lowercase, alphanumeric, hyphens)
@@ -558,7 +558,7 @@ curl -X POST http://flowforge:4000/api/v1/plugins/install \
 
 ```json
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   "id": "hello-world",
   "name": "Hello World",
   "version": "1.0.0",
@@ -576,7 +576,7 @@ curl -X POST http://flowforge:4000/api/v1/plugins/install \
 
 ```json
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   "id": "simple-math",
   "name": "Simple Math",
   "version": "1.0.0",
@@ -599,9 +599,9 @@ curl -X POST http://flowforge:4000/api/v1/plugins/install \
 
 ## Resources
 
-- **Schema**: `https://flowforge.dev/schemas/forgehook-v1.json`
-- **Official Registry**: `https://github.com/danstoll/forgehooks-registry`
-- **FlowForge Core**: `https://github.com/danstoll/flowforge`
+- **Schema**: `https://leforge.io/schemas/forgehook-v1.json`
+- **Official Registry**: `https://github.com/LeForgeio/registry`
+- **FlowForge Core**: `https://github.com/LeForgeio/leforge`
 - **Examples**: See `plugins/` directory in the registry
 
 ---

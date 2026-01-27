@@ -1,6 +1,6 @@
 # ForgeHooks Registry
 
-Official registry of ForgeHook plugins for [FlowForge](https://github.com/danstoll/flowforge).
+Official registry of ForgeHook plugins for [FlowForge](https://github.com/LeForgeio/leforge).
 
 ## 🔌 Available Plugins
 
@@ -82,7 +82,7 @@ See [Creating ForgeHooks](./docs/creating-forgehooks.md) for a complete guide.
 
 ```json
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   "id": "my-service",
   "name": "My Service",
   "version": "1.0.0",

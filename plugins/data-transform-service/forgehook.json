@@ -6,7 +6,7 @@
   "description": "Comprehensive data transformation operations including JSON manipulation (JSONPath, JMESPath), CSV parsing/generation, XML conversion, JSON Schema validation, object flattening/unflattening, deep merging, and template rendering. Pure JavaScript - no external dependencies.",
   "author": {
     "name": "FlowForge",
-    "url": "https://flowforge.dev"
+    "url": "https://leforge.io"
   },
   "license": "MIT",
   "repository": "https://github.com/flowforge/forgehooks-registry",

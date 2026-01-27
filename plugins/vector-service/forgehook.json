@@ -6,7 +6,7 @@
   "description": "Vector database operations for semantic search, similarity matching, and RAG applications using Qdrant",
   "author": {
     "name": "FlowForge",
-    "url": "https://flowforge.dev"
+    "url": "https://leforge.io"
   },
   "license": "MIT",
   "repository": "https://github.com/flowforge/vector-service",

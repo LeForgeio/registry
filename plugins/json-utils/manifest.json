@@ -1,15 +1,15 @@
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   "id": "json-utils",
   "name": "JSON Utilities",
   "version": "1.0.0",
   "description": "Comprehensive JSON manipulation utilities: JSONPath queries, flatten/unflatten nested objects, deep merge, diff comparison, schema validation (JSON Schema draft-07), and safe parsing. All operations run locally.",
   "author": {
     "name": "FlowForge Team",
-    "url": "https://flowforge.dev"
+    "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "repository": "https://github.com/LeForgeio/registry",
   "icon": "braces",
   "category": "data",
   "tags": [

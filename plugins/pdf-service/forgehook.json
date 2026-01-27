@@ -6,7 +6,7 @@
   "description": "PDF document processing including text extraction, merging, splitting, compression, conversion, and watermarking",
   "author": {
     "name": "FlowForge",
-    "url": "https://flowforge.dev"
+    "url": "https://leforge.io"
   },
   "license": "MIT",
   "repository": "https://github.com/flowforge/pdf-service",

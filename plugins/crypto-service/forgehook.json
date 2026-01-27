@@ -6,7 +6,7 @@
   "description": "Comprehensive cryptographic operations including hashing (SHA, MD5), symmetric encryption (AES-256-GCM/CBC), JWT token management, HMAC signatures, and secure random generation. Zero external dependencies - uses Node.js built-in crypto module.",
   "author": {
     "name": "FlowForge",
-    "url": "https://flowforge.dev"
+    "url": "https://leforge.io"
   },
   "license": "MIT",
   "repository": "https://github.com/flowforge/forgehooks-registry",

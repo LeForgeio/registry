@@ -30,7 +30,7 @@ my-string-tools/
 
 ```json
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   "id": "my-string-tools",
   "name": "My String Tools",
   "version": "1.0.0",
@@ -171,7 +171,7 @@ my-image-processor/
 
 ```json
 {
-  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
   "id": "my-image-processor",
   "name": "My Image Processor",
   "version": "1.0.0",
@@ -361,7 +361,7 @@ Push your ForgeHook to a public GitHub repository with `forgehook.json` at the r
 
 Add your plugin to the official registry:
 
-1. Fork [forgehooks-registry](https://github.com/danstoll/forgehooks-registry)
+1. Fork [forgehooks-registry](https://github.com/LeForgeio/registry)
 2. Add your plugin folder to `plugins/`
 3. Update `forgehooks-registry.json` with your manifest
 4. Submit a PR
@@ -487,5 +487,5 @@ Browse complete working examples in the registry:
 ## Need Help?
 
 - 📖 [Full Specification](./FORGEHOOK_SPECIFICATION.md)
-- 💬 [GitHub Discussions](https://github.com/danstoll/flowforge/discussions)
-- 🐛 [Report Issues](https://github.com/danstoll/forgehooks-registry/issues)
+- 💬 [GitHub Discussions](https://github.com/LeForgeio/leforge/discussions)
+- 🐛 [Report Issues](https://github.com/LeForgeio/registry/issues)
