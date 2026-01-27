@@ -7,7 +7,7 @@ This folder contains ready-to-use connectors and integration packages for variou
 | Platform | Folder | Status | Format |
 |----------|--------|--------|--------|
 | **Power Automate** | `power-automate/` | 🚧 In Development | OpenAPI Custom Connector |
-| **Nintex Workflow Cloud** | `nintex-cloud/` | 🚧 In Development | OpenAPI Xtension |
+| **Nintex Workflow Cloud** | `nintex-cloud/` | ✅ Ready | OpenAPI Xtension |
 | **Nintex K2** | `nintex-k2/` | 🚧 In Development | Swagger + SmartObjects |
 | **n8n** | `n8n/` | 🚧 In Development | TypeScript npm package |
 | **Salesforce** | `salesforce/` | 📋 Planned | External Services + Apex |
@@ -64,9 +64,13 @@ python scripts/generate-integrations.py --plugin llm-service
 ## Supported Plugins
 
 - **LLM Service** - AI chat, text generation, embeddings
-- **Formula Engine** - 118 Excel-compatible functions
-- **Streaming File Service** - Large file processing
-- **Crypto Service** - Encryption, hashing, signatures
+- **Formula Engine** - 150+ Excel-compatible functions (VLOOKUP, SUMIF, etc.)
+- **Streaming File Service** - Large file handling, chunked uploads, cloud storage
+- **Crypto Service** - Encryption, hashing, JWT, signatures
+- **Math Service** - Advanced calculations, statistics, matrix operations
+- **Vector Service** - Vector database for semantic search and RAG
+- **String Utils** - String manipulation (slugify, camelCase, sanitize)
+- **Date Utils** - Date/time formatting, parsing, arithmetic
 
 ## Authentication
 

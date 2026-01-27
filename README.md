@@ -4,16 +4,35 @@ Official registry of ForgeHook plugins for [FlowForge](https://github.com/dansto
 
 ## 🔌 Available Plugins
 
+### ⭐ Featured (Embedded - No Docker Required)
+
 | Plugin                                                       | Category | Description                                         |
 | ------------------------------------------------------------ | -------- | --------------------------------------------------- |
+| [formula-engine](./plugins/formula-engine/)                  | Data     | 150+ Excel-compatible functions (VLOOKUP, SUMIF, etc.) |
+| [string-utils](./plugins/string-utils/)                      | Utility  | String manipulation - slugify, camelCase, sanitize  |
+| [date-utils](./plugins/date-utils/)                          | Utility  | Date/time utilities - format, parse, relative time  |
+
+### 🐳 Container Services
+
+| Plugin                                                       | Category | Description                                         |
+| ------------------------------------------------------------ | -------- | --------------------------------------------------- |
+| [streaming-file-service](./plugins/streaming-file-service/)  | Data     | Large file handling, chunked uploads, cloud storage |
 | [crypto-service](./plugins/crypto-service/)                  | Security | Cryptographic operations - hashing, encryption, JWT |
-| [math-service](./plugins/math-service/)                      | Utility  | Mathematical calculations and statistics            |
+| [math-service](./plugins/math-service/)                      | Data     | Mathematical calculations and statistics            |
 | [pdf-service](./plugins/pdf-service/)                        | Media    | PDF generation, merging, splitting                  |
 | [ocr-service](./plugins/ocr-service/)                        | AI       | Optical character recognition                       |
 | [image-service](./plugins/image-service/)                    | Media    | Image processing and optimization                   |
 | [llm-service](./plugins/llm-service/)                        | AI       | LLM chat and text generation                        |
 | [vector-service](./plugins/vector-service/)                  | Data     | Vector database for semantic search                 |
 | [data-transform-service](./plugins/data-transform-service/)  | Data     | Data format conversions                             |
+
+### 🔧 Local AI Providers
+
+| Plugin                                                       | Category | Description                                         |
+| ------------------------------------------------------------ | -------- | --------------------------------------------------- |
+| [ollama-local](./plugins/ollama-local/)                      | AI       | Local LLM via Ollama                                |
+| [lm-studio](./plugins/lm-studio/)                            | AI       | Local LLM via LM Studio                             |
+| [foundry-local](./plugins/foundry-local/)                    | AI       | Microsoft Foundry Local integration                 |
 
 ## 📦 Installation Methods
 
@@ -31,12 +50,21 @@ flowforge/crypto-service
 
 Pre-built packages are available in the `packages/` directory:
 
-| Package                      | Size   | Description                      |
-| ---------------------------- | ------ | -------------------------------- |
-| `crypto-service-1.0.0.fhk`   | 200 MB | Cryptographic operations         |
-| `math-service-1.0.0.fhk`     | 282 MB | Mathematical calculations        |
-| `llm-service-1.0.0.fhk`      | 4.2 GB | LLM/AI text generation           |
-| `vector-service-1.0.0.fhk`   | 4.2 GB | Vector database/semantic search  |
+**Embedded (Lightweight)**
+| Package                           | Size   | Description                      |
+| --------------------------------- | ------ | -------------------------------- |
+| `formula-engine-1.0.0.fhk`        | 45 KB  | Excel-compatible formulas        |
+| `string-utils-1.0.0.fhk`          | 15 KB  | String manipulation utilities    |
+| `date-utils-1.0.0.fhk`            | 12 KB  | Date/time utilities              |
+
+**Container Services**
+| Package                           | Size   | Description                      |
+| --------------------------------- | ------ | -------------------------------- |
+| `crypto-service-1.0.0.fhk`        | 200 MB | Cryptographic operations         |
+| `math-service-1.0.0.fhk`          | 282 MB | Mathematical calculations        |
+| `streaming-file-service-1.0.0.fhk`| 350 MB | Large file handling              |
+| `llm-service-1.0.0.fhk`           | 4.2 GB | LLM/AI text generation           |
+| `vector-service-1.0.0.fhk`        | 4.2 GB | Vector database/semantic search  |
 
 To install a .fhk package:
 
