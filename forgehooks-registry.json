@@ -74,13 +74,7 @@
                                         "file":  "packages/json-utils-1.0.0.fhk",
                                         "size":  "20KB",
                                         "runtime":  "embedded"
-                                    },
-                     "qrcode-utils":  {
-                                          "version":  "1.0.0",
-                                          "file":  "packages/qrcode-utils-1.0.0.fhk",
-                                          "size":  "25KB",
-                                          "runtime":  "embedded"
-                                      }
+                                    }
                  },
     "plugins":  [
                     {
@@ -1818,38 +1812,5 @@
                                                            "cpu":  "0.2"
                                                        }
                                      }
-                    },
-                    {
-                        "id":  "qrcode-utils",
-                        "verified":  true,
-                        "featured":  true,
-                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/qrcode-utils",
-                        "manifest":  {
-                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
-                                         "id":  "qrcode-utils",
-                                         "name":  "QR Code Utilities",
-                                         "version":  "1.0.0",
-                                         "description":  "Generate QR codes and barcodes locally. Create QR codes as SVG/PNG. Supports barcodes (Code128, EAN-13, UPC-A). Pure JavaScript - no external dependencies.",
-                                         "author":  {
-                                                        "name":  "FlowForge Team",
-                                                        "url":  "https://flowforge.dev"
-                                                    },
-                                         "license":  "MIT",
-                                         "icon":  "qr-code",
-                                         "category":  "utility",
-                                         "tags":  ["qrcode", "qr", "barcode", "code128", "ean13", "upc", "svg", "embedded", "offline"],
-                                         "runtime":  "embedded",
-                                         "embedded":  {
-                                                          "entrypoint":  "index.js",
-                                                          "exports":  ["generateQR", "generateQRSvg", "generateQRBase64", "generateQRMatrix", "generateBarcode", "generateCode128", "generateEAN13", "generateUPCA", "validateEAN13", "validateUPCA"],
-                                                          "timeout":  2000,
-                                                          "memoryLimit":  64
-                                                      },
-                                         "resources":  {
-                                                           "memory":  "64Mi",
-                                                           "cpu":  "0.2"
-                                                       }
-                                     }
-                    }
                 ]
 }
