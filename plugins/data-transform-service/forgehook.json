@@ -9,7 +9,7 @@
     "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/flowforge/forgehooks-registry",
+  "repository": "https://github.com/LeForgeio/registry",
   "icon": "repeat",
   "category": "data",
   "tags": ["transform", "json", "csv", "xml", "yaml", "mapping", "validation", "jsonpath", "conversion", "parse"],

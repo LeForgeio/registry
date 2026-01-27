@@ -9,7 +9,7 @@
     "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/flowforge/forgehooks-registry",
+  "repository": "https://github.com/LeForgeio/registry",
   "icon": "lock",
   "category": "security",
   "tags": ["encryption", "hashing", "jwt", "hmac", "aes", "security", "sha256", "sha512", "md5", "base64", "uuid"],

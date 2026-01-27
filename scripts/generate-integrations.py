@@ -783,7 +783,7 @@ def generate_n8n_package_json(forgehook: Dict[str, Any], plugin_name: str, packa
         },
         "repository": {
             "type": "git",
-            "url": "https://github.com/flowforge/flowforge-registry.git"
+            "url": "https://github.com/LeForgeio/registry.git"
         },
         "main": "dist/index.js",
         "scripts": {

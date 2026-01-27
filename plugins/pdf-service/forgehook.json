@@ -9,7 +9,7 @@
     "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/flowforge/pdf-service",
+  "repository": "https://github.com/LeForgeio/registry/tree/main/plugins/pdf-service",
   "icon": "file-text",
   "category": "data",
   "tags": ["pdf", "document", "extract", "merge", "split", "convert", "watermark"],

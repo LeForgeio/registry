@@ -9,7 +9,7 @@
     "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/flowforge/ocr-service",
+  "repository": "https://github.com/LeForgeio/registry/tree/main/plugins/ocr-service",
   "icon": "scan",
   "category": "media",
   "tags": ["ocr", "text-extraction", "image", "recognition", "paddleocr", "tesseract"],

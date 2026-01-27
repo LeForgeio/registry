@@ -97,9 +97,9 @@ CMD ["npm", "run", "dev"]
 # ==============================================================================
 # Labels for container metadata
 # ==============================================================================
-LABEL org.opencontainers.image.title="FlowForge Crypto Service" \
+LABEL org.opencontainers.image.title="LeForge Crypto Service" \
       org.opencontainers.image.description="Production-ready cryptographic operations microservice" \
       org.opencontainers.image.version="1.0.0" \
-      org.opencontainers.image.vendor="FlowForge" \
-      org.opencontainers.image.source="https://github.com/flowforge/flowforge" \
+      org.opencontainers.image.vendor="LeForge" \
+      org.opencontainers.image.source="https://github.com/LeForgeio/registry" \
       org.opencontainers.image.licenses="MIT"

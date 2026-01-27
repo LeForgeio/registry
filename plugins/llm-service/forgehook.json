@@ -9,7 +9,7 @@
     "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/flowforge/llm-service",
+  "repository": "https://github.com/LeForgeio/registry/tree/main/plugins/llm-service",
   "icon": "brain",
   "category": "ai",
   "tags": ["llm", "ai", "gpt", "claude", "gemini", "bedrock", "openai", "anthropic", "multi-provider", "text-generation", "embeddings", "vision", "ocr"],

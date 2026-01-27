@@ -26,8 +26,8 @@ info:
     
   version: 1.0.0
   contact:
-    name: FlowForge Team
-    url: https://github.com/flowforge
+    name: LeForge Team
+    url: https://github.com/LeForgeio
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -35,7 +35,7 @@ info:
 servers:
   - url: http://localhost:8000
     description: Local development server
-  - url: https://api.flowforge.io/vector
+  - url: https://api.leforge.io/vector
     description: Production server
 
 tags:

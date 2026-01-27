@@ -9,7 +9,7 @@
     "url": "https://leforge.io"
   },
   "license": "MIT",
-  "repository": "https://github.com/flowforge/forgehooks-registry",
+  "repository": "https://github.com/LeForgeio/registry",
   "icon": "table",
   "category": "data",
   "tags": ["excel", "formulas", "spreadsheet", "functions", "math", "financial", "lookup", "text", "dates", "vlookup", "calculations"],
