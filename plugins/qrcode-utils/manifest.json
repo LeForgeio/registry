@@ -1,0 +1,120 @@
+{
+  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "id": "qrcode-utils",
+  "name": "QR Code Utilities",
+  "version": "1.0.0",
+  "description": "Generate QR codes and barcodes locally. Create QR codes as SVG, PNG base64, or text matrix. Supports barcodes (Code128, EAN-13, UPC-A). Pure JavaScript implementation - no external dependencies or API calls.",
+  "author": {
+    "name": "FlowForge Team",
+    "url": "https://flowforge.dev"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "icon": "qr-code",
+  "category": "utility",
+  "tags": [
+    "qrcode",
+    "qr",
+    "barcode",
+    "code128",
+    "ean13",
+    "upc",
+    "svg",
+    "embedded",
+    "offline"
+  ],
+  "runtime": "embedded",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "generateQR",
+      "generateQRSvg",
+      "generateQRBase64",
+      "generateQRMatrix",
+      "generateBarcode",
+      "generateCode128",
+      "generateEAN13",
+      "generateUPCA",
+      "validateEAN13",
+      "validateUPCA",
+      "calculateCheckDigit"
+    ],
+    "timeout": 2000,
+    "memoryLimit": 64
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/qr/svg",
+      "description": "Generate QR code as SVG"
+    },
+    {
+      "method": "POST",
+      "path": "/qr/base64",
+      "description": "Generate QR code as PNG base64"
+    },
+    {
+      "method": "POST",
+      "path": "/qr/matrix",
+      "description": "Generate QR code as boolean matrix"
+    },
+    {
+      "method": "POST",
+      "path": "/barcode/code128",
+      "description": "Generate Code128 barcode"
+    },
+    {
+      "method": "POST",
+      "path": "/barcode/ean13",
+      "description": "Generate EAN-13 barcode"
+    },
+    {
+      "method": "POST",
+      "path": "/barcode/upca",
+      "description": "Generate UPC-A barcode"
+    },
+    {
+      "method": "POST",
+      "path": "/validate",
+      "description": "Validate barcode number with check digit"
+    }
+  ],
+  "config": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "defaultSize": {
+          "type": "number",
+          "default": 200,
+          "description": "Default QR code size in pixels"
+        },
+        "errorCorrection": {
+          "type": "string",
+          "default": "M",
+          "enum": ["L", "M", "Q", "H"],
+          "description": "Error correction level (L=7%, M=15%, Q=25%, H=30%)"
+        },
+        "darkColor": {
+          "type": "string",
+          "default": "#000000",
+          "description": "Dark module color"
+        },
+        "lightColor": {
+          "type": "string",
+          "default": "#FFFFFF",
+          "description": "Light module color"
+        }
+      }
+    },
+    "defaults": {
+      "defaultSize": 200,
+      "errorCorrection": "M",
+      "darkColor": "#000000",
+      "lightColor": "#FFFFFF"
+    }
+  },
+  "resources": {
+    "memory": "64Mi",
+    "cpu": "0.2"
+  }
+}

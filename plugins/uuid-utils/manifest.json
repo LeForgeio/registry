@@ -1,0 +1,137 @@
+{
+  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "id": "uuid-utils",
+  "name": "UUID Utilities",
+  "version": "1.0.0",
+  "description": "Generate unique identifiers in various formats: UUID v1/v4/v5/v7, ULID, NanoID, CUID, Snowflake IDs, and custom random strings. All generation is local with cryptographically secure randomness.",
+  "author": {
+    "name": "FlowForge Team",
+    "url": "https://flowforge.dev"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "icon": "hash",
+  "category": "utility",
+  "tags": [
+    "uuid",
+    "guid",
+    "nanoid",
+    "ulid",
+    "cuid",
+    "snowflake",
+    "identifier",
+    "random",
+    "embedded",
+    "offline"
+  ],
+  "runtime": "embedded",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "uuid",
+      "uuidv1",
+      "uuidv4",
+      "uuidv5",
+      "uuidv7",
+      "ulid",
+      "nanoid",
+      "cuid",
+      "cuid2",
+      "snowflake",
+      "randomString",
+      "randomHex",
+      "randomBase64",
+      "shortId",
+      "isValidUUID",
+      "isValidULID",
+      "parseUUID",
+      "parseULID",
+      "nil"
+    ],
+    "timeout": 1000,
+    "memoryLimit": 32
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/uuid",
+      "description": "Generate UUID v4 (random)"
+    },
+    {
+      "method": "GET",
+      "path": "/uuid/v1",
+      "description": "Generate UUID v1 (timestamp-based)"
+    },
+    {
+      "method": "POST",
+      "path": "/uuid/v5",
+      "description": "Generate UUID v5 (namespace + name)"
+    },
+    {
+      "method": "GET",
+      "path": "/uuid/v7",
+      "description": "Generate UUID v7 (sortable timestamp)"
+    },
+    {
+      "method": "GET",
+      "path": "/ulid",
+      "description": "Generate ULID (sortable)"
+    },
+    {
+      "method": "GET",
+      "path": "/nanoid",
+      "description": "Generate NanoID"
+    },
+    {
+      "method": "GET",
+      "path": "/cuid",
+      "description": "Generate CUID2"
+    },
+    {
+      "method": "GET",
+      "path": "/snowflake",
+      "description": "Generate Snowflake ID"
+    },
+    {
+      "method": "POST",
+      "path": "/random",
+      "description": "Generate custom random string"
+    },
+    {
+      "method": "POST",
+      "path": "/batch",
+      "description": "Generate multiple IDs"
+    }
+  ],
+  "config": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "defaultLength": {
+          "type": "number",
+          "default": 21,
+          "description": "Default length for NanoID"
+        },
+        "machineId": {
+          "type": "number",
+          "default": 1,
+          "description": "Machine ID for Snowflake IDs"
+        },
+        "epoch": {
+          "type": "number",
+          "default": 1609459200000,
+          "description": "Custom epoch for Snowflake (default: 2021-01-01)"
+        }
+      }
+    },
+    "defaults": {
+      "defaultLength": 21,
+      "machineId": 1,
+      "epoch": 1609459200000
+    }
+  },
+  "resources": {
+    "memory": "32Mi",
+    "cpu": "0.1"
+  }
+}

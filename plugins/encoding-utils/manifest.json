@@ -1,0 +1,133 @@
+{
+  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "id": "encoding-utils",
+  "name": "Encoding Utilities",
+  "version": "1.0.0",
+  "description": "Data encoding and decoding utilities: Base64, Base64URL, hex, URL encoding, HTML entities, JWT decoding (without verification), and binary conversions. All operations run locally.",
+  "author": {
+    "name": "FlowForge Team",
+    "url": "https://flowforge.dev"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "icon": "code",
+  "category": "utility",
+  "tags": [
+    "encoding",
+    "base64",
+    "hex",
+    "url",
+    "html",
+    "jwt",
+    "binary",
+    "embedded",
+    "offline"
+  ],
+  "runtime": "embedded",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "base64Encode",
+      "base64Decode",
+      "base64UrlEncode",
+      "base64UrlDecode",
+      "hexEncode",
+      "hexDecode",
+      "urlEncode",
+      "urlDecode",
+      "htmlEncode",
+      "htmlDecode",
+      "unicodeEncode",
+      "unicodeDecode",
+      "jwtDecode",
+      "jwtHeader",
+      "jwtPayload",
+      "stringToBytes",
+      "bytesToString",
+      "utf8ToBytes",
+      "bytesToUtf8",
+      "rot13",
+      "caesar",
+      "atob",
+      "btoa"
+    ],
+    "timeout": 1000,
+    "memoryLimit": 32
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/base64/encode",
+      "description": "Encode string to Base64"
+    },
+    {
+      "method": "POST",
+      "path": "/base64/decode",
+      "description": "Decode Base64 to string"
+    },
+    {
+      "method": "POST",
+      "path": "/base64url/encode",
+      "description": "Encode to URL-safe Base64"
+    },
+    {
+      "method": "POST",
+      "path": "/base64url/decode",
+      "description": "Decode URL-safe Base64"
+    },
+    {
+      "method": "POST",
+      "path": "/hex/encode",
+      "description": "Encode string to hexadecimal"
+    },
+    {
+      "method": "POST",
+      "path": "/hex/decode",
+      "description": "Decode hexadecimal to string"
+    },
+    {
+      "method": "POST",
+      "path": "/url/encode",
+      "description": "URL encode string"
+    },
+    {
+      "method": "POST",
+      "path": "/url/decode",
+      "description": "URL decode string"
+    },
+    {
+      "method": "POST",
+      "path": "/html/encode",
+      "description": "Encode HTML entities"
+    },
+    {
+      "method": "POST",
+      "path": "/html/decode",
+      "description": "Decode HTML entities"
+    },
+    {
+      "method": "POST",
+      "path": "/jwt/decode",
+      "description": "Decode JWT without verification"
+    }
+  ],
+  "config": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "type": "string",
+          "default": "utf-8",
+          "description": "Default text encoding"
+        }
+      }
+    },
+    "defaults": {
+      "encoding": "utf-8"
+    }
+  },
+  "resources": {
+    "memory": "32Mi",
+    "cpu": "0.1"
+  }
+}

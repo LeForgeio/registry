@@ -50,7 +50,37 @@
                                                     "version":  "1.0.0",
                                                     "file":  "packages/streaming-file-service-1.0.0.fhk",
                                                     "size":  "350MB"
-                                                }
+                                                },
+                     "validation-utils":  {
+                                              "version":  "1.0.0",
+                                              "file":  "packages/validation-utils-1.0.0.fhk",
+                                              "size":  "18KB",
+                                              "runtime":  "embedded"
+                                          },
+                     "uuid-utils":  {
+                                        "version":  "1.0.0",
+                                        "file":  "packages/uuid-utils-1.0.0.fhk",
+                                        "size":  "12KB",
+                                        "runtime":  "embedded"
+                                    },
+                     "encoding-utils":  {
+                                            "version":  "1.0.0",
+                                            "file":  "packages/encoding-utils-1.0.0.fhk",
+                                            "size":  "10KB",
+                                            "runtime":  "embedded"
+                                        },
+                     "json-utils":  {
+                                        "version":  "1.0.0",
+                                        "file":  "packages/json-utils-1.0.0.fhk",
+                                        "size":  "20KB",
+                                        "runtime":  "embedded"
+                                    },
+                     "qrcode-utils":  {
+                                          "version":  "1.0.0",
+                                          "file":  "packages/qrcode-utils-1.0.0.fhk",
+                                          "size":  "25KB",
+                                          "runtime":  "embedded"
+                                      }
                  },
     "plugins":  [
                     {
@@ -1659,6 +1689,166 @@
                                                                                "redis"
                                                                            ]
                                                           }
+                                     }
+                    },
+                    {
+                        "id":  "validation-utils",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/validation-utils",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "validation-utils",
+                                         "name":  "Validation Utilities",
+                                         "version":  "1.0.0",
+                                         "description":  "Comprehensive format validation utilities for emails, phones, URLs, credit cards, IBANs, VAT numbers, and more. All validation runs locally with no external API calls.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "icon":  "check-circle",
+                                         "category":  "utility",
+                                         "tags":  ["validation", "email", "phone", "url", "iban", "vat", "credit-card", "embedded", "offline"],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  ["isEmail", "isPhone", "isURL", "isUUID", "isIBAN", "isVATNumber", "isCreditCard", "getCreditCardType", "isPostalCode", "isIPv4", "isIPv6", "validateAll"],
+                                                          "timeout":  1000,
+                                                          "memoryLimit":  32
+                                                      },
+                                         "resources":  {
+                                                           "memory":  "32Mi",
+                                                           "cpu":  "0.1"
+                                                       }
+                                     }
+                    },
+                    {
+                        "id":  "uuid-utils",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/uuid-utils",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "uuid-utils",
+                                         "name":  "UUID Utilities",
+                                         "version":  "1.0.0",
+                                         "description":  "Generate unique identifiers: UUID v1/v4/v5/v7, ULID, NanoID, CUID, Snowflake IDs. All generation is local with cryptographically secure randomness.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "icon":  "hash",
+                                         "category":  "utility",
+                                         "tags":  ["uuid", "guid", "nanoid", "ulid", "cuid", "snowflake", "identifier", "embedded", "offline"],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  ["uuid", "uuidv1", "uuidv4", "uuidv5", "uuidv7", "ulid", "nanoid", "cuid2", "snowflake", "randomString", "shortId", "isValidUUID", "isValidULID"],
+                                                          "timeout":  1000,
+                                                          "memoryLimit":  32
+                                                      },
+                                         "resources":  {
+                                                           "memory":  "32Mi",
+                                                           "cpu":  "0.1"
+                                                       }
+                                     }
+                    },
+                    {
+                        "id":  "encoding-utils",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/encoding-utils",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "encoding-utils",
+                                         "name":  "Encoding Utilities",
+                                         "version":  "1.0.0",
+                                         "description":  "Data encoding and decoding: Base64, Base64URL, hex, URL encoding, HTML entities, JWT decoding (without verification). All operations run locally.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "icon":  "code",
+                                         "category":  "utility",
+                                         "tags":  ["encoding", "base64", "hex", "url", "html", "jwt", "embedded", "offline"],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  ["base64Encode", "base64Decode", "base64UrlEncode", "base64UrlDecode", "hexEncode", "hexDecode", "urlEncode", "urlDecode", "htmlEncode", "htmlDecode", "jwtDecode", "jwtPayload"],
+                                                          "timeout":  1000,
+                                                          "memoryLimit":  32
+                                                      },
+                                         "resources":  {
+                                                           "memory":  "32Mi",
+                                                           "cpu":  "0.1"
+                                                       }
+                                     }
+                    },
+                    {
+                        "id":  "json-utils",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/json-utils",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "json-utils",
+                                         "name":  "JSON Utilities",
+                                         "version":  "1.0.0",
+                                         "description":  "JSON manipulation: JSONPath queries, flatten/unflatten, deep merge, diff comparison, schema validation, and safe parsing. All operations run locally.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "icon":  "braces",
+                                         "category":  "data",
+                                         "tags":  ["json", "jsonpath", "flatten", "merge", "diff", "schema", "validation", "embedded", "offline"],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  ["query", "get", "set", "flatten", "unflatten", "deepMerge", "diff", "patch", "clone", "equals", "validate", "safeParse", "format", "pick", "omit", "groupBy"],
+                                                          "timeout":  2000,
+                                                          "memoryLimit":  64
+                                                      },
+                                         "resources":  {
+                                                           "memory":  "64Mi",
+                                                           "cpu":  "0.2"
+                                                       }
+                                     }
+                    },
+                    {
+                        "id":  "qrcode-utils",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/danstoll/forgehooks-registry/tree/main/plugins/qrcode-utils",
+                        "manifest":  {
+                                         "$schema":  "https://flowforge.dev/schemas/forgehook-v1.json",
+                                         "id":  "qrcode-utils",
+                                         "name":  "QR Code Utilities",
+                                         "version":  "1.0.0",
+                                         "description":  "Generate QR codes and barcodes locally. Create QR codes as SVG/PNG. Supports barcodes (Code128, EAN-13, UPC-A). Pure JavaScript - no external dependencies.",
+                                         "author":  {
+                                                        "name":  "FlowForge Team",
+                                                        "url":  "https://flowforge.dev"
+                                                    },
+                                         "license":  "MIT",
+                                         "icon":  "qr-code",
+                                         "category":  "utility",
+                                         "tags":  ["qrcode", "qr", "barcode", "code128", "ean13", "upc", "svg", "embedded", "offline"],
+                                         "runtime":  "embedded",
+                                         "embedded":  {
+                                                          "entrypoint":  "index.js",
+                                                          "exports":  ["generateQR", "generateQRSvg", "generateQRBase64", "generateQRMatrix", "generateBarcode", "generateCode128", "generateEAN13", "generateUPCA", "validateEAN13", "validateUPCA"],
+                                                          "timeout":  2000,
+                                                          "memoryLimit":  64
+                                                      },
+                                         "resources":  {
+                                                           "memory":  "64Mi",
+                                                           "cpu":  "0.2"
+                                                       }
                                      }
                     }
                 ]

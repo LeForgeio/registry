@@ -1,0 +1,142 @@
+{
+  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "id": "json-utils",
+  "name": "JSON Utilities",
+  "version": "1.0.0",
+  "description": "Comprehensive JSON manipulation utilities: JSONPath queries, flatten/unflatten nested objects, deep merge, diff comparison, schema validation (JSON Schema draft-07), and safe parsing. All operations run locally.",
+  "author": {
+    "name": "FlowForge Team",
+    "url": "https://flowforge.dev"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "icon": "braces",
+  "category": "data",
+  "tags": [
+    "json",
+    "jsonpath",
+    "flatten",
+    "merge",
+    "diff",
+    "schema",
+    "validation",
+    "embedded",
+    "offline"
+  ],
+  "runtime": "embedded",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "query",
+      "get",
+      "set",
+      "has",
+      "remove",
+      "flatten",
+      "unflatten",
+      "merge",
+      "deepMerge",
+      "diff",
+      "patch",
+      "clone",
+      "equals",
+      "validate",
+      "safeParse",
+      "stringify",
+      "format",
+      "minify",
+      "sortKeys",
+      "pick",
+      "omit",
+      "transform",
+      "filter",
+      "map",
+      "find",
+      "findAll",
+      "count",
+      "sum",
+      "groupBy",
+      "keyBy"
+    ],
+    "timeout": 2000,
+    "memoryLimit": 64
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/query",
+      "description": "Query JSON with JSONPath expression"
+    },
+    {
+      "method": "POST",
+      "path": "/get",
+      "description": "Get value at dot-notation path"
+    },
+    {
+      "method": "POST",
+      "path": "/set",
+      "description": "Set value at dot-notation path"
+    },
+    {
+      "method": "POST",
+      "path": "/flatten",
+      "description": "Flatten nested object to single level"
+    },
+    {
+      "method": "POST",
+      "path": "/unflatten",
+      "description": "Unflatten object to nested structure"
+    },
+    {
+      "method": "POST",
+      "path": "/merge",
+      "description": "Deep merge multiple objects"
+    },
+    {
+      "method": "POST",
+      "path": "/diff",
+      "description": "Compare two objects and return differences"
+    },
+    {
+      "method": "POST",
+      "path": "/validate",
+      "description": "Validate JSON against JSON Schema"
+    },
+    {
+      "method": "POST",
+      "path": "/format",
+      "description": "Pretty-print JSON with indentation"
+    },
+    {
+      "method": "POST",
+      "path": "/transform",
+      "description": "Transform JSON using mapping rules"
+    }
+  ],
+  "config": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "maxDepth": {
+          "type": "number",
+          "default": 100,
+          "description": "Maximum nesting depth"
+        },
+        "arrayNotation": {
+          "type": "string",
+          "default": "bracket",
+          "enum": ["bracket", "dot"],
+          "description": "Array notation style for flatten"
+        }
+      }
+    },
+    "defaults": {
+      "maxDepth": 100,
+      "arrayNotation": "bracket"
+    }
+  },
+  "resources": {
+    "memory": "64Mi",
+    "cpu": "0.2"
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://flowforge.dev/schemas/forgehook-v1.json",
+  "id": "validation-utils",
+  "name": "Validation Utilities",
+  "version": "1.0.0",
+  "description": "Comprehensive format validation utilities for emails, phones, URLs, credit cards, IBANs, VAT numbers, and more. All validation runs locally with no external API calls.",
+  "author": {
+    "name": "FlowForge Team",
+    "url": "https://flowforge.dev"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/danstoll/forgehooks-registry",
+  "icon": "check-circle",
+  "category": "utility",
+  "tags": [
+    "validation",
+    "email",
+    "phone",
+    "url",
+    "iban",
+    "vat",
+    "credit-card",
+    "embedded",
+    "offline"
+  ],
+  "runtime": "embedded",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "isEmail",
+      "isPhone",
+      "isURL",
+      "isUUID",
+      "isIBAN",
+      "isVATNumber",
+      "isCreditCard",
+      "getCreditCardType",
+      "isPostalCode",
+      "isIPv4",
+      "isIPv6",
+      "isMACAddress",
+      "isHexColor",
+      "isJSON",
+      "isBase64",
+      "isAlpha",
+      "isAlphanumeric",
+      "isNumeric",
+      "isSlug",
+      "isEmpty",
+      "isLength",
+      "matches",
+      "validateAll"
+    ],
+    "timeout": 1000,
+    "memoryLimit": 32
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/email",
+      "description": "Validate email address format"
+    },
+    {
+      "method": "POST",
+      "path": "/phone",
+      "description": "Validate phone number (supports international formats)"
+    },
+    {
+      "method": "POST",
+      "path": "/url",
+      "description": "Validate URL format"
+    },
+    {
+      "method": "POST",
+      "path": "/iban",
+      "description": "Validate IBAN with checksum verification"
+    },
+    {
+      "method": "POST",
+      "path": "/vat",
+      "description": "Validate EU VAT number format"
+    },
+    {
+      "method": "POST",
+      "path": "/credit-card",
+      "description": "Validate credit card with Luhn algorithm"
+    },
+    {
+      "method": "POST",
+      "path": "/postal-code",
+      "description": "Validate postal code by country"
+    },
+    {
+      "method": "POST",
+      "path": "/ip",
+      "description": "Validate IPv4 or IPv6 address"
+    },
+    {
+      "method": "POST",
+      "path": "/batch",
+      "description": "Validate multiple fields at once"
+    }
+  ],
+  "config": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "strictEmail": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use stricter email validation (RFC 5322)"
+        },
+        "defaultCountry": {
+          "type": "string",
+          "default": "US",
+          "description": "Default country code for phone/postal validation"
+        }
+      }
+    },
+    "defaults": {
+      "strictEmail": false,
+      "defaultCountry": "US"
+    }
+  },
+  "resources": {
+    "memory": "32Mi",
+    "cpu": "0.1"
+  }
+}
