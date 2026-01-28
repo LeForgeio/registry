@@ -441,7 +441,7 @@
                                                       "aes"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/crypto-service",
+                                                       "repository":  "leforgeio/crypto-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3001,
@@ -554,7 +554,7 @@
                                                       "calculations"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/math-service",
+                                                       "repository":  "leforgeio/math-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3002,
@@ -716,7 +716,7 @@
                                                       "split"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/pdf-service",
+                                                       "repository":  "leforgeio/pdf-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3003,
@@ -829,7 +829,7 @@
                                                       "tesseract"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/ocr-service",
+                                                       "repository":  "leforgeio/ocr-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3004,
@@ -918,7 +918,7 @@
                                                       "webp"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/image-service",
+                                                       "repository":  "leforgeio/image-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3005,
@@ -1033,7 +1033,7 @@
                                                       "anthropic"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/llm-service",
+                                                       "repository":  "leforgeio/llm-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3006,
@@ -1157,7 +1157,7 @@
                                                       "rag"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/vector-service",
+                                                       "repository":  "leforgeio/vector-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3007,
@@ -1272,7 +1272,7 @@
                                                       "conversion"
                                                   ],
                                          "image":  {
-                                                       "repository":  "LeForge/data-transform-service",
+                                                       "repository":  "leforgeio/data-transform-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3008,
@@ -1639,7 +1639,7 @@
                                                   ],
                                          "runtime":  "container",
                                          "image":  {
-                                                       "repository":  "LeForge/streaming-file-service",
+                                                       "repository":  "leforgeio/streaming-file-service",
                                                        "tag":  "latest"
                                                    },
                                          "port":  3020,
