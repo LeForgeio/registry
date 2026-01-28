@@ -1,7 +1,7 @@
 FROM python:3.11-slim AS builder
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential libgl1-mesa-glx libglib2.0-0 \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
@@ -10,7 +10,7 @@ FROM python:3.11-slim AS production
 WORKDIR /app
 RUN useradd --create-home appuser
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1-mesa-glx libglib2.0-0 tesseract-ocr \
+    tesseract-ocr poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /root/.local /home/appuser/.local
 ENV PATH=/home/appuser/.local/bin:$PATH
@@ -26,7 +26,7 @@ CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "3004"]
 FROM python:3.11-slim AS development
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential libgl1-mesa-glx libglib2.0-0 tesseract-ocr \
+    build-essential tesseract-ocr poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
