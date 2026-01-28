@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    LeForge Formula Evaluate Action
+    Evaluate an Excel-compatible formula
+-->
+<unload>
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <action_template>LeForge_Formula_Evaluate</action_template>
+        <active>true</active>
+        <category>LeForge</category>
+        <description>Evaluate Excel-compatible formulas with 118+ functions. Perfect for complex calculations, SLA computations, and dynamic values.</description>
+        <internal_name>LeForge_formula_evaluate</internal_name>
+        <label>Evaluate Formula</label>
+        <name>LeForge Formula Evaluate</name>
+        <spoke>LeForge_spoke_001</spoke>
+        <sys_id>LeForge_action_formula_evaluate</sys_id>
+        
+        <inputs>
+            <input>
+                <internal_name>formula</internal_name>
+                <label>Formula</label>
+                <mandatory>true</mandatory>
+                <type>string</type>
+                <hint>Formula to evaluate (e.g., =SUM(1,2,3) or =IF(x>10,"High","Low"))</hint>
+            </input>
+            <input>
+                <internal_name>variables_json</internal_name>
+                <label>Variables (JSON)</label>
+                <mandatory>false</mandatory>
+                <type>string</type>
+                <hint>JSON object with variable values (e.g., {"x": 15, "rate": 0.05})</hint>
+            </input>
+            <input>
+                <internal_name>connection_alias</internal_name>
+                <label>Connection</label>
+                <mandatory>false</mandatory>
+                <type>reference</type>
+                <reference_type>sys_alias</reference_type>
+                <default>LeForge_connection</default>
+            </input>
+        </inputs>
+        
+        <outputs>
+            <output>
+                <internal_name>result</internal_name>
+                <label>Result</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>numeric_result</internal_name>
+                <label>Numeric Result</label>
+                <type>decimal</type>
+            </output>
+            <output>
+                <internal_name>result_type</internal_name>
+                <label>Result Type</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>success</internal_name>
+                <label>Success</label>
+                <type>boolean</type>
+            </output>
+            <output>
+                <internal_name>error_message</internal_name>
+                <label>Error Message</label>
+                <type>string</type>
+            </output>
+        </outputs>
+    </sys_hub_action_type_definition>
+</unload>

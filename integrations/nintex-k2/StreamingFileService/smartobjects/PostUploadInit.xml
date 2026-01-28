@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>PostUploadInit</Name>
-  <DisplayName>FlowForge streaming-file-service - PostUploadInit</DisplayName>
+  <DisplayName>LeForge streaming-file-service - PostUploadInit</DisplayName>
   <Description>Initialize a chunked upload session. Returns uploadId for subsequent chunk uploads.</Description>
-  <SystemName>FlowForge.StreamingFileService.PostUploadInit</SystemName>
-  <ServiceInstance>FlowForge_StreamingFileService</ServiceInstance>
+  <SystemName>LeForge.StreamingFileService.PostUploadInit</SystemName>
+  <ServiceInstance>LeForge_StreamingFileService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

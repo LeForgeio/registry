@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "description": "PDF document processing including text extraction, merging, splitting, compression, conversion, and watermarking",
   "author": {
-    "name": "FlowForge",
+    "name": "LeForge",
     "url": "https://leforge.io"
   },
   "license": "MIT",
@@ -15,7 +15,7 @@
   "tags": ["pdf", "document", "extract", "merge", "split", "convert", "watermark"],
   
   "image": {
-    "repository": "flowforge/pdf-service",
+    "repository": "LeForge/pdf-service",
     "tag": "1.0.0"
   },
   

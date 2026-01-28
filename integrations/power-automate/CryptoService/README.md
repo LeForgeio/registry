@@ -1,7 +1,7 @@
-# FlowForge crypto-service - Power Automate Connector
+# LeForge crypto-service - Power Automate Connector
 
 ## Overview
-FlowForge plugin connector for Microsoft Power Automate.
+LeForge plugin connector for Microsoft Power Automate.
 
 ## Installation
 
@@ -22,7 +22,7 @@ After importing the connector:
 
 1. Click **Test** tab
 2. Create a new connection
-3. Enter your FlowForge API Key
+3. Enter your LeForge API Key
 4. Test a simple operation
 
 ## Available Actions
@@ -35,8 +35,8 @@ After importing the connector:
 
 This connector uses API Key authentication:
 - Header name: `X-API-Key`
-- Get your API key from FlowForge dashboard
+- Get your API key from LeForge dashboard
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)

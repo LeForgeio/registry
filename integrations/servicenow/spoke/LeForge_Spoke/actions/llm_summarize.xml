@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    LeForge LLM Summarize Action
+    Generate a summary of the provided text
+-->
+<unload>
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <action_template>LeForge_LLM_Summarize</action_template>
+        <active>true</active>
+        <category>LeForge</category>
+        <description>Generate a concise summary of text using AI. Ideal for summarizing incident descriptions, knowledge articles, or long documents.</description>
+        <internal_name>LeForge_llm_summarize</internal_name>
+        <label>Summarize Text</label>
+        <name>LeForge LLM Summarize</name>
+        <spoke>LeForge_spoke_001</spoke>
+        <sys_id>LeForge_action_llm_summarize</sys_id>
+        
+        <inputs>
+            <input>
+                <internal_name>text</internal_name>
+                <label>Text</label>
+                <mandatory>true</mandatory>
+                <type>string</type>
+                <hint>Text to summarize</hint>
+            </input>
+            <input>
+                <internal_name>max_length</internal_name>
+                <label>Max Length</label>
+                <mandatory>false</mandatory>
+                <type>integer</type>
+                <default>150</default>
+                <hint>Maximum summary length in tokens</hint>
+            </input>
+            <input>
+                <internal_name>style</internal_name>
+                <label>Style</label>
+                <mandatory>false</mandatory>
+                <type>choice</type>
+                <choices>
+                    <choice value="paragraph">Paragraph</choice>
+                    <choice value="bullet">Bullet Points</choice>
+                    <choice value="tldr">TL;DR</choice>
+                </choices>
+                <default>paragraph</default>
+                <hint>Summary format style</hint>
+            </input>
+            <input>
+                <internal_name>connection_alias</internal_name>
+                <label>Connection</label>
+                <mandatory>false</mandatory>
+                <type>reference</type>
+                <reference_type>sys_alias</reference_type>
+                <default>LeForge_connection</default>
+            </input>
+        </inputs>
+        
+        <outputs>
+            <output>
+                <internal_name>summary</internal_name>
+                <label>Summary</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>compression_ratio</internal_name>
+                <label>Compression Ratio</label>
+                <type>decimal</type>
+            </output>
+            <output>
+                <internal_name>success</internal_name>
+                <label>Success</label>
+                <type>boolean</type>
+            </output>
+            <output>
+                <internal_name>error_message</internal_name>
+                <label>Error Message</label>
+                <type>string</type>
+            </output>
+        </outputs>
+    </sys_hub_action_type_definition>
+</unload>

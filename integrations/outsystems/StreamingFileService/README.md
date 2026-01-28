@@ -1,7 +1,7 @@
-# FlowForge streaming-file-service - OutSystems Integration
+# LeForge streaming-file-service - OutSystems Integration
 
 ## Overview
-FlowForge plugin integration for OutSystems.
+LeForge plugin integration for OutSystems.
 
 ## Integration Methods
 
@@ -23,7 +23,7 @@ FlowForge plugin integration for OutSystems.
 ## Configuration
 
 ### Base URL
-Set the base URL to your FlowForge instance in the REST API configuration.
+Set the base URL to your LeForge instance in the REST API configuration.
 
 ### Authentication
 1. Create a Site Property for the API Key
@@ -35,7 +35,7 @@ Set the base URL to your FlowForge instance in the REST API configuration.
 For each operation, create a Server Action wrapper:
 
 ```
-ServerAction: FlowForge_streaming-file-service_Operation
+ServerAction: LeForge_streaming-file-service_Operation
     Input: 
         - RequestData (Structure)
     Output:
@@ -81,4 +81,4 @@ ServerAction: FlowForge_streaming-file-service_Operation
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)

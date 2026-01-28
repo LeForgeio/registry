@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
-    title="FlowForge OCR Service",
+    title="LeForge OCR Service",
     description="Optical character recognition service",
     version="1.0.0",
 )

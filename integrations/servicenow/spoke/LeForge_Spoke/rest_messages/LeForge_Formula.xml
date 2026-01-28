@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    LeForge Formula REST Message
+    REST API configuration for Formula Engine endpoints
+-->
+<unload>
+    <sys_rest_message action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <description>LeForge Formula Engine REST API - Evaluate, Batch, Validate formulas</description>
+        <name>LeForge_Formula</name>
+        <rest_endpoint>${endpoint}/formula</rest_endpoint>
+        <sys_id>LeForge_rest_message_formula</sys_id>
+        
+        <http_methods>
+            <!-- Evaluate Method -->
+            <sys_rest_message_fn>
+                <function_name>evaluate</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/formula/evaluate</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "formula": "${formula}",
+    "variables": ${variables}
+}</http_request_body>
+            </sys_rest_message_fn>
+            
+            <!-- Batch Evaluate Method -->
+            <sys_rest_message_fn>
+                <function_name>batch</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/formula/batch</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "formulas": ${formulas},
+    "shared_variables": ${shared_variables}
+}</http_request_body>
+            </sys_rest_message_fn>
+            
+            <!-- Validate Method -->
+            <sys_rest_message_fn>
+                <function_name>validate</function_name>
+                <http_method>POST</http_method>
+                <rest_endpoint>${endpoint}/formula/validate</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+                <http_request_body>{
+    "formula": "${formula}"
+}</http_request_body>
+            </sys_rest_message_fn>
+            
+            <!-- List Functions Method -->
+            <sys_rest_message_fn>
+                <function_name>functions</function_name>
+                <http_method>GET</http_method>
+                <rest_endpoint>${endpoint}/formula/functions</rest_endpoint>
+                <content_type>application/json</content_type>
+                <request_headers>
+                    <header name="X-API-Key">${api_key}</header>
+                </request_headers>
+            </sys_rest_message_fn>
+        </http_methods>
+    </sys_rest_message>
+</unload>

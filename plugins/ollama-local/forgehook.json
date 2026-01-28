@@ -4,7 +4,7 @@
   "name": "Ollama",
   "version": "1.0.0",
   "description": "Local AI inference using Ollama. Run open-source LLMs like Llama, Mistral, and Code Llama on your machine.",
-  "author": "FlowForge",
+  "author": "LeForge",
   "license": "MIT",
   "category": "ai",
   "runtime": "gateway",
@@ -215,7 +215,7 @@
     }
   ],
   "documentation": {
-    "overview": "Ollama makes it easy to run open-source large language models locally. This gateway plugin connects FlowForge to your local Ollama instance.",
+    "overview": "Ollama makes it easy to run open-source large language models locally. This gateway plugin connects LeForge to your local Ollama instance.",
     "installation": "1. Install Ollama from https://ollama.ai\n2. Pull a model: `ollama pull llama2`\n3. Ensure Ollama is running\n4. Install this plugin",
     "authentication": "No authentication required - runs locally",
     "examples": [

@@ -1,7 +1,7 @@
 {
-  "name": "@flowforge/pdf-service",
+  "name": "@LeForge/pdf-service",
   "version": "1.1.0",
-  "description": "PDF generation and manipulation service for FlowForge",
+  "description": "PDF generation and manipulation service for LeForge",
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
@@ -16,8 +16,8 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist coverage",
-    "docker:build": "docker build -t flowforge/pdf-service:latest .",
-    "docker:run": "docker run -p 3003:3003 --env-file .env flowforge/pdf-service:latest"
+    "docker:build": "docker build -t LeForge/pdf-service:latest .",
+    "docker:run": "docker run -p 3003:3003 --env-file .env LeForge/pdf-service:latest"
   },
   "keywords": [
     "pdf",
@@ -26,10 +26,10 @@
     "extract",
     "puppeteer",
     "microservice",
-    "flowforge",
+    "LeForge",
     "fastify"
   ],
-  "author": "FlowForge Contributors",
+  "author": "LeForge Contributors",
   "license": "MIT",
   "dependencies": {
     "@fastify/cors": "^9.0.1",

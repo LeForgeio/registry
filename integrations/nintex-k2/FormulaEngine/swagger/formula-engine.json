@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "FlowForge formula-engine",
-    "description": "FlowForge plugin",
+    "title": "LeForge formula-engine",
+    "description": "LeForge plugin",
     "version": "1.0.0",
     "contact": {
-      "name": "FlowForge Support",
-      "url": "https://flowforge.io"
+      "name": "LeForge Support",
+      "url": "https://LeForge.io"
     }
   },
   "host": "{{HOST}}",
@@ -25,7 +25,7 @@
       "type": "apiKey",
       "in": "header",
       "name": "X-API-Key",
-      "description": "FlowForge API Key"
+      "description": "LeForge API Key"
     }
   },
   "security": [

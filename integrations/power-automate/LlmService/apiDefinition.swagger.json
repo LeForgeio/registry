@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "FlowForge llm-service",
-    "description": "FlowForge plugin",
+    "title": "LeForge llm-service",
+    "description": "LeForge plugin",
     "version": "1.0.0",
     "contact": {
-      "name": "FlowForge Support",
-      "url": "https://flowforge.io"
+      "name": "LeForge Support",
+      "url": "https://LeForge.io"
     }
   },
   "host": "{{HOST}}",
@@ -25,7 +25,7 @@
       "type": "apiKey",
       "in": "header",
       "name": "X-API-Key",
-      "description": "FlowForge API Key"
+      "description": "LeForge API Key"
     }
   },
   "security": [
@@ -1850,11 +1850,11 @@
   "x-ms-connector-metadata": [
     {
       "propertyName": "Website",
-      "propertyValue": "https://flowforge.io"
+      "propertyValue": "https://LeForge.io"
     },
     {
       "propertyName": "Privacy policy",
-      "propertyValue": "https://flowforge.io/privacy"
+      "propertyValue": "https://LeForge.io/privacy"
     },
     {
       "propertyName": "Categories",

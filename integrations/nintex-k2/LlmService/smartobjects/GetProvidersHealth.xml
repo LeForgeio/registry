@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>GetProvidersHealth</Name>
-  <DisplayName>FlowForge llm-service - GetProvidersHealth</DisplayName>
+  <DisplayName>LeForge llm-service - GetProvidersHealth</DisplayName>
   <Description>Check provider health status</Description>
-  <SystemName>FlowForge.LlmService.GetProvidersHealth</SystemName>
-  <ServiceInstance>FlowForge_LlmService</ServiceInstance>
+  <SystemName>LeForge.LlmService.GetProvidersHealth</SystemName>
+  <ServiceInstance>LeForge_LlmService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

@@ -1,10 +1,10 @@
 # ForgeHook Specification
 
-> **Version 1.1** | Complete technical specification for FlowForge plugins
+> **Version 1.1** | Complete technical specification for LeForge plugins
 
 ## Overview
 
-A **ForgeHook** is a plugin for the FlowForge platform. ForgeHooks extend FlowForge with new capabilities by packaging services as self-contained, API-accessible modules. They can run as Docker containers for full isolation or as embedded JavaScript for lightweight operations.
+A **ForgeHook** is a plugin for the LeForge platform. ForgeHooks extend LeForge with new capabilities by packaging services as self-contained, API-accessible modules. They can run as Docker containers for full isolation or as embedded JavaScript for lightweight operations.
 
 ### Key Characteristics
 
@@ -33,10 +33,10 @@ Container-based ForgeHooks run as Docker containers. This is the **default** run
 
 ### Embedded Runtime (`runtime: "embedded"`)
 
-Embedded ForgeHooks run as JavaScript functions within FlowForge's Node.js process:
+Embedded ForgeHooks run as JavaScript functions within LeForge's Node.js process:
 
 - **Zero overhead** - No container startup, instant execution
-- **Shared memory** - Direct access to FlowForge internals (sandboxed)
+- **Shared memory** - Direct access to LeForge internals (sandboxed)
 - **Tiny footprint** - Functions are kilobytes, not megabytes
 - **Fast iteration** - No image builds during development
 
@@ -64,7 +64,7 @@ Every ForgeHook requires a `forgehook.json` manifest file. This declares the plu
   // === RUNTIME (choose one) ===
   // For container runtime:
   "image": {
-    "repository": "flowforge/my-service",
+    "repository": "LeForge/my-service",
     "tag": "latest",
     "digest": "sha256:..."      // Optional: pin to specific digest
   },
@@ -491,7 +491,7 @@ All ForgeHooks should follow this response format:
 
 ### 1. Marketplace (UI)
 
-Users browse and install from the FlowForge Marketplace UI.
+Users browse and install from the LeForge Marketplace UI.
 
 ### 2. GitHub URL
 
@@ -512,12 +512,12 @@ Upload a pre-built package file through the UI or API.
 
 ```bash
 # Install from GitHub
-curl -X POST http://flowforge:4000/api/v1/plugins/install/github \
+curl -X POST http://LeForge:4000/api/v1/plugins/install/github \
   -H "Content-Type: application/json" \
   -d '{"repository": "owner/my-forgehook", "autoStart": true}'
 
 # Install from manifest URL
-curl -X POST http://flowforge:4000/api/v1/plugins/install \
+curl -X POST http://LeForge:4000/api/v1/plugins/install \
   -H "Content-Type: application/json" \
   -d '{"manifestUrl": "https://example.com/forgehook.json"}'
 ```
@@ -563,7 +563,7 @@ curl -X POST http://flowforge:4000/api/v1/plugins/install \
   "name": "Hello World",
   "version": "1.0.0",
   "description": "Simple hello world service",
-  "image": { "repository": "flowforge/hello-world", "tag": "latest" },
+  "image": { "repository": "LeForge/hello-world", "tag": "latest" },
   "port": 3001,
   "endpoints": [
     { "method": "GET", "path": "/hello", "description": "Returns hello world" },
@@ -601,7 +601,7 @@ curl -X POST http://flowforge:4000/api/v1/plugins/install \
 
 - **Schema**: `https://leforge.io/schemas/forgehook-v1.json`
 - **Official Registry**: `https://github.com/LeForgeio/registry`
-- **FlowForge Core**: `https://github.com/LeForgeio/leforge`
+- **LeForge Core**: `https://github.com/LeForgeio/leforge`
 - **Examples**: See `plugins/` directory in the registry
 
 ---

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    LeForge Crypto Encrypt Action
+    Encrypt sensitive data using AES encryption
+-->
+<unload>
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <action_template>LeForge_Crypto_Encrypt</action_template>
+        <active>true</active>
+        <category>LeForge</category>
+        <description>Encrypt sensitive data using AES encryption. Use for protecting PII, credentials, or any sensitive information in workflows.</description>
+        <internal_name>LeForge_crypto_encrypt</internal_name>
+        <label>Encrypt Data</label>
+        <name>LeForge Crypto Encrypt</name>
+        <spoke>LeForge_spoke_001</spoke>
+        <sys_id>LeForge_action_crypto_encrypt</sys_id>
+        
+        <inputs>
+            <input>
+                <internal_name>data</internal_name>
+                <label>Data</label>
+                <mandatory>true</mandatory>
+                <type>string</type>
+                <hint>Data to encrypt</hint>
+            </input>
+            <input>
+                <internal_name>encryption_key</internal_name>
+                <label>Encryption Key</label>
+                <mandatory>true</mandatory>
+                <type>string</type>
+                <hint>Encryption key (hex or base64 encoded)</hint>
+            </input>
+            <input>
+                <internal_name>algorithm</internal_name>
+                <label>Algorithm</label>
+                <mandatory>false</mandatory>
+                <type>choice</type>
+                <choices>
+                    <choice value="aes-256-gcm">AES-256-GCM (Recommended)</choice>
+                    <choice value="aes-128-gcm">AES-128-GCM</choice>
+                    <choice value="aes-256-cbc">AES-256-CBC</choice>
+                </choices>
+                <default>aes-256-gcm</default>
+            </input>
+            <input>
+                <internal_name>connection_alias</internal_name>
+                <label>Connection</label>
+                <mandatory>false</mandatory>
+                <type>reference</type>
+                <reference_type>sys_alias</reference_type>
+                <default>LeForge_connection</default>
+            </input>
+        </inputs>
+        
+        <outputs>
+            <output>
+                <internal_name>encrypted</internal_name>
+                <label>Encrypted Data</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>iv</internal_name>
+                <label>Initialization Vector</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>tag</internal_name>
+                <label>Authentication Tag</label>
+                <type>string</type>
+            </output>
+            <output>
+                <internal_name>success</internal_name>
+                <label>Success</label>
+                <type>boolean</type>
+            </output>
+            <output>
+                <internal_name>error_message</internal_name>
+                <label>Error Message</label>
+                <type>string</type>
+            </output>
+        </outputs>
+    </sys_hub_action_type_definition>
+</unload>

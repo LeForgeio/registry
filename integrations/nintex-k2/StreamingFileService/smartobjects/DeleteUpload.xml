@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>DeleteUpload</Name>
-  <DisplayName>FlowForge streaming-file-service - DeleteUpload</DisplayName>
+  <DisplayName>LeForge streaming-file-service - DeleteUpload</DisplayName>
   <Description>Cancel and cleanup an incomplete upload.</Description>
-  <SystemName>FlowForge.StreamingFileService.DeleteUpload</SystemName>
-  <ServiceInstance>FlowForge_StreamingFileService</ServiceInstance>
+  <SystemName>LeForge.StreamingFileService.DeleteUpload</SystemName>
+  <ServiceInstance>LeForge_StreamingFileService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

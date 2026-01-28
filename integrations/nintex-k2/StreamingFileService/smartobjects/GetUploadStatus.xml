@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>GetUploadStatus</Name>
-  <DisplayName>FlowForge streaming-file-service - GetUploadStatus</DisplayName>
+  <DisplayName>LeForge streaming-file-service - GetUploadStatus</DisplayName>
   <Description>Get upload progress - which chunks received, resume point.</Description>
-  <SystemName>FlowForge.StreamingFileService.GetUploadStatus</SystemName>
-  <ServiceInstance>FlowForge_StreamingFileService</ServiceInstance>
+  <SystemName>LeForge.StreamingFileService.GetUploadStatus</SystemName>
+  <ServiceInstance>LeForge_StreamingFileService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

@@ -1,7 +1,7 @@
-# FlowForge formula-engine - Mendix Integration
+# LeForge formula-engine - Mendix Integration
 
 ## Overview
-FlowForge plugin integration for Mendix.
+LeForge plugin integration for Mendix.
 
 ## Integration Methods
 
@@ -15,7 +15,7 @@ FlowForge plugin integration for Mendix.
 
 ### Method 2: Java Actions
 
-Use the provided Java action stubs in `javasource/flowforge/actions/`:
+Use the provided Java action stubs in `javasource/LeForge/actions/`:
 
 1. Copy Java files to your project's javasource folder
 2. Implement the API call logic
@@ -26,14 +26,14 @@ Use the provided Java action stubs in `javasource/flowforge/actions/`:
 ### Constants
 Create these constants in your Mendix app:
 
-- `FlowForge.BaseUrl` - Your FlowForge instance URL
-- `FlowForge.ApiKey` - Your API key
+- `LeForge.BaseUrl` - Your LeForge instance URL
+- `LeForge.ApiKey` - Your API key
 
 ### Request Handling
 Use Mendix's **Call REST** activity with:
 - Method: POST/GET as appropriate
-- URL: `$FlowForge.BaseUrl + '/api/v1/endpoint'`
-- Headers: `X-API-Key: $FlowForge.ApiKey`
+- URL: `$LeForge.BaseUrl + '/api/v1/endpoint'`
+- Headers: `X-API-Key: $LeForge.ApiKey`
 
 ## Available Operations
 
@@ -42,7 +42,7 @@ Use Mendix's **Call REST** activity with:
 ## Microflow Example
 
 ```
-Microflow: ACT_FlowForge_Chat
+Microflow: ACT_LeForge_Chat
     Input: Message (String)
     
     1. Create JSON structure for request
@@ -62,4 +62,4 @@ To publish as a Marketplace module:
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)

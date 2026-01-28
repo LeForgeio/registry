@@ -1,6 +1,6 @@
-# FlowForge Crypto Service
+# LeForge Crypto Service
 
-A production-ready Node.js/TypeScript microservice providing comprehensive cryptographic operations. Built with Fastify for high performance and designed as the reference implementation for all FlowForge services.
+A production-ready Node.js/TypeScript microservice providing comprehensive cryptographic operations. Built with Fastify for high performance and designed as the reference implementation for all LeForge services.
 
 ## Features
 
@@ -180,7 +180,7 @@ curl -X POST http://localhost:3001/api/v1/hmac/verify \
 | `JWT_SECRET` | Default JWT signing secret | - |
 | `JWT_DEFAULT_EXPIRY` | Default JWT expiration | `1h` |
 | `JWT_DEFAULT_ALGORITHM` | Default JWT algorithm | `HS256` |
-| `JWT_ISSUER` | JWT issuer claim | `flowforge` |
+| `JWT_ISSUER` | JWT issuer claim | `LeForge` |
 | `BCRYPT_ROUNDS` | bcrypt work factor | `12` |
 | `ARGON2_MEMORY_COST` | Argon2 memory (KB) | `65536` |
 | `ARGON2_TIME_COST` | Argon2 iterations | `3` |
@@ -220,12 +220,12 @@ npm run lint:fix
 
 ```bash
 # Build image
-docker build -t flowforge/crypto-service:latest .
+docker build -t LeForge/crypto-service:latest .
 
 # Run container
 docker run -p 3001:3001 \
   -e JWT_SECRET="your-secret-key" \
-  flowforge/crypto-service:latest
+  LeForge/crypto-service:latest
 
 # Build and run with docker-compose
 docker-compose up crypto-service

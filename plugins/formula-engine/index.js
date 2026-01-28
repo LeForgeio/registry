@@ -1,6 +1,6 @@
 /**
  * Formula Engine - Excel-Compatible Functions
- * FlowForge ForgeHook Plugin
+ * LeForge ForgeHook Plugin
  * 
  * 150+ Excel-compatible functions across 6 categories:
  * - Math & Statistics

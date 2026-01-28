@@ -1,7 +1,7 @@
-# FlowForge Plugin Integration Proposal
+# LeForge Plugin Integration Proposal
 ## Making Plugins Easy to Use Across Low-Code/No-Code Platforms
 
-This document outlines the strategy and deliverables needed to make FlowForge plugins easily consumable by major workflow automation and low-code platforms.
+This document outlines the strategy and deliverables needed to make LeForge plugins easily consumable by major workflow automation and low-code platforms.
 
 ---
 
@@ -58,7 +58,7 @@ Each platform has its own integration mechanism, but they share a common thread:
 {
   "swagger": "2.0",
   "info": {
-    "title": "FlowForge LLM Service",
+    "title": "LeForge LLM Service",
     "description": "AI-powered text generation, chat, and analysis",
     "version": "2.0.0"
   },
@@ -132,28 +132,28 @@ Each platform has its own integration mechanism, but they share a common thread:
 ### Deliverables
 ```
 /integrations/n8n/
-├── n8n-nodes-flowforge/
+├── n8n-nodes-LeForge/
 │   ├── package.json
 │   ├── tsconfig.json
 │   ├── nodes/
-│   │   ├── FlowForgeLLM/
-│   │   │   ├── FlowForgeLLM.node.ts
-│   │   │   ├── FlowForgeLLM.node.json
-│   │   │   └── flowforge-llm.svg
-│   │   ├── FlowForgeFormula/
-│   │   │   ├── FlowForgeFormula.node.ts
+│   │   ├── LeForgeLLM/
+│   │   │   ├── LeForgeLLM.node.ts
+│   │   │   ├── LeForgeLLM.node.json
+│   │   │   └── LeForge-llm.svg
+│   │   ├── LeForgeFormula/
+│   │   │   ├── LeForgeFormula.node.ts
 │   │   │   └── ...
-│   │   └── FlowForgeFiles/
+│   │   └── LeForgeFiles/
 │   │       └── ...
 │   ├── credentials/
-│   │   └── FlowForgeApi.credentials.ts
+│   │   └── LeForgeApi.credentials.ts
 │   └── README.md
 └── publish-guide.md
 ```
 
 ### Implementation Example
 ```typescript
-// FlowForgeLLM.node.ts
+// LeForgeLLM.node.ts
 import {
   INodeType,
   INodeTypeDescription,
@@ -161,23 +161,23 @@ import {
   INodeExecutionData,
 } from 'n8n-workflow';
 
-export class FlowForgeLLM implements INodeType {
+export class LeForgeLLM implements INodeType {
   description: INodeTypeDescription = {
-    displayName: 'FlowForge LLM',
-    name: 'flowForgeLlm',
-    icon: 'file:flowforge-llm.svg',
+    displayName: 'LeForge LLM',
+    name: 'LeForgeLlm',
+    icon: 'file:LeForge-llm.svg',
     group: ['transform'],
     version: 1,
     subtitle: '={{$parameter["operation"]}}',
     description: 'AI text generation, chat, and analysis',
     defaults: {
-      name: 'FlowForge LLM',
+      name: 'LeForge LLM',
     },
     inputs: ['main'],
     outputs: ['main'],
     credentials: [
       {
-        name: 'flowForgeApi',
+        name: 'LeForgeApi',
         required: true,
       },
     ],
@@ -208,7 +208,7 @@ export class FlowForgeLLM implements INodeType {
 
 ### Distribution
 - Publish to npm: `npm publish`
-- Users install: `npm install n8n-nodes-flowforge`
+- Users install: `npm install n8n-nodes-LeForge`
 - Or submit to n8n Community Nodes
 
 ---
@@ -221,14 +221,14 @@ export class FlowForgeLLM implements INodeType {
 ### Deliverables
 ```
 /integrations/power-automate/
-├── FlowForge-LLM/
+├── LeForge-LLM/
 │   ├── apiDefinition.swagger.json
 │   ├── apiProperties.json
 │   ├── icon.png (32x32)
 │   └── README.md
-├── FlowForge-Formula/
+├── LeForge-Formula/
 │   └── ...
-├── FlowForge-Files/
+├── LeForge-Files/
 │   └── ...
 └── deployment-guide.md
 ```
@@ -243,8 +243,8 @@ export class FlowForgeLLM implements INodeType {
         "type": "securestring",
         "uiDefinition": {
           "displayName": "API Key",
-          "description": "FlowForge API Key",
-          "tooltip": "Provide your FlowForge API Key",
+          "description": "LeForge API Key",
+          "tooltip": "Provide your LeForge API Key",
           "constraints": {
             "required": "true"
           }
@@ -279,15 +279,15 @@ export class FlowForgeLLM implements INodeType {
 ### Deliverables
 ```
 /integrations/outsystems/
-├── FlowForge_LLM/
-│   ├── FlowForge_LLM.oml        # OutSystems Module
+├── LeForge_LLM/
+│   ├── LeForge_LLM.oml        # OutSystems Module
 │   ├── documentation/
 │   │   └── README.md
 │   └── resources/
 │       └── icon.png
-├── FlowForge_Formula/
+├── LeForge_Formula/
 │   └── ...
-├── FlowForge_Files/
+├── LeForge_Files/
 │   └── ...
 └── REST-API-Specs/
     ├── llm-service.json
@@ -333,20 +333,20 @@ ServerAction: LLM_Chat
 ### Deliverables
 ```
 /integrations/mendix/
-├── FlowForgeLLM/
+├── LeForgeLLM/
 │   ├── module/
-│   │   ├── FlowForgeLLM.mpk
+│   │   ├── LeForgeLLM.mpk
 │   │   ├── javasource/
-│   │   │   └── flowforge/
+│   │   │   └── LeForge/
 │   │   │       └── actions/
 │   │   ├── microflows/
 │   │   └── pages/ (optional demo pages)
 │   ├── documentation/
 │   │   └── README.md
 │   └── test-app/
-├── FlowForgeFormula/
+├── LeForgeFormula/
 │   └── ...
-└── FlowForgeFiles/
+└── LeForgeFiles/
     └── ...
 ```
 
@@ -364,7 +364,7 @@ ServerAction: LLM_Chat
        
        @Override
        public String executeAction() throws Exception {
-           // Call FlowForge API
+           // Call LeForge API
            return response;
        }
    }
@@ -390,21 +390,21 @@ ServerAction: LLM_Chat
 ```
 /integrations/salesforce/
 ├── external-services/
-│   ├── FlowForge_LLM.yaml           # OpenAPI 3.0 spec
-│   ├── FlowForge_Formula.yaml
-│   ├── FlowForge_Files.yaml
-│   └── FlowForge_Crypto.yaml
+│   ├── LeForge_LLM.yaml           # OpenAPI 3.0 spec
+│   ├── LeForge_Formula.yaml
+│   ├── LeForge_Files.yaml
+│   └── LeForge_Crypto.yaml
 ├── apex/
 │   ├── classes/
-│   │   ├── FlowForgeLLMService.cls
-│   │   ├── FlowForgeLLMService.cls-meta.xml
-│   │   ├── FlowForgeFormulaService.cls
-│   │   ├── FlowForgeCryptoService.cls
-│   │   └── FlowForgeFileService.cls
+│   │   ├── LeForgeLLMService.cls
+│   │   ├── LeForgeLLMService.cls-meta.xml
+│   │   ├── LeForgeFormulaService.cls
+│   │   ├── LeForgeCryptoService.cls
+│   │   └── LeForgeFileService.cls
 │   ├── namedCredentials/
-│   │   └── FlowForge_API.namedCredential-meta.xml
+│   │   └── LeForge_API.namedCredential-meta.xml
 │   └── externalServiceRegistrations/
-│       └── FlowForge_LLM.externalServiceRegistration-meta.xml
+│       └── LeForge_LLM.externalServiceRegistration-meta.xml
 ├── package/
 │   └── package.xml                  # Deployable metadata package
 └── README.md
@@ -416,13 +416,13 @@ ServerAction: LLM_Chat
 Salesforce can consume OpenAPI 3.0 specs directly via External Services:
 
 ```yaml
-# FlowForge_LLM.yaml (OpenAPI 3.0 for Salesforce)
+# LeForge_LLM.yaml (OpenAPI 3.0 for Salesforce)
 openapi: "3.0.0"
 info:
-  title: FlowForge LLM Service
+  title: LeForge LLM Service
   version: "2.0.0"
 servers:
-  - url: https://your-flowforge-instance.com/api/v1
+  - url: https://your-LeForge-instance.com/api/v1
 paths:
   /chat:
     post:
@@ -457,16 +457,16 @@ paths:
 
 #### Option B: Apex Invocable Actions (For complex logic)
 ```java
-// FlowForgeLLMService.cls
-public class FlowForgeLLMService {
+// LeForgeLLMService.cls
+public class LeForgeLLMService {
     
-    @InvocableMethod(label='Chat with AI' description='Send a message to FlowForge LLM and get a response' category='FlowForge')
+    @InvocableMethod(label='Chat with AI' description='Send a message to LeForge LLM and get a response' category='LeForge')
     public static List<ChatResponse> chat(List<ChatRequest> requests) {
         List<ChatResponse> responses = new List<ChatResponse>();
         
         for (ChatRequest req : requests) {
             HttpRequest httpReq = new HttpRequest();
-            httpReq.setEndpoint('callout:FlowForge_API/chat');
+            httpReq.setEndpoint('callout:LeForge_API/chat');
             httpReq.setMethod('POST');
             httpReq.setHeader('Content-Type', 'application/json');
             httpReq.setBody(JSON.serialize(new Map<String, Object>{
@@ -522,17 +522,17 @@ public class FlowForgeLLMService {
 
 ### Named Credential Setup
 ```xml
-<!-- FlowForge_API.namedCredential-meta.xml -->
+<!-- LeForge_API.namedCredential-meta.xml -->
 <?xml version="1.0" encoding="UTF-8"?>
 <NamedCredential xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>FlowForge_API</fullName>
-    <label>FlowForge API</label>
-    <endpoint>https://your-flowforge-instance.com/api/v1</endpoint>
+    <fullName>LeForge_API</fullName>
+    <label>LeForge API</label>
+    <endpoint>https://your-LeForge-instance.com/api/v1</endpoint>
     <principalType>NamedUser</principalType>
     <protocol>Custom</protocol>
     <customHeaders>
         <name>X-API-Key</name>
-        <value>{!$Credential.FlowForge_API.ApiKey}</value>
+        <value>{!$Credential.LeForge_API.ApiKey}</value>
     </customHeaders>
 </NamedCredential>
 ```
@@ -540,7 +540,7 @@ public class FlowForgeLLMService {
 ### User Experience in Salesforce Flow
 1. Admin imports External Service or deploys Apex package
 2. Configure Named Credential with API endpoint and key
-3. Actions appear in Flow Builder under "FlowForge" category
+3. Actions appear in Flow Builder under "LeForge" category
 4. Drag actions into Screen Flows, Record-Triggered Flows, etc.
 
 ### Key Features for Salesforce
@@ -561,7 +561,7 @@ public class FlowForgeLLMService {
 ```
 /integrations/servicenow/
 ├── spoke/
-│   ├── FlowForge_Spoke/
+│   ├── LeForge_Spoke/
 │   │   ├── sys_hub_spoke.xml
 │   │   ├── actions/
 │   │   │   ├── llm_chat.xml
@@ -572,14 +572,14 @@ public class FlowForgeLLMService {
 │   │   │   ├── crypto_decrypt.xml
 │   │   │   └── file_upload.xml
 │   │   ├── connection_alias/
-│   │   │   └── flowforge_connection.xml
+│   │   │   └── LeForge_connection.xml
 │   │   └── rest_messages/
-│   │       ├── FlowForge_LLM.xml
-│   │       ├── FlowForge_Formula.xml
-│   │       └── FlowForge_Crypto.xml
+│   │       ├── LeForge_LLM.xml
+│   │       ├── LeForge_Formula.xml
+│   │       └── LeForge_Crypto.xml
 │   └── update_set.xml               # Deployable update set
 ├── scripted-rest/
-│   └── FlowForgeWebhook.js          # For async callbacks
+│   └── LeForgeWebhook.js          # For async callbacks
 ├── documentation/
 │   └── installation-guide.md
 └── README.md
@@ -592,9 +592,9 @@ public class FlowForgeLLMService {
 // Spoke Action: LLM Chat
 // sys_hub_action_type_definition
 {
-    "name": "FlowForge LLM Chat",
-    "description": "Send a message to FlowForge AI and get a response",
-    "category": "FlowForge",
+    "name": "LeForge LLM Chat",
+    "description": "Send a message to LeForge AI and get a response",
+    "category": "LeForge",
     "access": "public",
     "inputs": [
         {
@@ -638,10 +638,10 @@ public class FlowForgeLLMService {
 
 #### REST Message Configuration
 ```xml
-<!-- FlowForge_LLM REST Message -->
+<!-- LeForge_LLM REST Message -->
 <REST_Message>
-    <name>FlowForge_LLM</name>
-    <rest_endpoint>https://your-flowforge-instance.com/api/v1</rest_endpoint>
+    <name>LeForge_LLM</name>
+    <rest_endpoint>https://your-LeForge-instance.com/api/v1</rest_endpoint>
     <authentication_type>basic</authentication_type>
     
     <HTTP_Methods>
@@ -670,10 +670,10 @@ public class FlowForgeLLMService {
 ```javascript
 // Action Script for LLM Chat
 (function execute(inputs, outputs) {
-    var restMessage = new sn_ws.RESTMessageV2('FlowForge_LLM', 'chat');
+    var restMessage = new sn_ws.RESTMessageV2('LeForge_LLM', 'chat');
     
     // Get connection alias credentials
-    var connectionAlias = inputs.connection_alias || 'flowforge_connection';
+    var connectionAlias = inputs.connection_alias || 'LeForge_connection';
     restMessage.setStringParameterNoEscape('api_key', getApiKey(connectionAlias));
     
     // Build request body
@@ -713,12 +713,12 @@ function getApiKey(aliasName) {
 
 ### Connection Alias for Credentials
 ```xml
-<!-- flowforge_connection alias -->
+<!-- LeForge_connection alias -->
 <sys_alias>
-    <name>flowforge_connection</name>
+    <name>LeForge_connection</name>
     <type>connection</type>
     <configuration>
-        <endpoint>https://your-flowforge-instance.com/api/v1</endpoint>
+        <endpoint>https://your-LeForge-instance.com/api/v1</endpoint>
         <auth_type>api_key</auth_type>
         <api_key_header>X-API-Key</api_key_header>
     </configuration>
@@ -726,9 +726,9 @@ function getApiKey(aliasName) {
 ```
 
 ### User Experience in ServiceNow
-1. Import Update Set containing the FlowForge Spoke
+1. Import Update Set containing the LeForge Spoke
 2. Configure Connection Alias with API endpoint and credentials
-3. FlowForge actions appear in Flow Designer
+3. LeForge actions appear in Flow Designer
 4. Build flows using drag-and-drop actions
 5. Use in Service Catalog, Incident Management, HR workflows, etc.
 
@@ -741,7 +741,7 @@ function getApiKey(aliasName) {
 - **Virtual Agent**: AI chatbot integration potential
 
 ### Use Cases in ServiceNow
-| Use Case | FlowForge Service | ServiceNow Application |
+| Use Case | LeForge Service | ServiceNow Application |
 |----------|-------------------|------------------------|
 | Auto-classify incidents | LLM Service | ITSM |
 | Generate KB articles | LLM Service | Knowledge Management |
@@ -876,7 +876,7 @@ Based on market reach and implementation effort:
 
 ### Strategy: Registry API Endpoint
 
-Rather than bundling integration assets or requiring manual downloads, the FlowForge Registry exposes an API endpoint that generates and serves platform-specific integration packages on-demand.
+Rather than bundling integration assets or requiring manual downloads, the LeForge Registry exposes an API endpoint that generates and serves platform-specific integration packages on-demand.
 
 ### API Design
 
@@ -910,18 +910,18 @@ GET /api/v1/plugins/{plugin}/integrations/{platform}/{asset}
 ```bash
 # Download Nintex Cloud Xtension package
 curl -o llm-service-nintex.zip \
-  "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/nintex-cloud?baseUrl=https://flowforge.mycompany.com"
+  "https://registry.LeForge.io/api/v1/plugins/llm-service/integrations/nintex-cloud?baseUrl=https://LeForge.mycompany.com"
 
 # Get just the Swagger file
-curl "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/nintex-cloud/swagger.json"
+curl "https://registry.LeForge.io/api/v1/plugins/llm-service/integrations/nintex-cloud/swagger.json"
 
 # Download K2 SmartObject templates
 curl -o llm-service-k2.zip \
-  "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/nintex-k2"
+  "https://registry.LeForge.io/api/v1/plugins/llm-service/integrations/nintex-k2"
 
 # Get Salesforce Apex classes
 curl -o llm-salesforce.zip \
-  "https://registry.flowforge.io/api/v1/plugins/llm-service/integrations/salesforce"
+  "https://registry.LeForge.io/api/v1/plugins/llm-service/integrations/salesforce"
 ```
 
 ### Response Structure
@@ -994,13 +994,13 @@ llm-service-k2/
 ```
 llm-service-salesforce/
 ├── external-services/
-│   └── FlowForge_LLM.yaml
+│   └── LeForge_LLM.yaml
 ├── apex/
 │   ├── classes/
-│   │   ├── FlowForgeLLMService.cls
-│   │   └── FlowForgeLLMService.cls-meta.xml
+│   │   ├── LeForgeLLMService.cls
+│   │   └── LeForgeLLMService.cls-meta.xml
 │   └── namedCredentials/
-│       └── FlowForge_API.namedCredential-meta.xml
+│       └── LeForge_API.namedCredential-meta.xml
 ├── package.xml
 ├── README.md
 └── INSTALLATION.md
@@ -1010,7 +1010,7 @@ llm-service-salesforce/
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    FlowForge Registry                        │
+│                    LeForge Registry                        │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  GET /plugins/{plugin}/integrations/{platform}               │
@@ -1036,18 +1036,18 @@ llm-service-salesforce/
 
 ### CLI Integration
 
-The `flowforge` CLI can also fetch integration assets:
+The `LeForge` CLI can also fetch integration assets:
 
 ```bash
 # Download integration package
-flowforge integrations download llm-service --platform nintex-cloud --output ./
+LeForge integrations download llm-service --platform nintex-cloud --output ./
 
 # List available integrations
-flowforge integrations list llm-service
+LeForge integrations list llm-service
 
 # Generate with custom base URL
-flowforge integrations download crypto-service --platform salesforce \
-  --base-url https://flowforge.mycompany.com
+LeForge integrations download crypto-service --platform salesforce \
+  --base-url https://LeForge.mycompany.com
 ```
 
 ### Air-Gapped / Offline Distribution
@@ -1083,18 +1083,18 @@ Each plugin Docker image includes pre-generated integration assets at `/integrat
 **Extract from running container:**
 ```bash
 # Copy integration assets from running container
-docker cp flowforge-llm-service:/integrations ./llm-service-integrations
+docker cp LeForge-llm-service:/integrations ./llm-service-integrations
 
 # Or from image directly
-docker run --rm -v $(pwd)/output:/out flowforge/llm-service:2.0.0 \
+docker run --rm -v $(pwd)/output:/out LeForge/llm-service:2.0.0 \
   cp -r /integrations /out/
 ```
 
 **Air-Gapped K2 5.9 Workflow:**
 ```bash
 # 1. On internet-connected machine, pull and save image
-docker pull flowforge/llm-service:2.0.0
-docker save flowforge/llm-service:2.0.0 -o llm-service.tar
+docker pull LeForge/llm-service:2.0.0
+docker save LeForge/llm-service:2.0.0 -o llm-service.tar
 
 # 2. Transfer llm-service.tar to air-gapped network (USB, etc.)
 
@@ -1102,7 +1102,7 @@ docker save flowforge/llm-service:2.0.0 -o llm-service.tar
 docker load -i llm-service.tar
 
 # 4. Extract K2 integration assets
-docker run --rm -v /path/to/output:/out flowforge/llm-service:2.0.0 \
+docker run --rm -v /path/to/output:/out LeForge/llm-service:2.0.0 \
   cp -r /integrations/nintex-k2 /out/
 
 # 5. Import swagger.json into K2 REST Service Broker
@@ -1111,10 +1111,10 @@ docker run --rm -v /path/to/output:/out flowforge/llm-service:2.0.0 \
 
 #### Option 2: GitHub Release Artifacts
 
-Each FlowForge release includes downloadable integration bundles:
+Each LeForge release includes downloadable integration bundles:
 
 ```
-flowforge-v2.0.0-integrations.zip
+LeForge-v2.0.0-integrations.zip
 ├── llm-service/
 │   ├── nintex-cloud.zip
 │   ├── nintex-k2.zip
@@ -1131,12 +1131,12 @@ flowforge-v2.0.0-integrations.zip
 
 Download once, transfer to air-gapped network, extract as needed.
 
-#### Option 3: FlowForge Installer Bundle
+#### Option 3: LeForge Installer Bundle
 
-The enterprise FlowForge installer includes all integration assets:
+The enterprise LeForge installer includes all integration assets:
 
 ```
-flowforge-enterprise-2.0.0/
+LeForge-enterprise-2.0.0/
 ├── docker-compose.yml
 ├── images/
 │   ├── llm-service.tar
@@ -1158,16 +1158,16 @@ Since air-gapped assets are pre-generated, the `baseUrl` needs manual editing:
 **Swagger files (Nintex Cloud/K2):**
 ```json
 {
-  "host": "flowforge.internal.company.com",
+  "host": "LeForge.internal.company.com",
   "basePath": "/api/v1",
   "schemes": ["https"]
 }
 ```
 
 **Salesforce Named Credential:**
-Edit `FlowForge_API.namedCredential-meta.xml`:
+Edit `LeForge_API.namedCredential-meta.xml`:
 ```xml
-<endpoint>https://flowforge.internal.company.com</endpoint>
+<endpoint>https://LeForge.internal.company.com</endpoint>
 ```
 
 **ServiceNow Connection Alias:**
@@ -1182,7 +1182,7 @@ For CI/CD pipelines in air-gapped environments, run the generator during build:
 python scripts/generate-integrations.py \
   --plugin llm-service \
   --platform nintex-k2 \
-  --base-url https://flowforge.internal.corp \
+  --base-url https://LeForge.internal.corp \
   --output ./release/integrations/
 
 # Bundle output with your deployment artifacts
@@ -1191,7 +1191,7 @@ python scripts/generate-integrations.py \
 ### Customer Workflow
 
 #### Nintex Workflow Cloud
-1. **Admin** visits FlowForge registry or uses CLI
+1. **Admin** visits LeForge registry or uses CLI
 2. Downloads `llm-service-nintex-cloud.zip`
 3. Extracts and uploads `swagger.json` to Nintex Xtensions
 4. Configures API key
@@ -1242,5 +1242,5 @@ python scripts/generate-integrations.py \
 1. Will plugins be self-hosted or SaaS? (Affects connector URLs)
 2. What authentication method is preferred? (API Key recommended)
 3. Do we want certified/published connectors or private only?
-4. What's the branding/naming convention? (FlowForge vs custom?)
+4. What's the branding/naming convention? (LeForge vs custom?)
 5. ~~How do customers get integration assets?~~ ✅ Registry API endpoint

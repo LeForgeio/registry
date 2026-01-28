@@ -1,5 +1,5 @@
 """
-FlowForge Math Service - Main Application
+LeForge Math Service - Main Application
 """
 import time
 from contextlib import asynccontextmanager
@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 
 app = FastAPI(
-    title="FlowForge Math Service",
+    title="LeForge Math Service",
     description="Mathematical operations service providing calculations, statistics, and matrix operations.",
     version="1.0.0",
     lifespan=lifespan,

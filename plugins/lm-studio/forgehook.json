@@ -4,7 +4,7 @@
   "name": "LM Studio",
   "version": "1.0.0",
   "description": "Local AI inference using LM Studio. Provides an OpenAI-compatible API for running local models with a friendly GUI.",
-  "author": "FlowForge",
+  "author": "LeForge",
   "license": "MIT",
   "category": "ai",
   "runtime": "gateway",
@@ -226,7 +226,7 @@
     }
   ],
   "documentation": {
-    "overview": "LM Studio provides an easy-to-use GUI for running local language models with an OpenAI-compatible API. This gateway plugin connects FlowForge to LM Studio's local server.",
+    "overview": "LM Studio provides an easy-to-use GUI for running local language models with an OpenAI-compatible API. This gateway plugin connects LeForge to LM Studio's local server.",
     "installation": "1. Download LM Studio from https://lmstudio.ai\n2. Download and load a model in LM Studio\n3. Start the local server (⌘/Ctrl+L)\n4. Install this plugin",
     "authentication": "No authentication required - runs locally",
     "examples": [

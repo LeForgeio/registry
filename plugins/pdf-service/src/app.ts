@@ -54,7 +54,7 @@ export async function buildApp(): Promise<FastifyInstance> {
         description: 'API for PDF generation, manipulation, and text extraction',
         version: config.serviceVersion,
         contact: {
-          name: 'FlowForge',
+          name: 'LeForge',
           url: 'https://leforge.io',
         },
         license: {

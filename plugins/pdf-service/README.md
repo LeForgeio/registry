@@ -1,6 +1,6 @@
 # PDF Service
 
-A high-performance microservice for PDF generation, manipulation, and text extraction. Part of the FlowForge platform.
+A high-performance microservice for PDF generation, manipulation, and text extraction. Part of the LeForge platform.
 
 ## Features
 
@@ -143,7 +143,7 @@ Merge multiple PDFs (JSON/base64).
   ],
   "metadata": {
     "title": "Merged Document",
-    "author": "FlowForge"
+    "author": "LeForge"
   }
 }
 ```

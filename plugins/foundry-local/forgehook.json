@@ -4,7 +4,7 @@
   "name": "Azure Foundry Local",
   "version": "1.0.0",
   "description": "On-device AI inference using Azure Foundry Local. Provides access to local language models without cloud dependencies.",
-  "author": "FlowForge",
+  "author": "LeForge",
   "license": "MIT",
   "category": "ai",
   "runtime": "gateway",

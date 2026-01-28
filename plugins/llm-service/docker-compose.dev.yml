@@ -14,7 +14,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: development
-    container_name: flowforge-llm-service-dev
+    container_name: leforge-llm-service-dev
     restart: unless-stopped
     ports:
       - "${LLM_SERVICE_PORT:-8000}:8000"
@@ -53,7 +53,7 @@ services:
   # ---------------------------------------------------------------------------
   vllm-server:
     image: vllm/vllm-openai:latest
-    container_name: flowforge-vllm-server-dev
+    container_name: leforge-vllm-server-dev
     restart: unless-stopped
     ports:
       - "${VLLM_PORT:-8001}:8001"
@@ -96,7 +96,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.mock-vllm
-    container_name: flowforge-mock-vllm
+    container_name: leforge-mock-vllm
     restart: unless-stopped
     ports:
       - "${MOCK_VLLM_PORT:-8002}:8001"
@@ -112,7 +112,7 @@ services:
   # ---------------------------------------------------------------------------
   redis:
     image: redis:7-alpine
-    container_name: flowforge-llm-redis-dev
+    container_name: leforge-llm-redis-dev
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
@@ -132,7 +132,7 @@ services:
   # ---------------------------------------------------------------------------
   redis-commander:
     image: rediscommander/redis-commander:latest
-    container_name: flowforge-redis-commander
+    container_name: leforge-redis-commander
     restart: unless-stopped
     ports:
       - "8081:8081"
@@ -151,8 +151,8 @@ networks:
 
 volumes:
   model-cache:
-    name: flowforge-llm-model-cache-dev
+    name: leforge-llm-model-cache-dev
   embedding-models:
-    name: flowforge-llm-embedding-models-dev
+    name: leforge-llm-embedding-models-dev
   redis-data-dev:
-    name: flowforge-llm-redis-data-dev
+    name: leforge-llm-redis-data-dev

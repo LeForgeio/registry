@@ -347,7 +347,7 @@ Supported models:
 
 ### Remote Embeddings (via llm-service)
 
-Use the FlowForge llm-service for embedding generation:
+Use the LeForge llm-service for embedding generation:
 
 ```bash
 USE_LOCAL_EMBEDDINGS=false

@@ -19,14 +19,14 @@ info:
     
   version: 1.1.0
   contact:
-    name: FlowForge Team
+    name: LeForge Team
   license:
     name: MIT
 
 servers:
   - url: http://localhost:8000
     description: Development server
-  - url: https://api.flowforge.io/llm
+  - url: https://api.LeForge.io/llm
     description: Production server
 
 tags:

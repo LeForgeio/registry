@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-FlowForge Integration Generator
+LeForge Integration Generator
 
 Generates platform-specific integration packages from plugin forgehook.json manifests.
 
@@ -118,12 +118,12 @@ def generate_openapi_20(forgehook: Dict[str, Any], plugin_name: str) -> Dict[str
     swagger = {
         "swagger": "2.0",
         "info": {
-            "title": f"FlowForge {info.get('name', plugin_name)}",
-            "description": info.get("description", "FlowForge plugin"),
+            "title": f"LeForge {info.get('name', plugin_name)}",
+            "description": info.get("description", "LeForge plugin"),
             "version": info.get("version", "1.0.0"),
             "contact": {
-                "name": "FlowForge Support",
-                "url": "https://flowforge.io"
+                "name": "LeForge Support",
+                "url": "https://LeForge.io"
             }
         },
         "host": "{{HOST}}",
@@ -136,7 +136,7 @@ def generate_openapi_20(forgehook: Dict[str, Any], plugin_name: str) -> Dict[str
                 "type": "apiKey",
                 "in": "header",
                 "name": "X-API-Key",
-                "description": "FlowForge API Key"
+                "description": "LeForge API Key"
             }
         },
         "security": [{"api_key": []}],
@@ -263,18 +263,18 @@ def generate_openapi_30(forgehook: Dict[str, Any], plugin_name: str) -> Dict[str
     openapi = {
         "openapi": "3.0.3",
         "info": {
-            "title": f"FlowForge {info.get('name', plugin_name)}",
-            "description": info.get("description", "FlowForge plugin"),
+            "title": f"LeForge {info.get('name', plugin_name)}",
+            "description": info.get("description", "LeForge plugin"),
             "version": info.get("version", "1.0.0"),
             "contact": {
-                "name": "FlowForge Support",
-                "url": "https://flowforge.io"
+                "name": "LeForge Support",
+                "url": "https://LeForge.io"
             }
         },
         "servers": [
             {
                 "url": "https://{{HOST}}/api/v1",
-                "description": "FlowForge API Server"
+                "description": "LeForge API Server"
             }
         ],
         "security": [{"ApiKeyAuth": []}],
@@ -284,7 +284,7 @@ def generate_openapi_30(forgehook: Dict[str, Any], plugin_name: str) -> Dict[str
                     "type": "apiKey",
                     "in": "header",
                     "name": "X-API-Key",
-                    "description": "FlowForge API Key"
+                    "description": "LeForge API Key"
                 }
             },
             "schemas": {}
@@ -387,11 +387,11 @@ def generate_power_automate(forgehook: Dict[str, Any], plugin_name: str, output_
     swagger["x-ms-connector-metadata"] = [
         {
             "propertyName": "Website",
-            "propertyValue": "https://flowforge.io"
+            "propertyValue": "https://LeForge.io"
         },
         {
             "propertyName": "Privacy policy",
-            "propertyValue": "https://flowforge.io/privacy"
+            "propertyValue": "https://LeForge.io/privacy"
         },
         {
             "propertyName": "Categories",
@@ -412,8 +412,8 @@ def generate_power_automate(forgehook: Dict[str, Any], plugin_name: str, output_
                     "type": "securestring",
                     "uiDefinition": {
                         "displayName": "API Key",
-                        "description": "Your FlowForge API Key",
-                        "tooltip": "Enter your FlowForge API Key",
+                        "description": "Your LeForge API Key",
+                        "tooltip": "Enter your LeForge API Key",
                         "constraints": {
                             "required": "true",
                             "clearText": False
@@ -443,10 +443,10 @@ def generate_power_automate(forgehook: Dict[str, Any], plugin_name: str, output_
 def generate_power_automate_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate README for Power Automate connector."""
     info = forgehook.get("info", {})
-    return f"""# FlowForge {info.get('name', plugin_name)} - Power Automate Connector
+    return f"""# LeForge {info.get('name', plugin_name)} - Power Automate Connector
 
 ## Overview
-{info.get('description', 'FlowForge plugin connector for Microsoft Power Automate.')}
+{info.get('description', 'LeForge plugin connector for Microsoft Power Automate.')}
 
 ## Installation
 
@@ -467,7 +467,7 @@ After importing the connector:
 
 1. Click **Test** tab
 2. Create a new connection
-3. Enter your FlowForge API Key
+3. Enter your LeForge API Key
 4. Test a simple operation
 
 ## Available Actions
@@ -480,11 +480,11 @@ After importing the connector:
 
 This connector uses API Key authentication:
 - Header name: `X-API-Key`
-- Get your API key from FlowForge dashboard
+- Get your API key from LeForge dashboard
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)
 """
 
 
@@ -524,10 +524,10 @@ def generate_nintex_cloud(forgehook: Dict[str, Any], plugin_name: str, output_di
 def generate_nintex_cloud_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate README for Nintex Cloud Xtension."""
     info = forgehook.get("info", {})
-    return f"""# FlowForge {info.get('name', plugin_name)} - Nintex Workflow Cloud Xtension
+    return f"""# LeForge {info.get('name', plugin_name)} - Nintex Workflow Cloud Xtension
 
 ## Overview
-{info.get('description', 'FlowForge plugin Xtension for Nintex Workflow Cloud.')}
+{info.get('description', 'LeForge plugin Xtension for Nintex Workflow Cloud.')}
 
 ## Installation
 
@@ -543,10 +543,10 @@ def generate_nintex_cloud_readme(forgehook: Dict[str, Any], plugin_name: str) ->
 ### API Key Setup
 1. In the Xtension settings, select **API Key** authentication
 2. Set header name: `X-API-Key`
-3. Enter your FlowForge API key
+3. Enter your LeForge API key
 
 ### Base URL
-Update the host in the Swagger file to your FlowForge instance URL.
+Update the host in the Swagger file to your LeForge instance URL.
 
 ## Available Actions
 
@@ -556,13 +556,13 @@ Update the host in the Swagger file to your FlowForge instance URL.
 
 After publishing the Xtension:
 1. Open workflow designer
-2. Find actions under **FlowForge** category
+2. Find actions under **LeForge** category
 3. Drag and drop actions into your workflow
 4. Configure action parameters
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)
 """
 
 
@@ -611,10 +611,10 @@ def generate_smartobject_xml(endpoint: Dict[str, Any], plugin_name: str, info: D
     return f"""<?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>{operation_id}</Name>
-  <DisplayName>FlowForge {info.get('name', plugin_name)} - {endpoint.get('name', operation_id)}</DisplayName>
+  <DisplayName>LeForge {info.get('name', plugin_name)} - {endpoint.get('name', operation_id)}</DisplayName>
   <Description>{endpoint.get('description', '')}</Description>
-  <SystemName>FlowForge.{format_connector_name(plugin_name)}.{operation_id}</SystemName>
-  <ServiceInstance>FlowForge_{format_connector_name(plugin_name)}</ServiceInstance>
+  <SystemName>LeForge.{format_connector_name(plugin_name)}.{operation_id}</SystemName>
+  <ServiceInstance>LeForge_{format_connector_name(plugin_name)}</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>
@@ -635,10 +635,10 @@ def generate_smartobject_xml(endpoint: Dict[str, Any], plugin_name: str, info: D
 def generate_nintex_k2_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate README for Nintex K2 integration."""
     info = forgehook.get("info", {})
-    return f"""# FlowForge {info.get('name', plugin_name)} - Nintex K2 Integration
+    return f"""# LeForge {info.get('name', plugin_name)} - Nintex K2 Integration
 
 ## Overview
-{info.get('description', 'FlowForge plugin integration for Nintex K2.')}
+{info.get('description', 'LeForge plugin integration for Nintex K2.')}
 
 ## Installation
 
@@ -655,7 +655,7 @@ def generate_nintex_k2_readme(forgehook: Dict[str, Any], plugin_name: str) -> st
 1. Go to **Service Instances**
 2. Create new instance from the registered service type
 3. Configure connection:
-   - Base URL: Your FlowForge server URL
+   - Base URL: Your LeForge server URL
    - Authentication: API Key
    - Header: `X-API-Key`
 
@@ -689,7 +689,7 @@ Import these for common operations.
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)
 """
 
 
@@ -699,9 +699,9 @@ For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
 
 def generate_n8n(forgehook: Dict[str, Any], plugin_name: str, output_dir: Path):
     """Generate n8n custom node TypeScript package."""
-    package_name = f"n8n-nodes-flowforge-{plugin_name.replace('-', '')}"
+    package_name = f"n8n-nodes-LeForge-{plugin_name.replace('-', '')}"
     platform_dir = output_dir / "n8n" / package_name
-    nodes_dir = platform_dir / "nodes" / f"FlowForge{format_class_name(plugin_name)}"
+    nodes_dir = platform_dir / "nodes" / f"LeForge{format_class_name(plugin_name)}"
     credentials_dir = platform_dir / "credentials"
     
     nodes_dir.mkdir(parents=True, exist_ok=True)
@@ -743,12 +743,12 @@ def generate_n8n(forgehook: Dict[str, Any], plugin_name: str, output_dir: Path):
     
     # Generate credentials file
     credentials_ts = generate_n8n_credentials(plugin_name)
-    with open(credentials_dir / "FlowForgeApi.credentials.ts", "w", encoding="utf-8") as f:
+    with open(credentials_dir / "LeForgeApi.credentials.ts", "w", encoding="utf-8") as f:
         f.write(credentials_ts)
     
     # Generate main node file
     node_ts = generate_n8n_node(forgehook, plugin_name)
-    class_name = f"FlowForge{format_class_name(plugin_name)}"
+    class_name = f"LeForge{format_class_name(plugin_name)}"
     with open(nodes_dir / f"{class_name}.node.ts", "w", encoding="utf-8") as f:
         f.write(node_ts)
     
@@ -768,18 +768,18 @@ def generate_n8n(forgehook: Dict[str, Any], plugin_name: str, output_dir: Path):
 def generate_n8n_package_json(forgehook: Dict[str, Any], plugin_name: str, package_name: str) -> Dict[str, Any]:
     """Generate package.json for n8n node."""
     info = forgehook.get("info", {})
-    class_name = f"FlowForge{format_class_name(plugin_name)}"
+    class_name = f"LeForge{format_class_name(plugin_name)}"
     
     return {
         "name": package_name,
         "version": info.get("version", "1.0.0"),
-        "description": f"n8n node for FlowForge {info.get('name', plugin_name)}",
-        "keywords": ["n8n", "n8n-community-node-package", "flowforge", plugin_name],
+        "description": f"n8n node for LeForge {info.get('name', plugin_name)}",
+        "keywords": ["n8n", "n8n-community-node-package", "LeForge", plugin_name],
         "license": "MIT",
-        "homepage": "https://flowforge.io",
+        "homepage": "https://LeForge.io",
         "author": {
-            "name": "FlowForge",
-            "email": "support@flowforge.io"
+            "name": "LeForge",
+            "email": "support@LeForge.io"
         },
         "repository": {
             "type": "git",
@@ -799,7 +799,7 @@ def generate_n8n_package_json(forgehook: Dict[str, Any], plugin_name: str, packa
         "n8n": {
             "n8nNodesApiVersion": 1,
             "credentials": [
-                "dist/credentials/FlowForgeApi.credentials.js"
+                "dist/credentials/LeForgeApi.credentials.js"
             ],
             "nodes": [
                 f"dist/nodes/{class_name}/{class_name}.node.js"
@@ -822,10 +822,10 @@ def generate_n8n_credentials(plugin_name: str) -> str:
     INodeProperties,
 } from 'n8n-workflow';
 
-export class FlowForgeApi implements ICredentialType {
-    name = 'flowForgeApi';
-    displayName = 'FlowForge API';
-    documentationUrl = 'https://flowforge.io/docs/api';
+export class LeForgeApi implements ICredentialType {
+    name = 'LeForgeApi';
+    displayName = 'LeForge API';
+    documentationUrl = 'https://LeForge.io/docs/api';
     
     properties: INodeProperties[] = [
         {
@@ -837,15 +837,15 @@ export class FlowForgeApi implements ICredentialType {
             },
             default: '',
             required: true,
-            description: 'Your FlowForge API Key',
+            description: 'Your LeForge API Key',
         },
         {
             displayName: 'Base URL',
             name: 'baseUrl',
             type: 'string',
-            default: 'https://api.flowforge.io',
+            default: 'https://api.LeForge.io',
             required: true,
-            description: 'The base URL of your FlowForge instance',
+            description: 'The base URL of your LeForge instance',
         },
     ];
     
@@ -865,7 +865,7 @@ def generate_n8n_node(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate n8n node TypeScript file."""
     info = forgehook.get("info", {})
     endpoints = forgehook.get("endpoints", [])
-    class_name = f"FlowForge{format_class_name(plugin_name)}"
+    class_name = f"LeForge{format_class_name(plugin_name)}"
     
     # Generate operations
     operations = []
@@ -891,21 +891,21 @@ def generate_n8n_node(forgehook: Dict[str, Any], plugin_name: str) -> str:
 
 export class {class_name} implements INodeType {{
     description: INodeTypeDescription = {{
-        displayName: 'FlowForge {info.get("name", plugin_name)}',
-        name: 'flowForge{format_class_name(plugin_name)}',
-        icon: 'file:flowforge.svg',
+        displayName: 'LeForge {info.get("name", plugin_name)}',
+        name: 'LeForge{format_class_name(plugin_name)}',
+        icon: 'file:LeForge.svg',
         group: ['transform'],
         version: 1,
         subtitle: '={{{{$parameter["operation"]}}}}',
-        description: '{info.get("description", "FlowForge plugin").replace("'", "\\'")}',
+        description: '{info.get("description", "LeForge plugin").replace("'", "\\'")}',
         defaults: {{
-            name: 'FlowForge {info.get("name", plugin_name)}',
+            name: 'LeForge {info.get("name", plugin_name)}',
         }},
         inputs: ['main'],
         outputs: ['main'],
         credentials: [
             {{
-                name: 'flowForgeApi',
+                name: 'LeForgeApi',
                 required: true,
             }},
         ],
@@ -926,7 +926,7 @@ export class {class_name} implements INodeType {{
         const items = this.getInputData();
         const returnData: INodeExecutionData[] = [];
         
-        const credentials = await this.getCredentials('flowForgeApi');
+        const credentials = await this.getCredentials('LeForgeApi');
         const baseUrl = credentials.baseUrl as string;
         const operation = this.getNodeParameter('operation', 0) as string;
         
@@ -966,19 +966,19 @@ def generate_n8n_node_json(forgehook: Dict[str, Any], plugin_name: str) -> Dict[
     """Generate n8n node description JSON."""
     info = forgehook.get("info", {})
     return {
-        "node": f"n8n-nodes-flowforge-{plugin_name}",
+        "node": f"n8n-nodes-LeForge-{plugin_name}",
         "nodeVersion": "1.0",
         "codexVersion": "1.0",
         "categories": ["Productivity", "AI"],
         "resources": {
             "credentialDocumentation": [
                 {
-                    "url": "https://flowforge.io/docs/api"
+                    "url": "https://LeForge.io/docs/api"
                 }
             ],
             "primaryDocumentation": [
                 {
-                    "url": "https://flowforge.io/docs"
+                    "url": "https://LeForge.io/docs"
                 }
             ]
         }
@@ -990,7 +990,7 @@ def generate_n8n_readme(forgehook: Dict[str, Any], plugin_name: str, package_nam
     info = forgehook.get("info", {})
     return f"""# {package_name}
 
-n8n community node for FlowForge {info.get('name', plugin_name)}.
+n8n community node for LeForge {info.get('name', plugin_name)}.
 
 {info.get('description', '')}
 
@@ -1014,9 +1014,9 @@ Then restart n8n.
 
 ## Configuration
 
-1. Add FlowForge credentials:
+1. Add LeForge credentials:
    - Go to **Credentials** > **Add Credential**
-   - Search for "FlowForge"
+   - Search for "LeForge"
    - Enter your API Key and Base URL
 
 2. Use the node in your workflows
@@ -1032,7 +1032,7 @@ Then restart n8n.
 
 ## Resources
 
-- [FlowForge Documentation](https://flowforge.io/docs)
+- [LeForge Documentation](https://LeForge.io/docs)
 - [n8n Community Nodes Documentation](https://docs.n8n.io/integrations/community-nodes/)
 
 ## License
@@ -1067,10 +1067,10 @@ def generate_outsystems(forgehook: Dict[str, Any], plugin_name: str, output_dir:
 def generate_outsystems_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate README for OutSystems integration."""
     info = forgehook.get("info", {})
-    return f"""# FlowForge {info.get('name', plugin_name)} - OutSystems Integration
+    return f"""# LeForge {info.get('name', plugin_name)} - OutSystems Integration
 
 ## Overview
-{info.get('description', 'FlowForge plugin integration for OutSystems.')}
+{info.get('description', 'LeForge plugin integration for OutSystems.')}
 
 ## Integration Methods
 
@@ -1092,7 +1092,7 @@ def generate_outsystems_readme(forgehook: Dict[str, Any], plugin_name: str) -> s
 ## Configuration
 
 ### Base URL
-Set the base URL to your FlowForge instance in the REST API configuration.
+Set the base URL to your LeForge instance in the REST API configuration.
 
 ### Authentication
 1. Create a Site Property for the API Key
@@ -1104,7 +1104,7 @@ Set the base URL to your FlowForge instance in the REST API configuration.
 For each operation, create a Server Action wrapper:
 
 ```
-ServerAction: FlowForge_{info.get('name', plugin_name).replace(' ', '')}_Operation
+ServerAction: LeForge_{info.get('name', plugin_name).replace(' ', '')}_Operation
     Input: 
         - RequestData (Structure)
     Output:
@@ -1131,7 +1131,7 @@ ServerAction: FlowForge_{info.get('name', plugin_name).replace(' ', '')}_Operati
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)
 """
 
 
@@ -1151,7 +1151,7 @@ def generate_mendix(forgehook: Dict[str, Any], plugin_name: str, output_dir: Pat
         json.dump(openapi, f, indent=2)
     
     # Generate Java action stubs
-    java_dir = platform_dir / "javasource" / "flowforge" / "actions"
+    java_dir = platform_dir / "javasource" / "LeForge" / "actions"
     java_dir.mkdir(parents=True, exist_ok=True)
     
     endpoints = forgehook.get("endpoints", [])
@@ -1173,18 +1173,18 @@ def generate_mendix(forgehook: Dict[str, Any], plugin_name: str, output_dir: Pat
 def generate_mendix_java_action(endpoint: Dict[str, Any], plugin_name: str, info: Dict[str, Any]) -> str:
     """Generate Mendix Java action stub."""
     operation_id = sanitize_operation_id(endpoint.get("path", ""), endpoint.get("method", "GET"))
-    return f'''package flowforge.actions;
+    return f'''package LeForge.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
- * FlowForge {info.get('name', plugin_name)} - {endpoint.get('name', operation_id)}
+ * LeForge {info.get('name', plugin_name)} - {endpoint.get('name', operation_id)}
  * 
  * {endpoint.get('description', '')}
  * 
- * @author FlowForge Generator
+ * @author LeForge Generator
  */
 public class {operation_id} extends CustomJavaAction<String> {{
     
@@ -1215,7 +1215,7 @@ public class {operation_id} extends CustomJavaAction<String> {{
     
     @Override
     public String toString() {{
-        return "FlowForge {operation_id}";
+        return "LeForge {operation_id}";
     }}
 }}
 '''
@@ -1224,10 +1224,10 @@ public class {operation_id} extends CustomJavaAction<String> {{
 def generate_mendix_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate README for Mendix integration."""
     info = forgehook.get("info", {})
-    return f"""# FlowForge {info.get('name', plugin_name)} - Mendix Integration
+    return f"""# LeForge {info.get('name', plugin_name)} - Mendix Integration
 
 ## Overview
-{info.get('description', 'FlowForge plugin integration for Mendix.')}
+{info.get('description', 'LeForge plugin integration for Mendix.')}
 
 ## Integration Methods
 
@@ -1241,7 +1241,7 @@ def generate_mendix_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
 
 ### Method 2: Java Actions
 
-Use the provided Java action stubs in `javasource/flowforge/actions/`:
+Use the provided Java action stubs in `javasource/LeForge/actions/`:
 
 1. Copy Java files to your project's javasource folder
 2. Implement the API call logic
@@ -1252,14 +1252,14 @@ Use the provided Java action stubs in `javasource/flowforge/actions/`:
 ### Constants
 Create these constants in your Mendix app:
 
-- `FlowForge.BaseUrl` - Your FlowForge instance URL
-- `FlowForge.ApiKey` - Your API key
+- `LeForge.BaseUrl` - Your LeForge instance URL
+- `LeForge.ApiKey` - Your API key
 
 ### Request Handling
 Use Mendix's **Call REST** activity with:
 - Method: POST/GET as appropriate
-- URL: `$FlowForge.BaseUrl + '/api/v1/endpoint'`
-- Headers: `X-API-Key: $FlowForge.ApiKey`
+- URL: `$LeForge.BaseUrl + '/api/v1/endpoint'`
+- Headers: `X-API-Key: $LeForge.ApiKey`
 
 ## Available Operations
 
@@ -1268,7 +1268,7 @@ Use Mendix's **Call REST** activity with:
 ## Microflow Example
 
 ```
-Microflow: ACT_FlowForge_Chat
+Microflow: ACT_LeForge_Chat
     Input: Message (String)
     
     1. Create JSON structure for request
@@ -1288,7 +1288,7 @@ To publish as a Marketplace module:
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)
 """
 
 
@@ -1307,14 +1307,14 @@ def generate_salesforce(forgehook: Dict[str, Any], plugin_name: str, output_dir:
     
     # Generate OpenAPI 3.0 spec for External Services
     openapi = generate_salesforce_openapi(forgehook, plugin_name)
-    openapi_path = external_services_dir / f"FlowForge_{format_connector_name(plugin_name)}.yaml"
+    openapi_path = external_services_dir / f"LeForge_{format_connector_name(plugin_name)}.yaml"
     with open(openapi_path, "w", encoding="utf-8") as f:
         import yaml
         yaml.dump(openapi, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
     
     # Generate Apex Invocable class
     apex_code = generate_salesforce_apex(forgehook, plugin_name)
-    class_name = f"FlowForge{format_connector_name(plugin_name)}Service"
+    class_name = f"LeForge{format_connector_name(plugin_name)}Service"
     apex_path = apex_dir / f"{class_name}.cls"
     with open(apex_path, "w", encoding="utf-8") as f:
         f.write(apex_code)
@@ -1345,12 +1345,12 @@ def generate_salesforce_openapi(forgehook: Dict[str, Any], plugin_name: str) -> 
     openapi = {
         "openapi": "3.0.0",
         "info": {
-            "title": f"FlowForge {info.get('name', plugin_name)}",
-            "description": info.get("description", "FlowForge plugin"),
+            "title": f"LeForge {info.get('name', plugin_name)}",
+            "description": info.get("description", "LeForge plugin"),
             "version": info.get("version", "1.0.0")
         },
         "servers": [
-            {"url": "https://{instance}/api/v1", "variables": {"instance": {"default": "api.flowforge.io"}}}
+            {"url": "https://{instance}/api/v1", "variables": {"instance": {"default": "api.LeForge.io"}}}
         ],
         "paths": {},
         "components": {
@@ -1394,26 +1394,26 @@ def generate_salesforce_openapi(forgehook: Dict[str, Any], plugin_name: str) -> 
 def generate_salesforce_apex(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate Salesforce Apex Invocable class."""
     info = forgehook.get("info", {})
-    class_name = f"FlowForge{format_connector_name(plugin_name)}Service"
+    class_name = f"LeForge{format_connector_name(plugin_name)}Service"
     endpoints = forgehook.get("endpoints", [])
     
     # Get first endpoint for example
     first_endpoint = endpoints[0] if endpoints else {"name": "Execute", "path": "/execute", "method": "POST"}
     
     return f'''/**
- * FlowForge {info.get('name', plugin_name)} - Salesforce Apex Invocable Actions
+ * LeForge {info.get('name', plugin_name)} - Salesforce Apex Invocable Actions
  * {info.get('description', '')}
  * 
- * @author FlowForge Generator
+ * @author LeForge Generator
  * @version {info.get('version', '1.0.0')}
  */
 public class {class_name} {{
     
-    private static final String NAMED_CREDENTIAL = 'callout:FlowForge_API';
+    private static final String NAMED_CREDENTIAL = 'callout:LeForge_API';
     
     @InvocableMethod(label='{first_endpoint.get("name", "Execute")}' 
-                     description='{first_endpoint.get("description", "Execute FlowForge operation")[:200]}' 
-                     category='FlowForge')
+                     description='{first_endpoint.get("description", "Execute LeForge operation")[:200]}' 
+                     category='LeForge')
     public static List<Response> execute(List<Request> requests) {{
         List<Response> responses = new List<Response>();
         
@@ -1471,17 +1471,17 @@ public class {class_name} {{
 def generate_salesforce_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate README for Salesforce integration."""
     info = forgehook.get("info", {})
-    return f"""# FlowForge {info.get('name', plugin_name)} - Salesforce Integration
+    return f"""# LeForge {info.get('name', plugin_name)} - Salesforce Integration
 
 ## Overview
-{info.get('description', 'FlowForge plugin integration for Salesforce.')}
+{info.get('description', 'LeForge plugin integration for Salesforce.')}
 
 ## Installation
 
 ### External Services
 1. Go to **Setup** > **External Services**
 2. Click **Add an External Service**
-3. Upload `external-services/FlowForge_{format_connector_name(plugin_name)}.yaml`
+3. Upload `external-services/LeForge_{format_connector_name(plugin_name)}.yaml`
 4. Configure Named Credential
 
 ### Apex Package
@@ -1494,8 +1494,8 @@ sfdx force:source:deploy -p apex/
 
 Create Named Credential:
 1. **Setup** > **Named Credentials**
-2. Create new: FlowForge_API
-3. URL: https://your-instance.flowforge.io/api/v1
+2. Create new: LeForge_API
+3. URL: https://your-instance.LeForge.io/api/v1
 4. Authentication: Custom Header (X-API-Key)
 
 ## Available Operations
@@ -1504,7 +1504,7 @@ Create Named Credential:
 
 ## Support
 
-Visit [FlowForge Support](https://flowforge.io/support)
+Visit [LeForge Support](https://LeForge.io/support)
 """
 
 
@@ -1548,10 +1548,10 @@ def generate_servicenow_spoke_xml(forgehook: Dict[str, Any], plugin_name: str) -
 <unload>
     <sys_hub_spoke action="INSERT_OR_UPDATE">
         <active>true</active>
-        <description>{info.get('description', 'FlowForge plugin')}</description>
-        <name>FlowForge {info.get('name', plugin_name)}</name>
-        <sys_id>flowforge_{plugin_name.replace("-", "_")}_spoke</sys_id>
-        <vendor>FlowForge</vendor>
+        <description>{info.get('description', 'LeForge plugin')}</description>
+        <name>LeForge {info.get('name', plugin_name)}</name>
+        <sys_id>LeForge_{plugin_name.replace("-", "_")}_spoke</sys_id>
+        <vendor>LeForge</vendor>
         <version>{info.get('version', '1.0.0')}</version>
     </sys_hub_spoke>
 </unload>
@@ -1566,13 +1566,13 @@ def generate_servicenow_action_xml(endpoint: Dict[str, Any], plugin_name: str, i
     <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
         <access>public</access>
         <active>true</active>
-        <category>FlowForge</category>
+        <category>LeForge</category>
         <description>{endpoint.get('description', '')}</description>
-        <internal_name>flowforge_{operation_id.lower()}</internal_name>
+        <internal_name>LeForge_{operation_id.lower()}</internal_name>
         <label>{endpoint.get('name', operation_id)}</label>
-        <name>FlowForge {endpoint.get('name', operation_id)}</name>
-        <spoke>flowforge_{plugin_name.replace("-", "_")}_spoke</spoke>
-        <sys_id>flowforge_action_{operation_id.lower()}</sys_id>
+        <name>LeForge {endpoint.get('name', operation_id)}</name>
+        <spoke>LeForge_{plugin_name.replace("-", "_")}_spoke</spoke>
+        <sys_id>LeForge_action_{operation_id.lower()}</sys_id>
         <inputs>
             <input>
                 <internal_name>request_body</internal_name>
@@ -1601,16 +1601,16 @@ def generate_servicenow_action_xml(endpoint: Dict[str, Any], plugin_name: str, i
 def generate_servicenow_readme(forgehook: Dict[str, Any], plugin_name: str) -> str:
     """Generate README for ServiceNow integration."""
     info = forgehook.get("info", {})
-    return f"""# FlowForge {info.get('name', plugin_name)} - ServiceNow Integration
+    return f"""# LeForge {info.get('name', plugin_name)} - ServiceNow Integration
 
 ## Overview
-{info.get('description', 'FlowForge plugin integration for ServiceNow.')}
+{info.get('description', 'LeForge plugin integration for ServiceNow.')}
 
 ## Installation
 
 1. Import the Update Set from the `spoke/` folder
-2. Configure Connection Alias with your FlowForge API details
-3. FlowForge actions will appear in Flow Designer
+2. Configure Connection Alias with your LeForge API details
+3. LeForge actions will appear in Flow Designer
 
 ## Available Operations
 
@@ -1618,7 +1618,7 @@ def generate_servicenow_readme(forgehook: Dict[str, Any], plugin_name: str) -> s
 
 ## Support
 
-Visit [FlowForge Support](https://flowforge.io/support)
+Visit [LeForge Support](https://LeForge.io/support)
 """
 
 
@@ -1692,7 +1692,7 @@ def generate_integrations(
     }
     
     print(f"\n{'='*60}")
-    print("FlowForge Integration Generator")
+    print("LeForge Integration Generator")
     print(f"{'='*60}\n")
     print(f"Plugins: {', '.join(plugins)}")
     print(f"Platforms: {', '.join(platforms)}")
@@ -1722,7 +1722,7 @@ def generate_integrations(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate FlowForge platform integrations")
+    parser = argparse.ArgumentParser(description="Generate LeForge platform integrations")
     parser.add_argument("--platform", choices=SUPPORTED_PLATFORMS, help="Generate for specific platform only")
     parser.add_argument("--plugin", choices=SUPPORTED_PLUGINS, help="Generate for specific plugin only")
     parser.add_argument("--output", type=Path, default=INTEGRATIONS_DIR, help="Output directory")

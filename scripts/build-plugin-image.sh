@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# Build FlowForge Plugin Docker Image with Integration Assets
+# Build LeForge Plugin Docker Image with Integration Assets
 # 
 # This script generates platform integration assets and builds the Docker image
 # with those assets bundled for air-gapped distribution.
@@ -46,7 +46,7 @@ if [ ! -d "$PLUGIN_DIR" ]; then
 fi
 
 echo "============================================================"
-echo -e "${GREEN}Building FlowForge Plugin: $PLUGIN_NAME${NC}"
+echo -e "${GREEN}Building LeForge Plugin: $PLUGIN_NAME${NC}"
 echo "============================================================"
 echo ""
 
@@ -88,7 +88,7 @@ echo ""
 # Step 2: Build Docker image
 echo -e "${YELLOW}Step 2: Building Docker image...${NC}"
 
-IMAGE_NAME="flowforge/$PLUGIN_NAME:$TAG"
+IMAGE_NAME="LeForge/$PLUGIN_NAME:$TAG"
 
 docker build \
     --target production \

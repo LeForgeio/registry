@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "description": "Comprehensive Excel-compatible formula engine with 150+ functions spanning Math/Statistics, Logical, Text, Date/Time, Financial, and Lookup categories. Pure JavaScript implementation - zero external dependencies. Future middleware support for spreadsheet file processing.",
   "author": {
-    "name": "FlowForge",
+    "name": "LeForge",
     "url": "https://leforge.io"
   },
   "license": "MIT",
@@ -698,7 +698,7 @@
         "numChars": { "type": "number", "required": true }
       },
       "returns": { "type": "string" },
-      "example": "MID('FlowForge', 5, 5) // 'Forge'"
+      "example": "MID('LeForge', 5, 5) // 'Forge'"
     },
     {
       "name": "LEN",

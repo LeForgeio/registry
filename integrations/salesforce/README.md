@@ -1,6 +1,6 @@
-# FlowForge Salesforce Integration
+# LeForge Salesforce Integration
 
-Salesforce integration for FlowForge services using External Services and Apex Invocable Actions.
+Salesforce integration for LeForge services using External Services and Apex Invocable Actions.
 
 ## Services
 
@@ -31,8 +31,8 @@ sfdx force:source:deploy -p integrations/salesforce/apex
 ### Named Credential
 1. Go to **Setup > Named Credentials**
 2. Create new credential:
-   - **Label**: FlowForge API
-   - **URL**: `https://your-flowforge-instance.com/api/v1`
+   - **Label**: LeForge API
+   - **URL**: `https://your-LeForge-instance.com/api/v1`
    - **Authentication**: Custom Header
    - **Header Name**: `X-API-Key`
    - **Header Value**: Your API key
@@ -41,7 +41,7 @@ sfdx force:source:deploy -p integrations/salesforce/apex
 
 1. Open **Flow Builder**
 2. Add an **Action** element
-3. Search for "FlowForge"
+3. Search for "LeForge"
 4. Select desired action (e.g., "Chat with AI")
 5. Map input/output variables
 
@@ -50,10 +50,10 @@ sfdx force:source:deploy -p integrations/salesforce/apex
 ```
 salesforce/
 ├── external-services/          # OpenAPI 3.0 specs for External Services
-│   ├── FlowForge_LLM.yaml
-│   ├── FlowForge_Formula.yaml
-│   ├── FlowForge_Crypto.yaml
-│   └── FlowForge_Files.yaml
+│   ├── LeForge_LLM.yaml
+│   ├── LeForge_Formula.yaml
+│   ├── LeForge_Crypto.yaml
+│   └── LeForge_Files.yaml
 ├── apex/
 │   ├── classes/                # Invocable Apex classes
 │   └── namedCredentials/       # Credential metadata

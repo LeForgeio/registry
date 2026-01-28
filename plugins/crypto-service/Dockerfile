@@ -1,5 +1,5 @@
 # ==============================================================================
-# FlowForge Crypto Service - Production Dockerfile
+# LeForge Crypto Service - Production Dockerfile
 # Multi-stage build for minimal image size (<100MB)
 # ==============================================================================
 

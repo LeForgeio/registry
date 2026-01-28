@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>PostUploadComplete</Name>
-  <DisplayName>FlowForge streaming-file-service - PostUploadComplete</DisplayName>
+  <DisplayName>LeForge streaming-file-service - PostUploadComplete</DisplayName>
   <Description>Complete chunked upload - assembles chunks and verifies integrity.</Description>
-  <SystemName>FlowForge.StreamingFileService.PostUploadComplete</SystemName>
-  <ServiceInstance>FlowForge_StreamingFileService</ServiceInstance>
+  <SystemName>LeForge.StreamingFileService.PostUploadComplete</SystemName>
+  <ServiceInstance>LeForge_StreamingFileService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

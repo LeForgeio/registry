@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Comprehensive format validation utilities for emails, phones, URLs, credit cards, IBANs, VAT numbers, and more. All validation runs locally with no external API calls.",
   "author": {
-    "name": "FlowForge Team",
+    "name": "LeForge Team",
     "url": "https://leforge.io"
   },
   "license": "MIT",

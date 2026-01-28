@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "description": "Comprehensive cryptographic operations including hashing (SHA, MD5), symmetric encryption (AES-256-GCM/CBC), JWT token management, HMAC signatures, and secure random generation. Zero external dependencies - uses Node.js built-in crypto module.",
   "author": {
-    "name": "FlowForge",
+    "name": "LeForge",
     "url": "https://leforge.io"
   },
   "license": "MIT",

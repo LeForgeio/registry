@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "description": "Comprehensive data transformation operations including JSON manipulation (JSONPath, JMESPath), CSV parsing/generation, XML conversion, JSON Schema validation, object flattening/unflattening, deep merging, and template rendering. Pure JavaScript - no external dependencies.",
   "author": {
-    "name": "FlowForge",
+    "name": "LeForge",
     "url": "https://leforge.io"
   },
   "license": "MIT",

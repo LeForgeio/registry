@@ -5,8 +5,8 @@
         "type": "securestring",
         "uiDefinition": {
           "displayName": "API Key",
-          "description": "Your FlowForge API Key",
-          "tooltip": "Enter your FlowForge API Key",
+          "description": "Your LeForge API Key",
+          "tooltip": "Enter your LeForge API Key",
           "constraints": {
             "required": "true",
             "clearText": false

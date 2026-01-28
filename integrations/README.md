@@ -1,4 +1,4 @@
-# FlowForge Platform Integrations
+# LeForge Platform Integrations
 
 This folder contains ready-to-use connectors and integration packages for various workflow automation and low-code platforms.
 
@@ -31,7 +31,7 @@ This folder contains ready-to-use connectors and integration packages for variou
 
 ### n8n
 ```bash
-npm install n8n-nodes-flowforge
+npm install n8n-nodes-LeForge
 ```
 
 ### Salesforce
@@ -44,7 +44,7 @@ npm install n8n-nodes-flowforge
 1. Go to `servicenow/` folder
 2. Import the Update Set
 3. Configure Connection Alias
-4. Use FlowForge actions in Flow Designer
+4. Use LeForge actions in Flow Designer
 
 ## Generating Integrations
 

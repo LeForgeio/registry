@@ -1,5 +1,5 @@
 # =============================================================================
-# Build FlowForge Plugin Docker Image with Integration Assets (Windows)
+# Build LeForge Plugin Docker Image with Integration Assets (Windows)
 # 
 # This script generates platform integration assets and builds the Docker image
 # with those assets bundled for air-gapped distribution.
@@ -37,7 +37,7 @@ if (-not (Test-Path $PluginDir)) {
 }
 
 Write-Host "============================================================" -ForegroundColor Cyan
-Write-Host "Building FlowForge Plugin: $PluginName" -ForegroundColor Green
+Write-Host "Building LeForge Plugin: $PluginName" -ForegroundColor Green
 Write-Host "============================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -93,7 +93,7 @@ Write-Host ""
 # Step 2: Build Docker image
 Write-Host "Step 2: Building Docker image..." -ForegroundColor Yellow
 
-$ImageName = "flowforge/${PluginName}:$Tag"
+$ImageName = "LeForge/${PluginName}:$Tag"
 
 docker build `
     --target production `

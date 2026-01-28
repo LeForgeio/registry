@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>PostProvidersChat</Name>
-  <DisplayName>FlowForge llm-service - PostProvidersChat</DisplayName>
+  <DisplayName>LeForge llm-service - PostProvidersChat</DisplayName>
   <Description>Chat with a specific provider</Description>
-  <SystemName>FlowForge.LlmService.PostProvidersChat</SystemName>
-  <ServiceInstance>FlowForge_LlmService</ServiceInstance>
+  <SystemName>LeForge.LlmService.PostProvidersChat</SystemName>
+  <ServiceInstance>LeForge_LlmService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

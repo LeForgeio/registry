@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>GetProviders</Name>
-  <DisplayName>FlowForge llm-service - GetProviders</DisplayName>
+  <DisplayName>LeForge llm-service - GetProviders</DisplayName>
   <Description>List available LLM providers</Description>
-  <SystemName>FlowForge.LlmService.GetProviders</SystemName>
-  <ServiceInstance>FlowForge_LlmService</ServiceInstance>
+  <SystemName>LeForge.LlmService.GetProviders</SystemName>
+  <ServiceInstance>LeForge_LlmService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

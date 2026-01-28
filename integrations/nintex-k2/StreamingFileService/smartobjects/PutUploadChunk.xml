@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SmartObjectDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>PutUploadChunk</Name>
-  <DisplayName>FlowForge streaming-file-service - PutUploadChunk</DisplayName>
+  <DisplayName>LeForge streaming-file-service - PutUploadChunk</DisplayName>
   <Description>Upload a single chunk. Supports resume - re-upload failed chunks.</Description>
-  <SystemName>FlowForge.StreamingFileService.PutUploadChunk</SystemName>
-  <ServiceInstance>FlowForge_StreamingFileService</ServiceInstance>
+  <SystemName>LeForge.StreamingFileService.PutUploadChunk</SystemName>
+  <ServiceInstance>LeForge_StreamingFileService</ServiceInstance>
   <Methods>
     <Method>
       <Name>Execute</Name>

@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Comprehensive JSON manipulation utilities: JSONPath queries, flatten/unflatten nested objects, deep merge, diff comparison, schema validation (JSON Schema draft-07), and safe parsing. All operations run locally.",
   "author": {
-    "name": "FlowForge Team",
+    "name": "LeForge Team",
     "url": "https://leforge.io"
   },
   "license": "MIT",

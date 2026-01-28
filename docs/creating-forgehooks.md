@@ -1,6 +1,6 @@
 # Creating ForgeHooks
 
-> A step-by-step guide to building your own FlowForge plugins
+> A step-by-step guide to building your own LeForge plugins
 
 ## Quick Start
 
@@ -335,7 +335,7 @@ docker run -p 3001:3001 your-dockerhub/my-image-processor:latest
 docker push your-dockerhub/my-image-processor:latest
 ```
 
-### Step 6: Install in FlowForge
+### Step 6: Install in LeForge
 
 ```bash
 # Install from GitHub (if you pushed your code there)
@@ -460,7 +460,7 @@ Choose the most appropriate category for your plugin:
 
 ### Container won't start
 
-- Check Docker logs: `docker logs flowforge-my-plugin`
+- Check Docker logs: `docker logs leforge-my-plugin`
 - Verify the port in manifest matches your app
 - Test the image locally: `docker run -p 3001:3001 your-image`
 

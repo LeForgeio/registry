@@ -1,0 +1,47 @@
+{
+  "name": "n8n-nodes-LeForge-formulaengine",
+  "version": "1.0.0",
+  "description": "n8n node for LeForge formula-engine",
+  "keywords": [
+    "n8n",
+    "n8n-community-node-package",
+    "LeForge",
+    "formula-engine"
+  ],
+  "license": "MIT",
+  "homepage": "https://LeForge.io",
+  "author": {
+    "name": "LeForge",
+    "email": "support@LeForge.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LeForgeio/registry.git"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc && gulp build:icons",
+    "dev": "tsc --watch",
+    "format": "prettier nodes credentials --write",
+    "lint": "eslint nodes credentials --ext .ts --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/LeForgeApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/LeForgeFormulaEngine/LeForgeFormulaEngine.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "n8n-workflow": "^1.0.0",
+    "typescript": "^5.0.0",
+    "gulp": "^4.0.0"
+  }
+}

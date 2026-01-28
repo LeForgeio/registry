@@ -328,7 +328,7 @@ Report:""",
         
         for template in builtins:
             template.created_at = datetime.utcnow().isoformat()
-            template.author = "FlowForge"
+            template.author = "LeForge"
             self._templates[template.id] = template
     
     def get(self, template_id: str) -> Optional[PromptTemplate]:

@@ -1,6 +1,6 @@
-# FlowForge ServiceNow Integration
+# LeForge ServiceNow Integration
 
-ServiceNow IntegrationHub Spoke for FlowForge services, enabling AI and automation capabilities in Flow Designer.
+ServiceNow IntegrationHub Spoke for LeForge services, enabling AI and automation capabilities in Flow Designer.
 
 ## Services
 
@@ -21,17 +21,17 @@ ServiceNow IntegrationHub Spoke for FlowForge services, enabling AI and automati
 
 ### Configure Connection
 1. Go to **Connections & Credentials > Connection & Credential Aliases**
-2. Find **FlowForge Connection**
+2. Find **LeForge Connection**
 3. Create new connection:
-   - **Name**: FlowForge Production
-   - **Endpoint**: `https://your-flowforge-instance.com/api/v1`
-   - **API Key**: Your FlowForge API key
+   - **Name**: LeForge Production
+   - **Endpoint**: `https://your-LeForge-instance.com/api/v1`
+   - **API Key**: Your LeForge API key
 
 ## Usage in Flow Designer
 
 1. Open **Flow Designer**
 2. Add an **Action**
-3. Search for "FlowForge"
+3. Search for "LeForge"
 4. Select desired action (e.g., "LLM Chat")
 5. Configure inputs and map outputs
 6. Activate flow
@@ -41,7 +41,7 @@ ServiceNow IntegrationHub Spoke for FlowForge services, enabling AI and automati
 ```
 servicenow/
 ├── spoke/
-│   ├── FlowForge_Spoke/
+│   ├── LeForge_Spoke/
 │   │   ├── sys_hub_spoke.xml
 │   │   ├── actions/              # Flow Designer actions
 │   │   ├── connection_alias/     # Credential configuration
@@ -58,7 +58,7 @@ servicenow/
 ### Auto-Classify Incidents
 ```
 Trigger: Incident Created
-Action: FlowForge LLM Classify
+Action: LeForge LLM Classify
   - Input: incident.short_description + incident.description
   - Categories: Hardware, Software, Network, Access
 Update: incident.category = classification_result
@@ -67,7 +67,7 @@ Update: incident.category = classification_result
 ### Generate Knowledge Articles
 ```
 Trigger: Incident Resolved (major incident)
-Action: FlowForge LLM Generate
+Action: LeForge LLM Generate
   - Input: incident details + resolution notes
   - Template: KB Article format
 Create: Knowledge article from generated content
@@ -76,7 +76,7 @@ Create: Knowledge article from generated content
 ### Encrypt Sensitive Fields
 ```
 Trigger: Before Insert (sensitive record)
-Action: FlowForge Crypto Encrypt
+Action: LeForge Crypto Encrypt
   - Input: sensitive_field_value
 Update: encrypted_field = encrypted_result
 ```

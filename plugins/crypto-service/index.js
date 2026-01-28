@@ -685,7 +685,7 @@ function verify(data, signature, publicKey, algorithm = 'sha256') {
  * @returns {object} { secret, base32, otpauthUrl }
  */
 function totpGenerateSecret(length = 20, options = {}) {
-  const { issuer = 'FlowForge', accountName = 'user' } = options;
+  const { issuer = 'LeForge', accountName = 'user' } = options;
   
   const secret = crypto.randomBytes(length);
   const base32Secret = _base32Encode(secret);

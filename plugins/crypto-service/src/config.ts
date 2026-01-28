@@ -86,7 +86,7 @@ export const config: Config = {
     secret: process.env.JWT_SECRET,
     defaultExpiry: process.env.JWT_DEFAULT_EXPIRY || '1h',
     defaultAlgorithm: process.env.JWT_DEFAULT_ALGORITHM || 'HS256',
-    issuer: process.env.JWT_ISSUER || 'flowforge-crypto-service',
+    issuer: process.env.JWT_ISSUER || 'LeForge-crypto-service',
   },
   
   rateLimit: {

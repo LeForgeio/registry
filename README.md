@@ -1,6 +1,6 @@
 # ForgeHooks Registry
 
-Official registry of ForgeHook plugins for [FlowForge](https://github.com/LeForgeio/leforge).
+Official registry of ForgeHook plugins for [LeForge](https://github.com/LeForgeio/leforge).
 
 ## 🔌 Available Plugins
 
@@ -38,12 +38,12 @@ Official registry of ForgeHook plugins for [FlowForge](https://github.com/LeForg
 
 ### From Marketplace (Recommended)
 
-The FlowForge UI automatically fetches plugins from this registry.
+The LeForge UI automatically fetches plugins from this registry.
 
 ### From GitHub URL
 
 ```text
-flowforge/crypto-service
+leforge/crypto-service
 ```
 
 ### Offline (.fhk Package)
@@ -129,7 +129,7 @@ The registry index (`forgehooks-registry.json`) follows this schema:
 }
 ```
 
-## 🔗 Adding This Registry to FlowForge
+## 🔗 Adding This Registry to LeForge
 
 This registry is automatically configured as the official source. To add custom registries:
 

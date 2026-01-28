@@ -1,6 +1,6 @@
 /**
  * Streaming File Service - Enterprise Large File Handling
- * FlowForge ForgeHook Plugin
+ * LeForge ForgeHook Plugin
  * 
  * Features:
  * - Chunked uploads with resume capability

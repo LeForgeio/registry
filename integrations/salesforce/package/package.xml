@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>FlowForgeLLMService</members>
-        <members>FlowForgeLLMActions</members>
-        <members>FlowForgeCryptoService</members>
-        <members>FlowForgeCryptoActions</members>
-        <members>FlowForgeFormulaService</members>
+        <members>LeForgeLLMService</members>
+        <members>LeForgeLLMActions</members>
+        <members>LeForgeCryptoService</members>
+        <members>LeForgeCryptoActions</members>
+        <members>LeForgeFormulaService</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>FlowForge_API</members>
+        <members>LeForge_API</members>
         <name>NamedCredential</name>
     </types>
     <version>59.0</version>

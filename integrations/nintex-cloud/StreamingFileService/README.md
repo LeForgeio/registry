@@ -1,7 +1,7 @@
-# FlowForge streaming-file-service - Nintex Workflow Cloud Xtension
+# LeForge streaming-file-service - Nintex Workflow Cloud Xtension
 
 ## Overview
-FlowForge plugin Xtension for Nintex Workflow Cloud.
+LeForge plugin Xtension for Nintex Workflow Cloud.
 
 ## Installation
 
@@ -17,10 +17,10 @@ FlowForge plugin Xtension for Nintex Workflow Cloud.
 ### API Key Setup
 1. In the Xtension settings, select **API Key** authentication
 2. Set header name: `X-API-Key`
-3. Enter your FlowForge API key
+3. Enter your LeForge API key
 
 ### Base URL
-Update the host in the Swagger file to your FlowForge instance URL.
+Update the host in the Swagger file to your LeForge instance URL.
 
 ## Available Actions
 
@@ -49,10 +49,10 @@ Update the host in the Swagger file to your FlowForge instance URL.
 
 After publishing the Xtension:
 1. Open workflow designer
-2. Find actions under **FlowForge** category
+2. Find actions under **LeForge** category
 3. Drag and drop actions into your workflow
 4. Configure action parameters
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)

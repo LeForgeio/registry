@@ -1,16 +1,16 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "FlowForge Math & Formula Engine",
+    "title": "LeForge Math & Formula Engine",
     "description": "Advanced mathematical operations including expression evaluation, statistics (mean, median, standard deviation), matrix operations, equation solving, derivatives, and integrals. Perfect for complex calculations in workflow automation.",
     "version": "1.1.0",
     "contact": {
-      "name": "FlowForge Support",
+      "name": "LeForge Support",
       "url": "https://leforge.io"
     },
     "x-ntx-render-version": 2
   },
-  "host": "{{FLOWFORGE_HOST}}",
+  "host": "{{LeForge_HOST}}",
   "basePath": "/api/v1/math",
   "schemes": ["https"],
   "consumes": ["application/json"],
@@ -20,7 +20,7 @@
       "type": "apiKey",
       "in": "header",
       "name": "X-API-Key",
-      "description": "FlowForge API Key for authentication"
+      "description": "LeForge API Key for authentication"
     }
   },
   "security": [{ "apiKey": [] }],

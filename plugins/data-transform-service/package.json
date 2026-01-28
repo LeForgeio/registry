@@ -1,7 +1,7 @@
 {
-  "name": "@flowforge/data-transform-service",
+  "name": "@LeForge/data-transform-service",
   "version": "1.1.0",
-  "description": "Data transformation service for FlowForge",
+  "description": "Data transformation service for LeForge",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",

@@ -5,7 +5,7 @@
   "version": "2.0.0",
   "description": "Multi-provider LLM service supporting OpenAI, Anthropic Claude, Azure OpenAI, Google Gemini, AWS Bedrock, and Hugging Face models. Provides text generation, chat, embeddings, vision/OCR, and data transformation capabilities.",
   "author": {
-    "name": "FlowForge",
+    "name": "LeForge",
     "url": "https://leforge.io"
   },
   "license": "MIT",
@@ -15,7 +15,7 @@
   "tags": ["llm", "ai", "gpt", "claude", "gemini", "bedrock", "openai", "anthropic", "multi-provider", "text-generation", "embeddings", "vision", "ocr"],
   
   "image": {
-    "repository": "flowforge/llm-service",
+    "repository": "LeForge/llm-service",
     "tag": "2.0.0"
   },
   

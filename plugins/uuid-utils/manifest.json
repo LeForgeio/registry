@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Generate unique identifiers in various formats: UUID v1/v4/v5/v7, ULID, NanoID, CUID, Snowflake IDs, and custom random strings. All generation is local with cryptographically secure randomness.",
   "author": {
-    "name": "FlowForge Team",
+    "name": "LeForge Team",
     "url": "https://leforge.io"
   },
   "license": "MIT",

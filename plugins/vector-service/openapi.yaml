@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: FlowForge Vector Service
+  title: LeForge Vector Service
   description: |
-    Vector storage and semantic search service for FlowForge platform.
+    Vector storage and semantic search service for LeForge platform.
     
     Provides:
     - Vector collection management

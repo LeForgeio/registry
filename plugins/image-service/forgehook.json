@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "description": "Image processing operations including resize, crop, rotate, filters, format conversion, and metadata extraction",
   "author": {
-    "name": "FlowForge",
+    "name": "LeForge",
     "url": "https://leforge.io"
   },
   "license": "MIT",
@@ -15,7 +15,7 @@
   "tags": ["image", "processing", "resize", "crop", "filter", "convert", "thumbnail"],
   
   "image": {
-    "repository": "flowforge/image-service",
+    "repository": "LeForge/image-service",
     "tag": "1.0.0"
   },
   

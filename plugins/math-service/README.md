@@ -1,6 +1,6 @@
 # Math Service
 
-A comprehensive Python/FastAPI microservice providing mathematical operations including calculations, statistics, matrix operations, Excel-like functions, and financial calculations. This is the **reference Python microservice** for the FlowForge platform.
+A comprehensive Python/FastAPI microservice providing mathematical operations including calculations, statistics, matrix operations, Excel-like functions, and financial calculations. This is the **reference Python microservice** for the LeForge platform.
 
 ## Features
 
@@ -156,16 +156,16 @@ isort src/ tests/
 
 ```bash
 # Build image
-docker build -t flowforge/math-service .
+docker build -t LeForge/math-service .
 
 # Run container
-docker run -p 3002:3002 flowforge/math-service
+docker run -p 3002:3002 LeForge/math-service
 
 # Run with environment variables
 docker run -p 3002:3002 \
   -e LOG_LEVEL=debug \
   -e REDIS_HOST=redis \
-  flowforge/math-service
+  LeForge/math-service
 ```
 
 ## Examples

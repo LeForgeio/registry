@@ -1,12 +1,12 @@
 openapi: 3.0.3
 info:
-  title: FlowForge Crypto Service
+  title: LeForge Crypto Service
   description: |
     Cryptographic operations service providing hashing, encryption, 
     decryption, and key generation capabilities.
   version: 1.0.0
   contact:
-    name: FlowForge Team
+    name: LeForge Team
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT

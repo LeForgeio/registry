@@ -1,7 +1,7 @@
 {
-  "name": "@flowforge/crypto-service",
+  "name": "@LeForge/crypto-service",
   "version": "1.1.0",
-  "description": "Production-ready cryptographic operations service for FlowForge",
+  "description": "Production-ready cryptographic operations service for LeForge",
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
@@ -16,8 +16,8 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist coverage",
-    "docker:build": "docker build -t flowforge/crypto-service:latest .",
-    "docker:run": "docker run -p 3001:3001 --env-file .env flowforge/crypto-service:latest"
+    "docker:build": "docker build -t LeForge/crypto-service:latest .",
+    "docker:run": "docker run -p 3001:3001 --env-file .env LeForge/crypto-service:latest"
   },
   "keywords": [
     "crypto",
@@ -26,10 +26,10 @@
     "jwt",
     "hmac",
     "microservice",
-    "flowforge",
+    "LeForge",
     "fastify"
   ],
-  "author": "FlowForge Contributors",
+  "author": "LeForge Contributors",
   "license": "MIT",
   "dependencies": {
     "@fastify/cors": "^9.0.1",

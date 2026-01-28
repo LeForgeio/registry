@@ -52,7 +52,7 @@ export async function buildApp(): Promise<FastifyInstance> {
     openapi: {
       openapi: '3.0.3',
       info: {
-        title: 'FlowForge Crypto Service API',
+        title: 'LeForge Crypto Service API',
         description: `
 Production-ready cryptographic operations service providing:
 - **Encryption/Decryption**: AES-256-GCM, AES-256-CBC, AES-128-GCM, AES-128-CBC
@@ -65,8 +65,8 @@ All endpoints return consistent JSON responses with request tracking.
         `.trim(),
         version: '1.0.0',
         contact: {
-          name: 'FlowForge Team',
-          email: 'support@flowforge.io',
+          name: 'LeForge Team',
+          email: 'support@LeForge.io',
         },
         license: {
           name: 'MIT',
@@ -79,7 +79,7 @@ All endpoints return consistent JSON responses with request tracking.
           description: 'Development server',
         },
         {
-          url: 'https://api.flowforge.io/crypto',
+          url: 'https://api.LeForge.io/crypto',
           description: 'Production server',
         },
       ],

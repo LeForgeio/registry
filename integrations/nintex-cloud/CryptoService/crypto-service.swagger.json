@@ -1,16 +1,16 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "FlowForge Crypto Service",
-    "description": "Cryptographic operations including hashing (SHA-256, SHA-512, MD5), AES encryption/decryption, JWT token management, HMAC signatures, Base64 encoding, UUID generation, and secure password hashing. Part of the FlowForge plugin ecosystem.",
+    "title": "LeForge Crypto Service",
+    "description": "Cryptographic operations including hashing (SHA-256, SHA-512, MD5), AES encryption/decryption, JWT token management, HMAC signatures, Base64 encoding, UUID generation, and secure password hashing. Part of the LeForge plugin ecosystem.",
     "version": "1.1.0",
     "contact": {
-      "name": "FlowForge Support",
+      "name": "LeForge Support",
       "url": "https://leforge.io"
     },
     "x-ntx-render-version": 2
   },
-  "host": "{{FLOWFORGE_HOST}}",
+  "host": "{{LeForge_HOST}}",
   "basePath": "/api/v1/crypto",
   "schemes": ["https"],
   "consumes": ["application/json"],
@@ -20,7 +20,7 @@
       "type": "apiKey",
       "in": "header",
       "name": "X-API-Key",
-      "description": "FlowForge API Key for authentication"
+      "description": "LeForge API Key for authentication"
     }
   },
   "security": [{ "apiKey": [] }],

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    LeForge IntegrationHub Spoke
+    ServiceNow Update Set for LeForge AI and Automation Services
+    
+    Version: 1.0.0
+    Compatible with: ServiceNow Rome and later
+-->
+<unload>
+    <sys_hub_spoke action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <description>LeForge AI and Automation Services - Provides LLM chat, text generation, classification, formula evaluation, encryption, and file processing capabilities for ServiceNow workflows.</description>
+        <logo>images/LeForge-spoke-logo.png</logo>
+        <name>LeForge</name>
+        <sys_id>LeForge_spoke_001</sys_id>
+        <vendor>LeForge</vendor>
+        <version>1.0.0</version>
+    </sys_hub_spoke>
+</unload>

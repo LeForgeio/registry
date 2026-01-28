@@ -1,4 +1,4 @@
-# FlowForge ServiceNow Installation Guide
+# LeForge ServiceNow Installation Guide
 
 ## Prerequisites
 
@@ -21,18 +21,18 @@
 ### Step 2: Configure Connection Alias
 
 1. Navigate to **Connections & Credentials > Connection & Credential Aliases**
-2. Find **FlowForge Connection** (created by update set)
+2. Find **LeForge Connection** (created by update set)
 3. Click **New Connection** and fill in:
 
    | Field | Value |
    |-------|-------|
-   | Name | FlowForge Production |
-   | Connection URL | `https://your-flowforge-instance.com/api/v1` |
+   | Name | LeForge Production |
+   | Connection URL | `https://your-LeForge-instance.com/api/v1` |
    
 4. Add credential:
    - **Credential Type**: API Key
    - **API Key Header**: `X-API-Key`
-   - **API Key Value**: Your FlowForge API key
+   - **API Key Value**: Your LeForge API key
 
 5. Test the connection
 
@@ -41,7 +41,7 @@
 1. Navigate to **Flow Designer**
 2. Create a new flow
 3. Add an **Action**
-4. Search for "FlowForge"
+4. Search for "LeForge"
 5. You should see the following actions:
    - Chat with AI
    - Classify Text
@@ -85,7 +85,7 @@
 ```
 Trigger: Record Created (Incident)
     ↓
-Action: FlowForge Classify Text
+Action: LeForge Classify Text
   - Text: [Incident Short Description] + " " + [Incident Description]
   - Categories: "Hardware,Software,Network,Access,Other"
     ↓
@@ -100,7 +100,7 @@ Update Record: Incident
 Trigger: Record Updated (Knowledge Article)
   - Condition: workflow_state = "Review"
     ↓
-Action: FlowForge Summarize Text
+Action: LeForge Summarize Text
   - Text: [Article Text]
   - Style: "bullet"
   - Max Length: 200
@@ -116,7 +116,7 @@ Subflow: Encrypt PII Data
   Input: sensitive_data (String)
   Input: encryption_key (String)
     ↓
-Action: FlowForge Encrypt Data
+Action: LeForge Encrypt Data
   - Data: [sensitive_data]
   - Encryption Key: [encryption_key]
     ↓
@@ -130,8 +130,8 @@ Output: tag = [Encrypt Data.Tag]
 ### Connection Issues
 
 1. **401 Unauthorized**: Check API key is correct in Connection Alias
-2. **Connection timeout**: Verify FlowForge instance is accessible from ServiceNow
-3. **SSL errors**: Ensure FlowForge uses valid SSL certificate
+2. **Connection timeout**: Verify LeForge instance is accessible from ServiceNow
+3. **SSL errors**: Ensure LeForge uses valid SSL certificate
 
 ### Action Failures
 
@@ -148,4 +148,4 @@ Output: tag = [Encrypt Data.Tag]
 ## Support
 
 - Documentation: [PLATFORM-INTEGRATION-PROPOSAL.md](../../docs/PLATFORM-INTEGRATION-PROPOSAL.md)
-- Issues: Contact FlowForge support
+- Issues: Contact LeForge support

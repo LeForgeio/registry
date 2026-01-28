@@ -1,0 +1,21 @@
+{
+  "node": "n8n-nodes-LeForge-formula-engine",
+  "nodeVersion": "1.0",
+  "codexVersion": "1.0",
+  "categories": [
+    "Productivity",
+    "AI"
+  ],
+  "resources": {
+    "credentialDocumentation": [
+      {
+        "url": "https://LeForge.io/docs/api"
+      }
+    ],
+    "primaryDocumentation": [
+      {
+        "url": "https://LeForge.io/docs"
+      }
+    ]
+  }
+}

@@ -1,18 +1,18 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "FlowForge crypto-service",
-    "description": "FlowForge plugin",
+    "title": "LeForge crypto-service",
+    "description": "LeForge plugin",
     "version": "1.0.0",
     "contact": {
-      "name": "FlowForge Support",
-      "url": "https://flowforge.io"
+      "name": "LeForge Support",
+      "url": "https://LeForge.io"
     }
   },
   "servers": [
     {
       "url": "https://{{HOST}}/api/v1",
-      "description": "FlowForge API Server"
+      "description": "LeForge API Server"
     }
   ],
   "security": [
@@ -26,7 +26,7 @@
         "type": "apiKey",
         "in": "header",
         "name": "X-API-Key",
-        "description": "FlowForge API Key"
+        "description": "LeForge API Key"
       }
     },
     "schemas": {}

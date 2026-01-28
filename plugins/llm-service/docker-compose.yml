@@ -14,7 +14,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
-    container_name: flowforge-llm-service
+    container_name: leforge-llm-service
     restart: unless-stopped
     ports:
       - "${LLM_SERVICE_PORT:-8000}:8000"
@@ -66,7 +66,7 @@ services:
   # ---------------------------------------------------------------------------
   vllm-server:
     image: vllm/vllm-openai:latest
-    container_name: flowforge-vllm-server
+    container_name: leforge-vllm-server
     restart: unless-stopped
     ports:
       - "${VLLM_PORT:-8001}:8001"
@@ -110,7 +110,7 @@ services:
   # ---------------------------------------------------------------------------
   redis:
     image: redis:7-alpine
-    container_name: flowforge-llm-redis
+    container_name: leforge-llm-redis
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
@@ -131,11 +131,11 @@ networks:
 
 volumes:
   model-cache:
-    name: flowforge-llm-model-cache
+    name: leforge-llm-model-cache
   embedding-models:
-    name: flowforge-llm-embedding-models
+    name: leforge-llm-embedding-models
   redis-data:
-    name: flowforge-llm-redis-data
+    name: leforge-llm-redis-data
 
 # =============================================================================
 # GPU Configuration (uncomment to enable)

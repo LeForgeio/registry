@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "description": "Advanced mathematical operations including arithmetic, statistics, matrix operations, equation solving, and numerical analysis",
   "author": {
-    "name": "FlowForge",
+    "name": "LeForge",
     "url": "https://leforge.io"
   },
   "license": "MIT",
@@ -15,7 +15,7 @@
   "tags": ["math", "statistics", "matrix", "algebra", "numerical", "calculations"],
   
   "image": {
-    "repository": "flowforge/math-service",
+    "repository": "LeForge/math-service",
     "tag": "latest"
   },
   

@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "description": "Data encoding and decoding utilities: Base64, Base64URL, hex, URL encoding, HTML entities, JWT decoding (without verification), and binary conversions. All operations run locally.",
   "author": {
-    "name": "FlowForge Team",
+    "name": "LeForge Team",
     "url": "https://leforge.io"
   },
   "license": "MIT",

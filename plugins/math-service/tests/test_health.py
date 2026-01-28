@@ -44,7 +44,7 @@ class TestOpenAPI:
         data = response.json()
         assert "openapi" in data
         assert "info" in data
-        assert data["info"]["title"] == "FlowForge Math Service"
+        assert data["info"]["title"] == "LeForge Math Service"
 
     def test_docs_endpoint(self, client: TestClient):
         """Test Swagger UI docs endpoint."""

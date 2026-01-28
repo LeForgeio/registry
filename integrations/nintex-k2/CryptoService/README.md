@@ -1,7 +1,7 @@
-# FlowForge crypto-service - Nintex K2 Integration
+# LeForge crypto-service - Nintex K2 Integration
 
 ## Overview
-FlowForge plugin integration for Nintex K2.
+LeForge plugin integration for Nintex K2.
 
 ## Installation
 
@@ -18,7 +18,7 @@ FlowForge plugin integration for Nintex K2.
 1. Go to **Service Instances**
 2. Create new instance from the registered service type
 3. Configure connection:
-   - Base URL: Your FlowForge server URL
+   - Base URL: Your LeForge server URL
    - Authentication: API Key
    - Header: `X-API-Key`
 
@@ -71,4 +71,4 @@ Import these for common operations.
 
 ## Support
 
-For issues or questions, visit [FlowForge Support](https://flowforge.io/support)
+For issues or questions, visit [LeForge Support](https://LeForge.io/support)

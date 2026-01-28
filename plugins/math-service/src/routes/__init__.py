@@ -1,4 +1,4 @@
-"""Routes package for FlowForge Math Service."""
+"""Routes package for LeForge Math Service."""
 
 from src.routes import calculate, statistics, matrix, health, excel, finance
 
