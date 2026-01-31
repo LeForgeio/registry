@@ -29,6 +29,12 @@
                                          "file":  "packages/llm-service-1.0.0.fhk",
                                          "size":  "4.2GB"
                                      },
+                     "ollama-local":  {
+                                          "version":  "1.1.0",
+                                          "file":  "packages/ollama-local-1.1.0.fhk",
+                                          "size":  "1.2GB",
+                                          "featured": true
+                                      },
                      "vector-service":  {
                                             "version":  "1.0.0",
                                             "file":  "packages/vector-service-1.0.0.fhk",
@@ -1129,6 +1135,103 @@
                                                                                "redis"
                                                                            ]
                                                           }
+                                     }
+                    },
+                    {
+                        "id":  "ollama-local",
+                        "verified":  true,
+                        "featured":  true,
+                        "repository":  "https://github.com/LeForgeio/registry/tree/main/plugins/ollama-local",
+                        "manifest":  {
+                                         "$schema":  "https://leforge.io/schemas/forgehook-v1.json",
+                                         "id":  "ollama-local",
+                                         "name":  "Ollama",
+                                         "version":  "1.1.0",
+                                         "description":  "Local AI inference server for running open-source LLMs. Required for LeForge Agent Runtime.",
+                                         "author":  {
+                                                        "name":  "LeForge Team",
+                                                        "url":  "https://leforge.io"
+                                                    },
+                                         "license":  "MIT",
+                                         "repository":  "https://github.com/LeForgeio/registry",
+                                         "icon":  "bot",
+                                         "category":  "ai",
+                                         "tags":  [
+                                                      "ai",
+                                                      "llm",
+                                                      "local",
+                                                      "ollama",
+                                                      "inference",
+                                                      "agent-runtime"
+                                                  ],
+                                         "image":  {
+                                                       "repository":  "ollama/ollama",
+                                                       "tag":  "latest"
+                                                   },
+                                         "port":  11434,
+                                         "basePath":  "/api",
+                                         "endpoints":  [
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/chat",
+                                                               "description":  "Chat with tool calling support"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/generate",
+                                                               "description":  "Generate text from prompt"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/embeddings",
+                                                               "description":  "Generate embeddings"
+                                                           },
+                                                           {
+                                                               "method":  "GET",
+                                                               "path":  "/tags",
+                                                               "description":  "List available models"
+                                                           },
+                                                           {
+                                                               "method":  "POST",
+                                                               "path":  "/pull",
+                                                               "description":  "Download a model"
+                                                           }
+                                                       ],
+                                         "environment":  [
+                                                             {
+                                                                 "name":  "OLLAMA_HOST",
+                                                                 "description":  "Host to bind to",
+                                                                 "required":  false,
+                                                                 "default":  "0.0.0.0"
+                                                             },
+                                                             {
+                                                                 "name":  "OLLAMA_NUM_PARALLEL",
+                                                                 "description":  "Max concurrent requests",
+                                                                 "required":  false,
+                                                                 "default":  "1"
+                                                             }
+                                                         ],
+                                         "volumes":  [
+                                                         {
+                                                             "name":  "ollama-models",
+                                                             "containerPath":  "/root/.ollama",
+                                                             "description":  "Model storage"
+                                                         }
+                                                     ],
+                                         "resources":  {
+                                                           "memory":  "4g",
+                                                           "cpu":  "2.0"
+                                                       },
+                                         "gpu":  {
+                                                     "enabled":  true,
+                                                     "optional":  true
+                                                 },
+                                         "healthCheck":  {
+                                                             "path":  "/api/tags",
+                                                             "interval":  30,
+                                                             "timeout":  10,
+                                                             "retries":  3
+                                                         }
                                      }
                     },
                     {

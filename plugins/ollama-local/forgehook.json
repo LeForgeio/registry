@@ -1,24 +1,35 @@
 {
-  "$schema": "../forgehook-schema.json",
+  "$schema": "../../forgehook-schema.json",
   "id": "ollama-local",
   "name": "Ollama",
-  "version": "1.0.0",
-  "description": "Local AI inference using Ollama. Run open-source LLMs like Llama, Mistral, and Code Llama on your machine.",
-  "author": "LeForge",
-  "license": "MIT",
-  "category": "ai",
-  "runtime": "gateway",
-  "gateway": {
-    "baseUrl": "${OLLAMA_URL:-http://localhost:11434}",
-    "healthCheck": "/api/tags",
-    "timeout": 120000,
-    "retries": 1,
-    "discovery": "ollama",
-    "headers": {
-      "Accept": "application/json"
-    }
+  "version": "1.1.0",
+  "description": "Local AI inference server for running open-source LLMs. Supports Llama 3.2, Mistral, Code Llama, Phi-3, Qwen, and more. Required for LeForge Agent Runtime.",
+  "author": {
+    "name": "LeForge",
+    "url": "https://leforge.io"
   },
+  "license": "MIT",
+  "repository": "https://github.com/LeForgeio/registry/tree/main/plugins/ollama-local",
+  "icon": "bot",
+  "category": "ai",
+  "tags": ["llm", "ai", "local", "ollama", "inference", "agent-runtime", "required"],
+  "featured": true,
+  
+  "image": {
+    "repository": "ollama/ollama",
+    "tag": "latest"
+  },
+  
+  "port": 11434,
   "basePath": "/api",
+  
+  "healthCheck": {
+    "path": "/api/tags",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  
   "endpoints": [
     {
       "path": "/generate",
@@ -30,7 +41,7 @@
         "properties": {
           "model": {
             "type": "string",
-            "description": "Model name (e.g., llama2, mistral, codellama)"
+            "description": "Model name (e.g., llama3.2, mistral, codellama)"
           },
           "prompt": {
             "type": "string",
@@ -75,17 +86,14 @@
           "done": { "type": "boolean" },
           "context": { "type": "array", "items": { "type": "integer" } },
           "total_duration": { "type": "integer" },
-          "load_duration": { "type": "integer" },
-          "prompt_eval_duration": { "type": "integer" },
-          "eval_count": { "type": "integer" },
-          "eval_duration": { "type": "integer" }
+          "eval_count": { "type": "integer" }
         }
       }
     },
     {
       "path": "/chat",
       "method": "POST",
-      "description": "Chat with a local model using message format",
+      "description": "Chat with a local model using message format (supports tool calling)",
       "input": {
         "type": "object",
         "required": ["model", "messages"],
@@ -100,8 +108,26 @@
             "items": {
               "type": "object",
               "properties": {
-                "role": { "type": "string", "enum": ["system", "user", "assistant"] },
+                "role": { "type": "string", "enum": ["system", "user", "assistant", "tool"] },
                 "content": { "type": "string" }
+              }
+            }
+          },
+          "tools": {
+            "type": "array",
+            "description": "Available tools/functions for the model to call",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string" },
+                "function": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "description": { "type": "string" },
+                    "parameters": { "type": "object" }
+                  }
+                }
               }
             }
           },
@@ -127,7 +153,8 @@
             "type": "object",
             "properties": {
               "role": { "type": "string" },
-              "content": { "type": "string" }
+              "content": { "type": "string" },
+              "tool_calls": { "type": "array" }
             }
           },
           "done": { "type": "boolean" }
@@ -144,7 +171,7 @@
         "properties": {
           "model": {
             "type": "string",
-            "description": "Model name"
+            "description": "Model name (e.g., nomic-embed-text, mxbai-embed-large)"
           },
           "prompt": {
             "type": "string",
@@ -198,7 +225,7 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Model name to pull (e.g., llama2, mistral)"
+            "description": "Model name to pull (e.g., llama3.2, mistral, phi3)"
           },
           "stream": {
             "type": "boolean",
@@ -212,45 +239,141 @@
           "status": { "type": "string" }
         }
       }
+    },
+    {
+      "path": "/show",
+      "method": "POST",
+      "description": "Show model information",
+      "input": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "modelfile": { "type": "string" },
+          "parameters": { "type": "string" },
+          "template": { "type": "string" }
+        }
+      }
+    },
+    {
+      "path": "/delete",
+      "method": "DELETE",
+      "description": "Delete a local model",
+      "input": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" }
+        }
+      }
     }
   ],
+  
+  "environment": [
+    {
+      "name": "OLLAMA_HOST",
+      "description": "Host address to bind to",
+      "default": "0.0.0.0",
+      "required": false
+    },
+    {
+      "name": "OLLAMA_MODELS",
+      "description": "Path to models directory",
+      "default": "/root/.ollama/models",
+      "required": false
+    },
+    {
+      "name": "OLLAMA_NUM_PARALLEL",
+      "description": "Maximum concurrent requests",
+      "default": "1",
+      "required": false
+    },
+    {
+      "name": "OLLAMA_MAX_LOADED_MODELS",
+      "description": "Maximum models to keep in memory",
+      "default": "1",
+      "required": false
+    }
+  ],
+  
+  "volumes": [
+    {
+      "name": "ollama-models",
+      "containerPath": "/root/.ollama",
+      "description": "Persistent storage for downloaded models"
+    }
+  ],
+  
+  "resources": {
+    "memory": "4g",
+    "cpu": "2.0"
+  },
+  
+  "gpu": {
+    "enabled": true,
+    "optional": true,
+    "driver": "nvidia",
+    "capabilities": ["compute", "utility"]
+  },
+  
   "documentation": {
-    "overview": "Ollama makes it easy to run open-source large language models locally. This gateway plugin connects LeForge to your local Ollama instance.",
-    "installation": "1. Install Ollama from https://ollama.ai\n2. Pull a model: `ollama pull llama2`\n3. Ensure Ollama is running\n4. Install this plugin",
-    "authentication": "No authentication required - runs locally",
+    "overview": "Ollama is a local AI inference server that makes it easy to run open-source LLMs. This plugin is required for the LeForge Agent Runtime to function.",
+    "installation": "1. Install this plugin from the marketplace\n2. After installation, pull a model: use the /pull endpoint or run `ollama pull llama3.2` in the container\n3. The Agent Runtime will automatically detect available models",
+    "models": "Recommended models:\n- llama3.2 (3B) - Fast, good for general tasks\n- llama3.1 (8B) - Better quality, more memory\n- mistral (7B) - Excellent for code and reasoning\n- phi3 (3.8B) - Microsoft's efficient model\n- codellama (7B) - Specialized for code",
+    "gpu": "GPU acceleration is automatically enabled if an NVIDIA GPU is detected. For CPU-only systems, models will run slower but still work.",
     "examples": [
       {
-        "title": "Generate Text",
-        "description": "Generate a response from Llama 2",
+        "title": "Pull a Model",
+        "description": "Download llama3.2 for use with agents",
         "request": {
           "method": "POST",
-          "path": "/api/generate",
+          "path": "/api/pull",
           "body": {
-            "model": "llama2",
-            "prompt": "Why is the sky blue?",
+            "name": "llama3.2",
             "stream": false
           }
         }
       },
       {
-        "title": "Chat",
-        "description": "Have a conversation with Mistral",
+        "title": "Chat with Tool Calling",
+        "description": "Chat with function/tool support",
         "request": {
           "method": "POST",
           "path": "/api/chat",
           "body": {
-            "model": "mistral",
+            "model": "llama3.2",
             "messages": [
-              { "role": "user", "content": "Hello, how are you?" }
+              { "role": "user", "content": "What files are in my documents folder?" }
+            ],
+            "tools": [
+              {
+                "type": "function",
+                "function": {
+                  "name": "list_files",
+                  "description": "List files in a directory",
+                  "parameters": {
+                    "type": "object",
+                    "properties": {
+                      "path": { "type": "string" }
+                    }
+                  }
+                }
+              }
             ]
           }
         }
       }
     ]
   },
-  "tags": ["ai", "llm", "local", "ollama", "open-source"],
+  
   "links": {
     "documentation": "https://github.com/ollama/ollama/blob/main/docs/api.md",
+    "models": "https://ollama.com/library",
     "support": "https://github.com/ollama/ollama/issues"
   }
 }
