@@ -6,9 +6,10 @@ This folder contains ready-to-use connectors and integration packages for variou
 
 | Platform | Folder | Status | Format |
 |----------|--------|--------|--------|
-| **Power Automate** | `power-automate/` | 🚧 In Development | OpenAPI Custom Connector |
+| **Nintex Forms** | `nintex-forms/` | ✅ Ready | JavaScript Form Controls |
 | **Nintex Workflow Cloud** | `nintex-cloud/` | ✅ Ready | OpenAPI Xtension |
 | **Nintex K2** | `nintex-k2/` | 🚧 In Development | Swagger + SmartObjects |
+| **Power Automate** | `power-automate/` | 🚧 In Development | OpenAPI Custom Connector |
 | **n8n** | `n8n/` | 🚧 In Development | TypeScript npm package |
 | **Salesforce** | `salesforce/` | 📋 Planned | External Services + Apex |
 | **ServiceNow** | `servicenow/` | 📋 Planned | IntegrationHub Spoke |
@@ -17,6 +18,24 @@ This folder contains ready-to-use connectors and integration packages for variou
 
 ## Quick Start
 
+### Nintex Forms
+1. Go to `nintex-forms/` folder
+2. Run `npm install && npm run build` to create bundled control
+3. Host `dist/leforge-nintex-controls.min.js` on a CDN or SharePoint
+4. Add HTML control in Nintex Forms Designer
+5. Include script and initialize controls
+
+```html
+<script src="https://your-cdn.com/leforge-nintex-controls.min.js"></script>
+<div id="ai-generator"></div>
+<script>
+  new LeForgeAITextGenerator(
+    document.getElementById('ai-generator'),
+    { leforgeUrl: 'https://app.leforge.io/api/v1', apiKey: 'KEY' }
+  );
+</script>
+```
+
 ### Power Automate
 1. Go to `power-automate/` folder
 2. Import the connector package in Power Automate
@@ -24,10 +43,16 @@ This folder contains ready-to-use connectors and integration packages for variou
 4. Use actions in your flows
 
 ### Nintex Workflow Cloud
+
 1. Go to `nintex-cloud/` folder
 2. Upload the Swagger file as an Xtension
 3. Configure authentication
 4. Drag-and-drop actions in workflows
+
+**Available Xtensions:**
+- `onprem-connector.xtension.json` - Access on-prem databases, APIs, file shares
+
+See [Hybrid Cloud Architecture](../docs/HYBRID-CLOUD-ARCHITECTURE.md) for setup guide.
 
 ### n8n
 ```bash
@@ -80,4 +105,8 @@ All integrations support:
 
 ## Documentation
 
-See [PLATFORM-INTEGRATION-PROPOSAL.md](../docs/PLATFORM-INTEGRATION-PROPOSAL.md) for detailed integration strategy.
+| Guide | Description |
+|-------|-------------|
+| [Creating ForgeHooks](../docs/creating-forgehooks.md) | Build plugins + integrations |
+| [Plugin-Integration Guide](../docs/PLUGIN-INTEGRATION-GUIDE.md) | Connect plugins to platforms |
+| [Platform Proposal](../docs/PLATFORM-INTEGRATION-PROPOSAL.md) | Integration roadmap |

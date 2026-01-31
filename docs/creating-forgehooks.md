@@ -484,8 +484,422 @@ Browse complete working examples in the registry:
 
 ---
 
+## Part 2: Creating Platform Integrations
+
+Once your plugin works in LeForge, you can create **integrations** that let users access your plugin from external platforms like Nintex Forms, Power Automate, ServiceNow, etc.
+
+### Plugin vs Integration
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  PLUGIN (runs in LeForge)                                         │
+│  plugins/excel-utils/index.js                                     │
+│                                                                   │
+│  module.exports = { parseCSV, filterRows, aggregate }             │
+│                    ↓                                              │
+│  LeForge exposes: POST /api/v1/plugins/excel-utils/parseCSV       │
+└───────────────────────────────│───────────────────────────────────┘
+                                │ HTTP REST API
+                                ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  INTEGRATION (runs in target platform)                            │
+│  integrations/nintex-forms/controls/excel-parser.js               │
+│                                                                   │
+│  Provides UI + calls your plugin's REST API                       │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### Supported Platforms
+
+| Platform | Integration Type | Location |
+|----------|------------------|----------|
+| Nintex Forms | JavaScript Form Controls | `integrations/nintex-forms/` |
+| Nintex Workflow Cloud | Custom Xtensions | `integrations/nintex-cloud/` |
+| Nintex K2 | SmartObjects | `integrations/nintex-k2/` |
+| Power Automate | Custom Connectors | `integrations/power-automate/` |
+| ServiceNow | Scripted REST/Flow Actions | `integrations/servicenow/` |
+| n8n | Custom Nodes | `integrations/n8n/` |
+| Mendix | Marketplace Modules | `integrations/mendix/` |
+| OutSystems | Forge Components | `integrations/outsystems/` |
+
+### Integration Starter Kit
+
+For each plugin you create, follow this structure to add platform support:
+
+```
+my-plugin/
+├── forgehook.json          # Plugin manifest
+├── index.js                # Plugin code
+└── integrations/           # Platform integrations
+    ├── nintex-forms/
+    │   ├── controls/
+    │   │   └── my-control.js
+    │   ├── package.json
+    │   └── README.md
+    ├── power-automate/
+    │   ├── apiDefinition.swagger.json
+    │   └── README.md
+    └── n8n/
+        ├── MyPlugin.node.ts
+        └── README.md
+```
+
+### Step 1: Design Your Plugin for Integration
+
+Make your plugin easy to call from integrations:
+
+```javascript
+// ✅ Good - flexible input handling
+function processData(input, options = {}) {
+  // Accept multiple input formats
+  const data = input.data || input.text || input.value || input;
+  
+  // Merge options from input object
+  const opts = {
+    format: 'json',
+    ...input,
+    ...options
+  };
+  delete opts.data;
+  
+  return doProcess(data, opts);
+}
+
+// ✅ Good - return structured data
+function parseFile(input) {
+  const result = doParse(input.data);
+  return {
+    headers: result.headers,
+    rows: result.data,
+    rowCount: result.data.length,
+    metadata: { parseTime: Date.now() }
+  };
+}
+```
+
+### Step 2: Create a Nintex Forms Control
+
+```javascript
+// integrations/nintex-forms/controls/my-control.js
+
+(function() {
+  'use strict';
+
+  class LeForgeMyControl {
+    constructor(container, config = {}) {
+      this.container = container;
+      this.config = {
+        leforgeUrl: config.leforgeUrl || '',
+        apiKey: config.apiKey || '',
+        // ... your config options
+      };
+      this.init();
+    }
+
+    init() {
+      this.render();
+      this.attachEvents();
+    }
+
+    render() {
+      this.container.innerHTML = `
+        <div class="leforge-my-control">
+          <!-- Your control UI -->
+          <button class="action-btn">Do Something</button>
+          <div class="result"></div>
+        </div>
+      `;
+    }
+
+    attachEvents() {
+      this.container.querySelector('.action-btn')
+        .addEventListener('click', () => this.callPlugin());
+    }
+
+    /**
+     * Call your LeForge plugin
+     * This is the bridge between integration and plugin
+     */
+    async callPlugin() {
+      const response = await fetch(
+        `${this.config.leforgeUrl}/plugins/my-plugin/myFunction`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.config.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ data: this.getData() })
+        }
+      );
+
+      const result = await response.json();
+      
+      if (result.success) {
+        this.showResult(result.data);
+        this.dispatchEvent('onComplete', result.data);
+      } else {
+        this.showError(result.error?.message);
+      }
+    }
+
+    dispatchEvent(name, detail) {
+      document.dispatchEvent(
+        new CustomEvent(`leforge:${name}`, { detail })
+      );
+    }
+  }
+
+  // Export
+  if (typeof window !== 'undefined') {
+    window.LeForgeMyControl = LeForgeMyControl;
+  }
+})();
+```
+
+### Step 3: Create a Power Automate Connector
+
+```json
+// integrations/power-automate/apiDefinition.swagger.json
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "LeForge My Plugin",
+    "description": "Connect to LeForge My Plugin",
+    "version": "1.0.0"
+  },
+  "host": "app.leforge.io",
+  "basePath": "/api/v1/plugins/my-plugin",
+  "schemes": ["https"],
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "paths": {
+    "/process": {
+      "post": {
+        "operationId": "ProcessData",
+        "summary": "Process data with My Plugin",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": { "type": "boolean" },
+                "data": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Step 4: Create an n8n Node
+
+```typescript
+// integrations/n8n/MyPlugin.node.ts
+
+import {
+  IExecuteFunctions,
+  INodeType,
+  INodeTypeDescription,
+} from 'n8n-workflow';
+
+export class MyPlugin implements INodeType {
+  description: INodeTypeDescription = {
+    displayName: 'LeForge My Plugin',
+    name: 'leforgeMyPlugin',
+    icon: 'file:leforge.svg',
+    group: ['transform'],
+    version: 1,
+    description: 'Use LeForge My Plugin',
+    defaults: {
+      name: 'My Plugin',
+    },
+    inputs: ['main'],
+    outputs: ['main'],
+    credentials: [
+      {
+        name: 'leforgeApi',
+        required: true,
+      },
+    ],
+    properties: [
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        options: [
+          { name: 'Process', value: 'process' },
+        ],
+        default: 'process',
+      },
+      {
+        displayName: 'Data',
+        name: 'data',
+        type: 'string',
+        default: '',
+        required: true,
+      },
+    ],
+  };
+
+  async execute(this: IExecuteFunctions) {
+    const credentials = await this.getCredentials('leforgeApi');
+    const data = this.getNodeParameter('data', 0) as string;
+
+    const response = await this.helpers.request({
+      method: 'POST',
+      url: `${credentials.url}/plugins/my-plugin/process`,
+      headers: {
+        'Authorization': `Bearer ${credentials.apiKey}`,
+      },
+      body: { data },
+      json: true,
+    });
+
+    return [this.helpers.returnJsonArray(response.data)];
+  }
+}
+```
+
+### Step 5: Document Your Integrations
+
+Create a README for each integration:
+
+```markdown
+# My Plugin - Nintex Forms Integration
+
+## Installation
+
+1. Download `my-control.min.js`
+2. In Nintex Forms Designer, add an HTML control
+3. Include the script and initialize:
+
+```html
+<script src="https://cdn.example.com/my-control.min.js"></script>
+<div id="my-control"></div>
+<script>
+  new LeForgeMyControl(
+    document.getElementById('my-control'),
+    {
+      leforgeUrl: 'https://app.leforge.io/api/v1',
+      apiKey: 'YOUR_API_KEY'
+    }
+  );
+</script>
+```
+
+## Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| leforgeUrl | string | '' | Your LeForge API URL |
+| apiKey | string | '' | Your LeForge API key |
+```
+
+---
+
+## Integration Best Practices
+
+### 1. Error Handling
+
+```javascript
+async callPlugin(endpoint, data) {
+  try {
+    const response = await fetch(`${this.config.leforgeUrl}/plugins/my-plugin/${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.config.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.message || `HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.error?.message || 'Operation failed');
+    }
+
+    return result.data;
+  } catch (error) {
+    this.dispatchEvent('onError', { error: error.message });
+    throw error;
+  }
+}
+```
+
+### 2. Loading States
+
+```javascript
+async doAction() {
+  this.setLoading(true);
+  try {
+    const result = await this.callPlugin('process', { data: this.getData() });
+    this.showResult(result);
+  } finally {
+    this.setLoading(false);
+  }
+}
+```
+
+### 3. Platform-Specific APIs
+
+```javascript
+// Nintex Forms
+if (typeof NWF$ !== 'undefined') {
+  NWF$(`#${fieldId}`).val(value).trigger('change');
+}
+
+// SharePoint
+if (typeof SP !== 'undefined') {
+  // SharePoint-specific code
+}
+
+// Standard HTML fallback
+document.getElementById(fieldId).value = value;
+```
+
+---
+
+## Example: Complete Plugin with Integrations
+
+See the [excel-utils](../plugins/excel-utils/) plugin and its integrations:
+
+- **Plugin**: `plugins/excel-utils/` - CSV/Excel parsing
+- **Nintex Forms**: `integrations/nintex-forms/controls/excel-parser.js`
+- **docs**: `docs/PLUGIN-INTEGRATION-GUIDE.md`
+
+---
+
 ## Need Help?
 
 - 📖 [Full Specification](./FORGEHOOK_SPECIFICATION.md)
+- 🔗 [Plugin-Integration Guide](./PLUGIN-INTEGRATION-GUIDE.md)
 - 💬 [GitHub Discussions](https://github.com/LeForgeio/leforge/discussions)
 - 🐛 [Report Issues](https://github.com/LeForgeio/registry/issues)

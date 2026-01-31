@@ -1,0 +1,497 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "LeForge On-Prem Connector",
+    "description": "Access on-premises databases, APIs, and file shares securely through LeForge and Cloudflare Tunnel. No VPN required.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "LeForge Support",
+      "url": "https://leforge.io"
+    },
+    "x-]]ntx-summary": "Connect to on-prem resources securely"
+  },
+  "host": "app.leforge.io",
+  "basePath": "/api/v1/plugins/onprem-connector",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Enter: Bearer {your_api_key}"
+    }
+  },
+  "security": [{"api_key": []}],
+  "paths": {
+    "/queryDatabase": {
+      "post": {
+        "operationId": "QueryOnPremDatabase",
+        "summary": "Query On-Prem Database",
+        "description": "Execute a SQL query against an on-premises SQL Server, PostgreSQL, MySQL, or Oracle database.",
+        "x-ntx-summary": "Query {{connectionId}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "query"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "Pre-configured database connection ID",
+                  "x-ntx-summary": "Connection"
+                },
+                "query": {
+                  "type": "string",
+                  "description": "SQL query to execute (use @param for parameters)",
+                  "x-ntx-summary": "SQL Query"
+                },
+                "parameters": {
+                  "type": "array",
+                  "description": "Query parameters (prevents SQL injection)",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {"type": "string"},
+                      "value": {"type": "string"}
+                    }
+                  }
+                },
+                "maxRows": {
+                  "type": "integer",
+                  "default": 1000,
+                  "description": "Maximum rows to return"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query results",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "rows": {
+                  "type": "array",
+                  "items": {"type": "object"}
+                },
+                "rowCount": {"type": "integer"},
+                "columns": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "executionTime": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/executeStoredProcedure": {
+      "post": {
+        "operationId": "ExecuteStoredProcedure",
+        "summary": "Execute Stored Procedure",
+        "description": "Execute a stored procedure on an on-premises database with input/output parameters.",
+        "x-ntx-summary": "Execute {{procedureName}} on {{connectionId}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "procedureName"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "Database connection ID"
+                },
+                "procedureName": {
+                  "type": "string",
+                  "description": "Name of stored procedure"
+                },
+                "parameters": {
+                  "type": "object",
+                  "description": "Procedure parameters as key-value pairs"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Procedure result",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "result": {"type": "object"},
+                "returnValue": {"type": "integer"},
+                "executionTime": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/callInternalApi": {
+      "post": {
+        "operationId": "CallInternalApi",
+        "summary": "Call Internal API",
+        "description": "Proxy a request to an internal REST API that is not publicly accessible.",
+        "x-ntx-summary": "{{method}} {{endpoint}} via {{connectionId}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "endpoint"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "API connection ID"
+                },
+                "endpoint": {
+                  "type": "string",
+                  "description": "API endpoint path"
+                },
+                "method": {
+                  "type": "string",
+                  "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+                  "default": "GET",
+                  "description": "HTTP method"
+                },
+                "headers": {
+                  "type": "object",
+                  "description": "Additional headers"
+                },
+                "body": {
+                  "type": "object",
+                  "description": "Request body (for POST/PUT/PATCH)"
+                },
+                "queryParams": {
+                  "type": "object",
+                  "description": "URL query parameters"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "statusCode": {"type": "integer"},
+                "headers": {"type": "object"},
+                "data": {"type": "object"},
+                "executionTime": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listFiles": {
+      "post": {
+        "operationId": "ListOnPremFiles",
+        "summary": "List Files in Share",
+        "description": "List files and folders in an on-premises file share or network drive.",
+        "x-ntx-summary": "List files in {{path}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "path"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "File share connection ID"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "Directory path to list"
+                },
+                "pattern": {
+                  "type": "string",
+                  "default": "*",
+                  "description": "File pattern filter (e.g., *.xlsx)"
+                },
+                "recursive": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Include subdirectories"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "path": {"type": "string"},
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {"type": "string"},
+                      "path": {"type": "string"},
+                      "size": {"type": "integer"},
+                      "modified": {"type": "string"},
+                      "isDirectory": {"type": "boolean"}
+                    }
+                  }
+                },
+                "count": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readFile": {
+      "post": {
+        "operationId": "ReadOnPremFile",
+        "summary": "Read File from Share",
+        "description": "Read a file from an on-premises file share. Returns content as text or base64.",
+        "x-ntx-summary": "Read {{path}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "path"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "File share connection ID"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "File path to read"
+                },
+                "encoding": {
+                  "type": "string",
+                  "enum": ["utf8", "base64"],
+                  "default": "utf8",
+                  "description": "Output encoding"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "path": {"type": "string"},
+                "content": {"type": "string"},
+                "size": {"type": "integer"},
+                "encoding": {"type": "string"},
+                "modified": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/writeFile": {
+      "post": {
+        "operationId": "WriteOnPremFile",
+        "summary": "Write File to Share",
+        "description": "Write a file to an on-premises file share.",
+        "x-ntx-summary": "Write to {{path}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "path", "content"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "File share connection ID"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "File path to write"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "File content (text or base64)"
+                },
+                "encoding": {
+                  "type": "string",
+                  "enum": ["utf8", "base64"],
+                  "default": "utf8"
+                },
+                "overwrite": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Overwrite if exists"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Write result",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "path": {"type": "string"},
+                "size": {"type": "integer"},
+                "created": {"type": "boolean"},
+                "overwritten": {"type": "boolean"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ldapSearch": {
+      "post": {
+        "operationId": "SearchActiveDirectory",
+        "summary": "Search Active Directory",
+        "description": "Search for users, groups, or other objects in on-premises Active Directory.",
+        "x-ntx-summary": "Search AD: {{filter}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "filter"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "LDAP/AD connection ID"
+                },
+                "filter": {
+                  "type": "string",
+                  "description": "LDAP filter (e.g., (sAMAccountName=jsmith))"
+                },
+                "baseDn": {
+                  "type": "string",
+                  "description": "Base DN for search (optional)"
+                },
+                "attributes": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "description": "Attributes to return"
+                },
+                "maxResults": {
+                  "type": "integer",
+                  "default": 100
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "entries": {
+                  "type": "array",
+                  "items": {"type": "object"}
+                },
+                "count": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ldapAuthenticate": {
+      "post": {
+        "operationId": "AuthenticateWithAD",
+        "summary": "Authenticate with Active Directory",
+        "description": "Verify user credentials against on-premises Active Directory.",
+        "x-ntx-summary": "Authenticate {{username}}",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["connectionId", "username", "password"],
+              "properties": {
+                "connectionId": {
+                  "type": "string",
+                  "description": "LDAP/AD connection ID"
+                },
+                "username": {
+                  "type": "string",
+                  "description": "Username (sAMAccountName or UPN)"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "User password",
+                  "x-ntx-secret": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authentication result",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {"type": "boolean"},
+                "authenticated": {"type": "boolean"},
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "dn": {"type": "string"},
+                    "username": {"type": "string"},
+                    "email": {"type": "string"},
+                    "displayName": {"type": "string"},
+                    "groups": {
+                      "type": "array",
+                      "items": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

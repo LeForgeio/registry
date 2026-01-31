@@ -34,6 +34,13 @@ Official registry of ForgeHook plugins for [LeForge](https://github.com/LeForgei
 | [lm-studio](./plugins/lm-studio/)                            | AI       | Local LLM via LM Studio                             |
 | [foundry-local](./plugins/foundry-local/)                    | AI       | Microsoft Foundry Local integration                 |
 
+### 🔗 Hybrid Cloud / Integration
+
+| Plugin                                                       | Category    | Description                                       |
+| ------------------------------------------------------------ | ----------- | ------------------------------------------------- |
+| [onprem-connector](./plugins/onprem-connector/)              | Integration | Access on-prem databases, APIs, files via tunnel  |
+| [excel-utils](./plugins/excel-utils/)                        | Data        | Parse/generate Excel and CSV files                |
+
 ## 📦 Installation Methods
 
 ### From Marketplace (Recommended)
@@ -75,6 +82,16 @@ To install a .fhk package:
 ## 🛠️ Creating Your Own ForgeHook
 
 See [Creating ForgeHooks](./docs/creating-forgehooks.md) for a complete guide.
+
+### Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [Creating ForgeHooks](./docs/creating-forgehooks.md) | Build embedded or container plugins |
+| [ForgeHook Specification](./docs/FORGEHOOK_SPECIFICATION.md) | Complete manifest reference |
+| [Plugin-Integration Guide](./docs/PLUGIN-INTEGRATION-GUIDE.md) | Connect plugins to platforms |
+| [Hybrid Cloud Architecture](./docs/HYBRID-CLOUD-ARCHITECTURE.md) | On-prem access via Cloudflare Tunnel |
+| [Platform Integration Proposal](./docs/PLATFORM-INTEGRATION-PROPOSAL.md) | Roadmap for platform support |
 
 ### Quick Start
 

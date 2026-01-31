@@ -1,0 +1,233 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "onprem-connector",
+  "name": "On-Premises Connector",
+  "version": "1.0.0",
+  "description": "Secure gateway to on-premises databases, APIs, file shares, and Active Directory. Enables cloud workflows to access internal resources through Cloudflare Tunnel.",
+  "author": {
+    "name": "LeForge",
+    "url": "https://leforge.io"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/LeForgeio/registry/tree/main/plugins/onprem-connector",
+  "documentation": "https://leforge.io/docs/plugins/onprem-connector",
+  "icon": "server",
+  "category": "integration",
+  "tags": [
+    "on-prem",
+    "database",
+    "sql-server",
+    "postgresql",
+    "mysql",
+    "oracle",
+    "api",
+    "ldap",
+    "active-directory",
+    "hybrid-cloud",
+    "connector"
+  ],
+  "runtime": "container",
+  "image": {
+    "repository": "leforge/onprem-connector",
+    "tag": "1.0.0"
+  },
+  "port": 3001,
+  "basePath": "/api/v1/onprem-connector",
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/connections",
+      "description": "Create or update a connection configuration",
+      "requestBody": {
+        "id": "my-sql-server",
+        "name": "Production SQL Server",
+        "type": "mssql",
+        "config": {
+          "host": "sql01.corp.local",
+          "port": 1433,
+          "database": "ProductionDB",
+          "encrypt": true
+        },
+        "credentials": {
+          "username": "app_user",
+          "password": "***"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/connections",
+      "description": "List all configured connections"
+    },
+    {
+      "method": "DELETE",
+      "path": "/connections/:id",
+      "description": "Delete a connection configuration"
+    },
+    {
+      "method": "POST",
+      "path": "/connections/:id/test",
+      "description": "Test a connection"
+    },
+    {
+      "method": "POST",
+      "path": "/queryDatabase",
+      "description": "Execute SQL query against on-prem database",
+      "requestBody": {
+        "connectionId": "my-sql-server",
+        "query": "SELECT TOP 10 * FROM Customers WHERE Region = @region",
+        "parameters": [
+          {
+            "name": "region",
+            "value": "West"
+          }
+        ],
+        "maxRows": 1000
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/executeStoredProcedure",
+      "description": "Execute stored procedure with parameters",
+      "requestBody": {
+        "connectionId": "my-sql-server",
+        "procedureName": "sp_GetCustomerOrders",
+        "parameters": {
+          "customerId": 12345
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/callInternalApi",
+      "description": "Proxy request to internal REST API",
+      "requestBody": {
+        "connectionId": "internal-erp",
+        "endpoint": "/api/orders",
+        "method": "GET",
+        "queryParams": {
+          "status": "pending"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/listFiles",
+      "description": "List files in on-prem file share",
+      "requestBody": {
+        "connectionId": "shared-drive",
+        "path": "/reports/2026",
+        "pattern": "*.xlsx",
+        "recursive": false
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/readFile",
+      "description": "Read file from on-prem file share",
+      "requestBody": {
+        "connectionId": "shared-drive",
+        "path": "/reports/2026/Q1-summary.xlsx",
+        "encoding": "base64"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/writeFile",
+      "description": "Write file to on-prem file share",
+      "requestBody": {
+        "connectionId": "shared-drive",
+        "path": "/uploads/new-file.json",
+        "content": "{\"data\": \"example\"}",
+        "overwrite": false
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/ldapSearch",
+      "description": "Search Active Directory / LDAP",
+      "requestBody": {
+        "connectionId": "corp-ad",
+        "filter": "(sAMAccountName=jsmith)",
+        "attributes": [
+          "displayName",
+          "mail",
+          "department"
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/ldapAuthenticate",
+      "description": "Authenticate user against Active Directory",
+      "requestBody": {
+        "connectionId": "corp-ad",
+        "username": "jsmith",
+        "password": "***"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/health",
+      "description": "Health check endpoint",
+      "authentication": false
+    }
+  ],
+  "environment": [
+    {
+      "name": "ENCRYPTION_KEY",
+      "description": "32-byte hex key for encrypting stored credentials",
+      "required": true,
+      "secret": true
+    },
+    {
+      "name": "CONNECTIONS_FILE",
+      "description": "Path to connections persistence file",
+      "required": false,
+      "default": "/app/data/connections.json"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "data",
+      "containerPath": "/app/data",
+      "description": "Persistent storage for connection configurations",
+      "readOnly": false
+    }
+  ],
+  "config": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "defaultTimeout": {
+          "type": "number",
+          "default": 30000,
+          "description": "Default query timeout in milliseconds"
+        },
+        "maxFileSize": {
+          "type": "number",
+          "default": 10485760,
+          "description": "Maximum file size for read/write operations (bytes)"
+        },
+        "enableOracle": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Oracle database support (requires Oracle Instant Client)"
+        }
+      }
+    }
+  },
+  "resources": {
+    "memory": "512m",
+    "cpu": "0.5"
+  },
+  "healthCheck": {
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  "dependencies": {
+    "services": []
+  }
+}

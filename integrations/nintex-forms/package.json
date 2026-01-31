@@ -1,0 +1,31 @@
+{
+  "name": "@leforge/nintex-forms-controls",
+  "version": "1.0.0",
+  "description": "LeForge custom controls for Nintex Forms",
+  "main": "dist/leforge-controls.min.js",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "npx http-server ./ -p 3000 -o /demo.html",
+    "lint": "eslint controls/*.js"
+  },
+  "keywords": [
+    "nintex",
+    "forms",
+    "leforge",
+    "ai",
+    "formula",
+    "qrcode",
+    "crypto"
+  ],
+  "author": "LeForge",
+  "license": "MIT",
+  "devDependencies": {
+    "terser": "^5.31.0",
+    "eslint": "^8.57.0"
+  },
+  "files": [
+    "controls/",
+    "dist/",
+    "README.md"
+  ]
+}
