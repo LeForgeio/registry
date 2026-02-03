@@ -1,0 +1,79 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "qrcode-utils",
+  "name": "QR Code Utilities",
+  "version": "1.0.0",
+  "description": "Generate QR codes and barcodes locally without external APIs using pure JavaScript",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "utilities",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "generateQRMatrix",
+      "generateQRSvg",
+      "generateQRDataUrl",
+      "generateQRAscii",
+      "generateCode128",
+      "generateCode39",
+      "generateEAN13",
+      "generateUPCA",
+      "generateBarcodeSvg",
+      "generateBarcodeDataUrl"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/generateQRMatrix",
+      "description": "Generate QR code as a 2D matrix of modules"
+    },
+    {
+      "method": "POST",
+      "path": "/generateQRSvg",
+      "description": "Generate QR code as SVG markup"
+    },
+    {
+      "method": "POST",
+      "path": "/generateQRDataUrl",
+      "description": "Generate QR code as base64 data URL"
+    },
+    {
+      "method": "POST",
+      "path": "/generateQRAscii",
+      "description": "Generate QR code as ASCII art"
+    },
+    {
+      "method": "POST",
+      "path": "/generateCode128",
+      "description": "Generate Code 128 barcode"
+    },
+    {
+      "method": "POST",
+      "path": "/generateCode39",
+      "description": "Generate Code 39 barcode"
+    },
+    {
+      "method": "POST",
+      "path": "/generateEAN13",
+      "description": "Generate EAN-13 barcode"
+    },
+    {
+      "method": "POST",
+      "path": "/generateUPCA",
+      "description": "Generate UPC-A barcode"
+    },
+    {
+      "method": "POST",
+      "path": "/generateBarcodeSvg",
+      "description": "Generate barcode as SVG markup"
+    },
+    {
+      "method": "POST",
+      "path": "/generateBarcodeDataUrl",
+      "description": "Generate barcode as base64 data URL"
+    }
+  ],
+  "tags": ["qrcode", "barcode", "generator", "svg", "utilities"]
+}

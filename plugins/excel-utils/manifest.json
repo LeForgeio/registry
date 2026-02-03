@@ -1,0 +1,139 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "excel-utils",
+  "name": "Excel Utilities",
+  "version": "1.0.0",
+  "description": "Parse and manipulate CSV and XLSX data with filtering, sorting, and aggregation",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "data",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "parseCSV",
+      "toCSV",
+      "parseXLSX",
+      "getSheetNames",
+      "getColumn",
+      "getRow",
+      "filterRows",
+      "sortRows",
+      "groupBy",
+      "aggregate",
+      "pivot",
+      "join",
+      "mapColumns",
+      "distinct",
+      "columnToIndex",
+      "indexToColumn",
+      "cellToIndex",
+      "indexToCell",
+      "getCell",
+      "setCell"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/parseCSV",
+      "description": "Parse CSV string into array of objects"
+    },
+    {
+      "method": "POST",
+      "path": "/toCSV",
+      "description": "Convert array of objects to CSV string"
+    },
+    {
+      "method": "POST",
+      "path": "/parseXLSX",
+      "description": "Parse XLSX binary data into sheet data"
+    },
+    {
+      "method": "POST",
+      "path": "/getSheetNames",
+      "description": "Get list of sheet names from XLSX"
+    },
+    {
+      "method": "POST",
+      "path": "/getColumn",
+      "description": "Extract a column from data array"
+    },
+    {
+      "method": "POST",
+      "path": "/getRow",
+      "description": "Get a specific row from data array"
+    },
+    {
+      "method": "POST",
+      "path": "/filterRows",
+      "description": "Filter rows based on conditions"
+    },
+    {
+      "method": "POST",
+      "path": "/sortRows",
+      "description": "Sort rows by specified column"
+    },
+    {
+      "method": "POST",
+      "path": "/groupBy",
+      "description": "Group rows by column value"
+    },
+    {
+      "method": "POST",
+      "path": "/aggregate",
+      "description": "Perform aggregations (sum, avg, count, etc.)"
+    },
+    {
+      "method": "POST",
+      "path": "/pivot",
+      "description": "Create pivot table from data"
+    },
+    {
+      "method": "POST",
+      "path": "/join",
+      "description": "Join two datasets on a key column"
+    },
+    {
+      "method": "POST",
+      "path": "/mapColumns",
+      "description": "Transform/rename columns"
+    },
+    {
+      "method": "POST",
+      "path": "/distinct",
+      "description": "Get distinct values from column"
+    },
+    {
+      "method": "POST",
+      "path": "/columnToIndex",
+      "description": "Convert column letter (A, B, AA) to index"
+    },
+    {
+      "method": "POST",
+      "path": "/indexToColumn",
+      "description": "Convert index to column letter"
+    },
+    {
+      "method": "POST",
+      "path": "/cellToIndex",
+      "description": "Convert cell reference (A1) to indices"
+    },
+    {
+      "method": "POST",
+      "path": "/indexToCell",
+      "description": "Convert indices to cell reference"
+    },
+    {
+      "method": "POST",
+      "path": "/getCell",
+      "description": "Get value at specific cell"
+    },
+    {
+      "method": "POST",
+      "path": "/setCell",
+      "description": "Set value at specific cell"
+    }
+  ],
+  "tags": ["excel", "csv", "xlsx", "spreadsheet", "data"]
+}

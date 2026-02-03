@@ -1,0 +1,121 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "string-utils",
+  "name": "String Utilities",
+  "version": "1.0.0",
+  "description": "Lightweight string manipulation utilities for case conversion, formatting, and sanitization",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "utilities",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "slugify",
+      "camelCase",
+      "pascalCase",
+      "snakeCase",
+      "kebabCase",
+      "truncate",
+      "sanitizeHtml",
+      "escapeHtml",
+      "unescapeHtml",
+      "capitalize",
+      "titleCase",
+      "wordCount",
+      "reverse",
+      "padLeft",
+      "padRight",
+      "removeWhitespace",
+      "normalizeWhitespace"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/slugify",
+      "description": "Convert string to URL-friendly slug"
+    },
+    {
+      "method": "POST",
+      "path": "/camelCase",
+      "description": "Convert string to camelCase"
+    },
+    {
+      "method": "POST",
+      "path": "/pascalCase",
+      "description": "Convert string to PascalCase"
+    },
+    {
+      "method": "POST",
+      "path": "/snakeCase",
+      "description": "Convert string to snake_case"
+    },
+    {
+      "method": "POST",
+      "path": "/kebabCase",
+      "description": "Convert string to kebab-case"
+    },
+    {
+      "method": "POST",
+      "path": "/truncate",
+      "description": "Truncate string to specified length"
+    },
+    {
+      "method": "POST",
+      "path": "/sanitizeHtml",
+      "description": "Remove all HTML tags from string"
+    },
+    {
+      "method": "POST",
+      "path": "/escapeHtml",
+      "description": "Escape HTML special characters"
+    },
+    {
+      "method": "POST",
+      "path": "/unescapeHtml",
+      "description": "Unescape HTML entities"
+    },
+    {
+      "method": "POST",
+      "path": "/capitalize",
+      "description": "Capitalize first letter of string"
+    },
+    {
+      "method": "POST",
+      "path": "/titleCase",
+      "description": "Convert string to Title Case"
+    },
+    {
+      "method": "POST",
+      "path": "/wordCount",
+      "description": "Count words in a string"
+    },
+    {
+      "method": "POST",
+      "path": "/reverse",
+      "description": "Reverse a string"
+    },
+    {
+      "method": "POST",
+      "path": "/padLeft",
+      "description": "Pad string on the left to specified length"
+    },
+    {
+      "method": "POST",
+      "path": "/padRight",
+      "description": "Pad string on the right to specified length"
+    },
+    {
+      "method": "POST",
+      "path": "/removeWhitespace",
+      "description": "Remove all whitespace from string"
+    },
+    {
+      "method": "POST",
+      "path": "/normalizeWhitespace",
+      "description": "Normalize whitespace (collapse multiple spaces)"
+    }
+  ],
+  "tags": ["string", "text", "formatting", "utilities"]
+}

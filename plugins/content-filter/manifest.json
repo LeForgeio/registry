@@ -1,0 +1,115 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "content-filter",
+  "name": "Content Filter",
+  "version": "1.0.0",
+  "description": "Filter and sanitize content for profanity, PII, and spam detection",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "security",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "configure",
+      "addWords",
+      "removeWords",
+      "addToWhitelist",
+      "getWordLists",
+      "containsProfanity",
+      "findProfanity",
+      "filterProfanity",
+      "clean",
+      "analyze",
+      "rateSafety",
+      "detectPII",
+      "detectSpam",
+      "sanitize",
+      "testWord",
+      "censorWord"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/configure",
+      "description": "Configure the content filter settings"
+    },
+    {
+      "method": "POST",
+      "path": "/addWords",
+      "description": "Add words to the profanity filter list"
+    },
+    {
+      "method": "POST",
+      "path": "/removeWords",
+      "description": "Remove words from the profanity filter list"
+    },
+    {
+      "method": "POST",
+      "path": "/addToWhitelist",
+      "description": "Add words to the whitelist (ignored by filter)"
+    },
+    {
+      "method": "POST",
+      "path": "/getWordLists",
+      "description": "Get current filter and whitelist word lists"
+    },
+    {
+      "method": "POST",
+      "path": "/containsProfanity",
+      "description": "Check if text contains profanity"
+    },
+    {
+      "method": "POST",
+      "path": "/findProfanity",
+      "description": "Find all profanity words in text"
+    },
+    {
+      "method": "POST",
+      "path": "/filterProfanity",
+      "description": "Replace profanity with asterisks"
+    },
+    {
+      "method": "POST",
+      "path": "/clean",
+      "description": "Clean text by removing/replacing profanity"
+    },
+    {
+      "method": "POST",
+      "path": "/analyze",
+      "description": "Analyze text for various content issues"
+    },
+    {
+      "method": "POST",
+      "path": "/rateSafety",
+      "description": "Rate content safety on a scale"
+    },
+    {
+      "method": "POST",
+      "path": "/detectPII",
+      "description": "Detect personally identifiable information"
+    },
+    {
+      "method": "POST",
+      "path": "/detectSpam",
+      "description": "Detect spam patterns in text"
+    },
+    {
+      "method": "POST",
+      "path": "/sanitize",
+      "description": "Sanitize text by removing all flagged content"
+    },
+    {
+      "method": "POST",
+      "path": "/testWord",
+      "description": "Test if a specific word is in the filter"
+    },
+    {
+      "method": "POST",
+      "path": "/censorWord",
+      "description": "Censor a specific word with replacement chars"
+    }
+  ],
+  "tags": ["filter", "profanity", "moderation", "pii", "spam", "security"]
+}

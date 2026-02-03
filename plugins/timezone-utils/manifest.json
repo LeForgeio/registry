@@ -1,0 +1,61 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "timezone-utils",
+  "name": "Timezone Utilities",
+  "version": "1.0.0",
+  "description": "Convert times across multiple timezones with business hours and meeting time support",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "utilities",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "convert",
+      "convertSingle",
+      "now",
+      "listTimezones",
+      "getTimezoneInfo",
+      "timeDifference",
+      "findMeetingTime"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/convert",
+      "description": "Convert time from one timezone to another"
+    },
+    {
+      "method": "POST",
+      "path": "/convertSingle",
+      "description": "Convert a single time to target timezone"
+    },
+    {
+      "method": "POST",
+      "path": "/now",
+      "description": "Get current time in specified timezone"
+    },
+    {
+      "method": "POST",
+      "path": "/listTimezones",
+      "description": "List all supported timezones"
+    },
+    {
+      "method": "POST",
+      "path": "/getTimezoneInfo",
+      "description": "Get detailed info about a timezone"
+    },
+    {
+      "method": "POST",
+      "path": "/timeDifference",
+      "description": "Calculate time difference between timezones"
+    },
+    {
+      "method": "POST",
+      "path": "/findMeetingTime",
+      "description": "Find optimal meeting time across timezones"
+    }
+  ],
+  "tags": ["timezone", "time", "conversion", "meeting", "utilities"]
+}

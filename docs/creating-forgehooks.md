@@ -575,11 +575,85 @@ Choose the most appropriate category for your plugin:
 
 ---
 
+## Version Management
+
+> ⚠️ **IMPORTANT**: Always update version numbers when making changes. Users rely on version numbers to know when to update their plugins.
+
+### Semantic Versioning (SemVer)
+
+All plugins MUST use semantic versioning: `MAJOR.MINOR.PATCH`
+
+| Version Change | When to Use | Example |
+|----------------|-------------|---------|
+| **MAJOR** (X.0.0) | Breaking changes that require user action | Changing endpoint paths, removing functions, changing output format |
+| **MINOR** (1.X.0) | New features, backward-compatible | Adding new endpoints, new optional parameters |
+| **PATCH** (1.0.X) | Bug fixes, no new features | Fixing edge cases, performance improvements |
+
+### When to Update Version
+
+You MUST increment the version when:
+
+| Change Type | Version Bump | Example |
+|-------------|--------------|---------|
+| Fix a bug | PATCH: `1.0.0` → `1.0.1` | Fixed crash on empty input |
+| Add endpoint | MINOR: `1.0.1` → `1.1.0` | Added `/validate` endpoint |
+| Add parameter | MINOR: `1.1.0` → `1.2.0` | Added `format` option to existing endpoint |
+| Change output | MAJOR: `1.2.0` → `2.0.0` | Changed response from string to object |
+| Rename endpoint | MAJOR: `2.0.0` → `3.0.0` | Renamed `/parse` to `/parseJson` |
+| Remove endpoint | MAJOR: `3.0.0` → `4.0.0` | Removed deprecated `/legacy` |
+
+### Update Checklist
+
+When making ANY change to a plugin:
+
+1. **Update plugin manifest** (`manifest.json`)
+   ```json
+   {
+     "version": "1.0.1"  // ← Update this
+   }
+   ```
+
+2. **Update registry JSON** (`flowforge/app/registry/forgehooks-registry.json`)
+   - Update version in `packages` section
+   - Update version in `plugins[].manifest.version`
+
+3. **Update CHANGELOG** (if you have one)
+
+4. **Test the plugin** before committing
+
+### Example Workflow
+
+```bash
+# 1. Make your code changes
+# 2. Update manifest.json
+#    "version": "1.0.0" → "1.0.1"
+
+# 3. Update registry JSON (TWO places!)
+#    packages.my-plugin.version: "1.0.1"
+#    plugins[id="my-plugin"].manifest.version: "1.0.1"
+
+# 4. Commit with descriptive message
+git commit -m "my-plugin v1.0.1: Fix empty input handling"
+
+# 5. Push to trigger update notification for users
+git push
+```
+
+### Why This Matters
+
+- Users see version in the marketplace and installed plugins list
+- LeForge compares versions to show "Update Available" badge
+- Breaking changes (MAJOR) warn users before updating
+- Clear versioning builds trust with your plugin users
+
+---
+
 ## Best Practices
 
 ### All Plugins
 
 - ✅ Use semantic versioning (`1.0.0`, `1.0.1`, `1.1.0`)
+- ✅ **Update version on EVERY change** - even small fixes
 - ✅ Write clear descriptions
 - ✅ Include example request bodies in endpoints
 - ✅ Set appropriate resource limits

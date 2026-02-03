@@ -1,0 +1,211 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "lorem-utils",
+  "name": "Lorem Ipsum Utilities",
+  "version": "1.0.0",
+  "description": "Generate placeholder text, fake data, and random values for testing and development",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "utilities",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "setSeed",
+      "resetSeed",
+      "words",
+      "sentences",
+      "paragraphs",
+      "characters",
+      "classic",
+      "themed",
+      "bacon",
+      "hipster",
+      "corporate",
+      "tech",
+      "pirate",
+      "name",
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "company",
+      "address",
+      "city",
+      "state",
+      "zipCode",
+      "fullAddress",
+      "number",
+      "boolean",
+      "date",
+      "uuid",
+      "color",
+      "pick",
+      "pickMultiple",
+      "generateArray"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/setSeed",
+      "description": "Set random seed for reproducible output"
+    },
+    {
+      "method": "POST",
+      "path": "/resetSeed",
+      "description": "Reset random seed to default"
+    },
+    {
+      "method": "POST",
+      "path": "/words",
+      "description": "Generate random lorem ipsum words"
+    },
+    {
+      "method": "POST",
+      "path": "/sentences",
+      "description": "Generate random lorem ipsum sentences"
+    },
+    {
+      "method": "POST",
+      "path": "/paragraphs",
+      "description": "Generate random lorem ipsum paragraphs"
+    },
+    {
+      "method": "POST",
+      "path": "/characters",
+      "description": "Generate random characters"
+    },
+    {
+      "method": "POST",
+      "path": "/classic",
+      "description": "Generate classic lorem ipsum text"
+    },
+    {
+      "method": "POST",
+      "path": "/themed",
+      "description": "Generate themed placeholder text"
+    },
+    {
+      "method": "POST",
+      "path": "/bacon",
+      "description": "Generate bacon ipsum text"
+    },
+    {
+      "method": "POST",
+      "path": "/hipster",
+      "description": "Generate hipster ipsum text"
+    },
+    {
+      "method": "POST",
+      "path": "/corporate",
+      "description": "Generate corporate buzzword text"
+    },
+    {
+      "method": "POST",
+      "path": "/tech",
+      "description": "Generate tech jargon text"
+    },
+    {
+      "method": "POST",
+      "path": "/pirate",
+      "description": "Generate pirate speak text"
+    },
+    {
+      "method": "POST",
+      "path": "/name",
+      "description": "Generate random full name"
+    },
+    {
+      "method": "POST",
+      "path": "/firstName",
+      "description": "Generate random first name"
+    },
+    {
+      "method": "POST",
+      "path": "/lastName",
+      "description": "Generate random last name"
+    },
+    {
+      "method": "POST",
+      "path": "/email",
+      "description": "Generate random email address"
+    },
+    {
+      "method": "POST",
+      "path": "/phone",
+      "description": "Generate random phone number"
+    },
+    {
+      "method": "POST",
+      "path": "/company",
+      "description": "Generate random company name"
+    },
+    {
+      "method": "POST",
+      "path": "/address",
+      "description": "Generate random street address"
+    },
+    {
+      "method": "POST",
+      "path": "/city",
+      "description": "Generate random city name"
+    },
+    {
+      "method": "POST",
+      "path": "/state",
+      "description": "Generate random state/province"
+    },
+    {
+      "method": "POST",
+      "path": "/zipCode",
+      "description": "Generate random ZIP/postal code"
+    },
+    {
+      "method": "POST",
+      "path": "/fullAddress",
+      "description": "Generate complete random address"
+    },
+    {
+      "method": "POST",
+      "path": "/number",
+      "description": "Generate random number in range"
+    },
+    {
+      "method": "POST",
+      "path": "/boolean",
+      "description": "Generate random boolean"
+    },
+    {
+      "method": "POST",
+      "path": "/date",
+      "description": "Generate random date"
+    },
+    {
+      "method": "POST",
+      "path": "/uuid",
+      "description": "Generate random UUID"
+    },
+    {
+      "method": "POST",
+      "path": "/color",
+      "description": "Generate random color"
+    },
+    {
+      "method": "POST",
+      "path": "/pick",
+      "description": "Pick random item from array"
+    },
+    {
+      "method": "POST",
+      "path": "/pickMultiple",
+      "description": "Pick multiple random items from array"
+    },
+    {
+      "method": "POST",
+      "path": "/generateArray",
+      "description": "Generate array of random values"
+    }
+  ],
+  "tags": ["lorem", "ipsum", "faker", "placeholder", "random", "testing"]
+}

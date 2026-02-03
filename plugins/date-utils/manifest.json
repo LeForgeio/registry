@@ -1,0 +1,145 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "date-utils",
+  "name": "Date Utilities",
+  "version": "1.0.0",
+  "description": "Lightweight date manipulation and formatting utilities for parsing, formatting, and calculating dates",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "utilities",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "format",
+      "parse",
+      "now",
+      "toISO",
+      "toUnix",
+      "fromUnix",
+      "relativeTime",
+      "addDays",
+      "addHours",
+      "addMinutes",
+      "addMonths",
+      "addYears",
+      "diff",
+      "startOf",
+      "endOf",
+      "isValid",
+      "isBefore",
+      "isAfter",
+      "isBetween",
+      "getWeekday",
+      "getDaysInMonth"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/format",
+      "description": "Format a date with a specified pattern"
+    },
+    {
+      "method": "POST",
+      "path": "/parse",
+      "description": "Parse a string into a Date object"
+    },
+    {
+      "method": "POST",
+      "path": "/now",
+      "description": "Get current date/time in various formats"
+    },
+    {
+      "method": "POST",
+      "path": "/toISO",
+      "description": "Convert date to ISO 8601 format"
+    },
+    {
+      "method": "POST",
+      "path": "/toUnix",
+      "description": "Convert date to Unix timestamp"
+    },
+    {
+      "method": "POST",
+      "path": "/fromUnix",
+      "description": "Convert Unix timestamp to date"
+    },
+    {
+      "method": "POST",
+      "path": "/relativeTime",
+      "description": "Get relative time string (e.g., '2 hours ago')"
+    },
+    {
+      "method": "POST",
+      "path": "/addDays",
+      "description": "Add days to a date"
+    },
+    {
+      "method": "POST",
+      "path": "/addHours",
+      "description": "Add hours to a date"
+    },
+    {
+      "method": "POST",
+      "path": "/addMinutes",
+      "description": "Add minutes to a date"
+    },
+    {
+      "method": "POST",
+      "path": "/addMonths",
+      "description": "Add months to a date"
+    },
+    {
+      "method": "POST",
+      "path": "/addYears",
+      "description": "Add years to a date"
+    },
+    {
+      "method": "POST",
+      "path": "/diff",
+      "description": "Calculate difference between two dates"
+    },
+    {
+      "method": "POST",
+      "path": "/startOf",
+      "description": "Get start of period (day, week, month, year)"
+    },
+    {
+      "method": "POST",
+      "path": "/endOf",
+      "description": "Get end of period (day, week, month, year)"
+    },
+    {
+      "method": "POST",
+      "path": "/isValid",
+      "description": "Check if a date is valid"
+    },
+    {
+      "method": "POST",
+      "path": "/isBefore",
+      "description": "Check if date A is before date B"
+    },
+    {
+      "method": "POST",
+      "path": "/isAfter",
+      "description": "Check if date A is after date B"
+    },
+    {
+      "method": "POST",
+      "path": "/isBetween",
+      "description": "Check if date is between two other dates"
+    },
+    {
+      "method": "POST",
+      "path": "/getWeekday",
+      "description": "Get day of week for a date"
+    },
+    {
+      "method": "POST",
+      "path": "/getDaysInMonth",
+      "description": "Get number of days in a month"
+    }
+  ],
+  "tags": ["date", "time", "formatting", "parsing", "utilities"]
+}

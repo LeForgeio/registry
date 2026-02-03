@@ -1,0 +1,85 @@
+{
+  "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+  "id": "unit-converter",
+  "name": "Unit Converter",
+  "version": "1.0.0",
+  "description": "Convert between units of length, weight, volume, temperature, speed, data, and area",
+  "author": "LeForge",
+  "license": "MIT",
+  "runtime": "embedded",
+  "category": "utilities",
+  "embedded": {
+    "entrypoint": "index.js",
+    "exports": [
+      "convert",
+      "convertMultiple",
+      "convertLength",
+      "convertWeight",
+      "convertVolume",
+      "convertTemperature",
+      "convertSpeed",
+      "convertData",
+      "convertArea",
+      "listUnits",
+      "parseUnit"
+    ]
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/convert",
+      "description": "Convert value between any compatible units"
+    },
+    {
+      "method": "POST",
+      "path": "/convertMultiple",
+      "description": "Convert to multiple target units at once"
+    },
+    {
+      "method": "POST",
+      "path": "/convertLength",
+      "description": "Convert length units (meters, feet, miles, etc.)"
+    },
+    {
+      "method": "POST",
+      "path": "/convertWeight",
+      "description": "Convert weight units (kg, lb, oz, etc.)"
+    },
+    {
+      "method": "POST",
+      "path": "/convertVolume",
+      "description": "Convert volume units (liters, gallons, etc.)"
+    },
+    {
+      "method": "POST",
+      "path": "/convertTemperature",
+      "description": "Convert temperature (Celsius, Fahrenheit, Kelvin)"
+    },
+    {
+      "method": "POST",
+      "path": "/convertSpeed",
+      "description": "Convert speed units (mph, km/h, m/s, etc.)"
+    },
+    {
+      "method": "POST",
+      "path": "/convertData",
+      "description": "Convert data units (bytes, KB, MB, GB, etc.)"
+    },
+    {
+      "method": "POST",
+      "path": "/convertArea",
+      "description": "Convert area units (sq meters, acres, etc.)"
+    },
+    {
+      "method": "POST",
+      "path": "/listUnits",
+      "description": "List all supported units by category"
+    },
+    {
+      "method": "POST",
+      "path": "/parseUnit",
+      "description": "Parse and normalize a unit string"
+    }
+  ],
+  "tags": ["units", "conversion", "measurement", "utilities"]
+}
