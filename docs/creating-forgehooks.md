@@ -353,18 +353,149 @@ curl -X POST http://localhost:3000/api/v1/plugins/install \
 
 ## Publishing to the Registry
 
+> ⚠️ **CRITICAL**: A plugin is NOT complete until BOTH the plugin folder AND the registry JSON are updated. Missing either step will result in the plugin not appearing correctly in the UI or showing "No endpoints documented".
+
+### Complete Publishing Checklist
+
+Before submitting a PR, verify ALL of the following:
+
+#### ✅ Step 1: Plugin Folder Structure
+
+Your plugin folder in `plugins/{plugin-id}/` MUST contain:
+
+| File | Required | Description |
+|------|----------|-------------|
+| `manifest.json` | ✅ **YES** | Plugin manifest (preferred name) |
+| `index.js` | Embedded only | JavaScript entry point |
+| `Dockerfile` | Container only | Container build file |
+| `README.md` | Recommended | Documentation |
+
+> **Note**: Use `manifest.json` as the filename (not `forgehook.json`) for consistency within the registry.
+
+#### ✅ Step 2: Manifest Requirements
+
+Your `manifest.json` MUST include these fields:
+
+```json
+{
+  "id": "my-plugin",           // ✅ Required - matches folder name
+  "name": "My Plugin",         // ✅ Required - display name
+  "version": "1.0.0",          // ✅ Required - semver
+  "description": "...",        // ✅ Required - what it does
+  "runtime": "embedded",       // ✅ Required - "embedded", "container", or "gateway"
+  "endpoints": [               // ✅ Required - MUST have at least one endpoint
+    {
+      "method": "POST",
+      "path": "/action",
+      "description": "What this endpoint does"
+    }
+  ]
+}
+```
+
+**Common mistakes:**
+- ❌ Missing `endpoints` array → Shows "No endpoints documented" in UI
+- ❌ Empty `endpoints: []` → Shows "No endpoints documented" in UI
+- ❌ Missing `description` in endpoints → Poor user experience
+
+#### ✅ Step 3: Update Registry JSON
+
+You MUST add your plugin to `flowforge/app/registry/forgehooks-registry.json` in TWO places:
+
+**A) Add to `packages` section:**
+
+```json
+{
+  "packages": {
+    "existing-plugin": { ... },
+    "my-plugin": {
+      "version": "1.0.0",
+      "file": "packages/my-plugin-1.0.0.fhk",
+      "size": "15KB",
+      "runtime": "embedded"
+    }
+  }
+}
+```
+
+**B) Add to `plugins` array with FULL manifest:**
+
+```json
+{
+  "plugins": [
+    {
+      "id": "my-plugin",
+      "verified": true,
+      "featured": false,
+      "repository": "https://github.com/LeForgeio/registry/tree/main/plugins/my-plugin",
+      "manifest": {
+        // ⚠️ COPY THE ENTIRE manifest.json CONTENT HERE
+        "$schema": "https://leforge.io/schemas/forgehook-v1.json",
+        "id": "my-plugin",
+        "name": "My Plugin",
+        "version": "1.0.0",
+        "description": "...",
+        "endpoints": [ ... ],  // ⚠️ MUST INCLUDE ENDPOINTS!
+        // ... all other manifest fields
+      }
+    }
+  ]
+}
+```
+
+> ⚠️ **The `manifest` object in the registry JSON is what the UI reads.** If endpoints are missing here, they won't appear even if they exist in the plugin folder's manifest.json.
+
+#### ✅ Step 4: Validate JSON
+
+Before committing, validate the registry JSON:
+
+```powershell
+# PowerShell
+Get-Content "flowforge/app/registry/forgehooks-registry.json" -Raw | ConvertFrom-Json
+
+# Or use Node.js
+node -e "require('./flowforge/app/registry/forgehooks-registry.json')"
+```
+
+#### ✅ Step 5: Verify Alignment
+
+Run this check to ensure all plugin folders have registry entries:
+
+```powershell
+# List plugins in folders
+$folders = Get-ChildItem "forgehooks-registry/plugins" -Directory | Select -ExpandProperty Name
+
+# List plugins in registry
+$registry = Get-Content "flowforge/app/registry/forgehooks-registry.json" -Raw | ConvertFrom-Json
+$registered = $registry.plugins | ForEach-Object { $_.id }
+
+# Find missing
+$folders | Where-Object { $_ -notin $registered } | ForEach-Object { Write-Host "MISSING: $_" }
+```
+
+### Quick Reference: Runtime Types
+
+| Runtime | Manifest Fields | Use Case |
+|---------|-----------------|----------|
+| `embedded` | `runtime`, `embedded.entrypoint`, `embedded.exports` | Lightweight JS utilities |
+| `container` | `image`, `port`, `basePath` | Docker services |
+| `gateway` | `runtime: "gateway"`, `gateway.baseUrl` | Proxy to external services |
+
 ### 1. Create a GitHub Repository
 
-Push your ForgeHook to a public GitHub repository with `forgehook.json` at the root.
+Push your ForgeHook to a public GitHub repository with `manifest.json` at the root.
 
 ### 2. Submit a Pull Request
 
 Add your plugin to the official registry:
 
 1. Fork [forgehooks-registry](https://github.com/LeForgeio/registry)
-2. Add your plugin folder to `plugins/`
-3. Update `forgehooks-registry.json` with your manifest
-4. Submit a PR
+2. Add your plugin folder to `plugins/` with `manifest.json`
+3. **Update `forgehooks-registry.json`** with BOTH:
+   - Entry in `packages` section
+   - Entry in `plugins` array with **full manifest including endpoints**
+4. Run validation checks
+5. Submit a PR
 
 ### 3. Build a Package (Optional)
 
@@ -376,6 +507,29 @@ Create a `.fhk` package for offline installation:
 
 # This creates: packages/my-plugin-1.0.0.fhk
 ```
+
+### Why This Matters
+
+The LeForge app reads plugins from the registry JSON file, NOT directly from plugin folders. The data flow is:
+
+```
+plugins/my-plugin/manifest.json  ──(manually copied)──►  forgehooks-registry.json
+                                                                    │
+                                                                    ▼
+                                                         RegistryService.ts
+                                                                    │
+                                                                    ▼
+                                                              PostgreSQL
+                                                                    │
+                                                                    ▼
+                                                            Services.tsx UI
+                                                         (reads plugin.manifest.endpoints)
+```
+
+If you skip updating the registry JSON, your plugin will exist in the repo but:
+- Won't appear in the marketplace
+- Won't show endpoints in the UI
+- Won't be installable by users
 
 ---
 
