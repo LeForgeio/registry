@@ -33,8 +33,6 @@ export async function buildApp(): Promise<FastifyInstance> {
     genReqId: () => randomUUID(),
     trustProxy: true,
     bodyLimit: 10 * 1024 * 1024, // 10MB
-    requestTimeout: 30000,
-    keepAliveTimeout: 5000,
   });
 
   // Register CORS

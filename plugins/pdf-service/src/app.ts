@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import multipart from '@fastify/multipart';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import { randomUUID } from 'crypto';
 import { config } from './config';
 import {
   generateRoutes,
@@ -27,6 +28,7 @@ export async function buildApp(): Promise<FastifyInstance> {
             }
           : undefined,
     },
+    genReqId: (req) => (req.headers['x-request-id'] as string) || randomUUID(),
     bodyLimit: config.pdf.maxFileSize * 2, // Allow for base64 overhead
     trustProxy: true,
   });
@@ -94,11 +96,6 @@ export async function buildApp(): Promise<FastifyInstance> {
       deepLinking: true,
     },
     staticCSP: true,
-  });
-
-  // Request ID middleware
-  app.addHook('onRequest', async (request) => {
-    request.id = request.headers['x-request-id'] as string || request.id;
   });
 
   // Error handler
