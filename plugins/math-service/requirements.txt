@@ -1,9 +1,10 @@
 # Core framework
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
 pydantic==2.5.3
 pydantic-settings==2.1.0
-python-multipart==0.0.6
+python-multipart==0.0.22
+h11==0.16.0
 
 # Mathematical libraries
 numpy==1.26.3
@@ -28,6 +29,6 @@ pytest==7.4.4
 pytest-cov==4.1.0
 pytest-asyncio==0.23.3
 mypy==1.8.0
-black==23.12.1
+black==24.3.0
 isort==5.13.2
 flake8==7.0.0

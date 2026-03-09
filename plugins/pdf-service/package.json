@@ -38,7 +38,7 @@
     "@fastify/swagger-ui": "^3.0.0",
     "@sinclair/typebox": "^0.32.9",
     "dotenv": "^16.3.1",
-    "dompurify": "^3.0.8",
+    "dompurify": "^3.3.2",
     "fastify": "^4.26.0",
     "handlebars": "^4.7.8",
     "jsdom": "^24.0.0",
@@ -48,6 +48,11 @@
     "pino-pretty": "^10.3.1",
     "puppeteer": "^21.7.0",
     "uuid": "^9.0.1"
+  },
+  "overrides": {
+    "qs": "^6.14.2",
+    "minimatch": "^9.0.7",
+    "ajv": "^8.18.0"
   },
   "devDependencies": {
     "@types/dompurify": "^3.0.5",
